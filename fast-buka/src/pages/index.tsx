@@ -1,12 +1,16 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import Hero from "../components/Hero";
 
 const Index = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div>
-      <Navbar/>
+      <div className="sticky top-0">
+        <Navbar />
+      </div>
+      <Hero />
     </div>
   );
 };

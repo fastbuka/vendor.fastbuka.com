@@ -8,7 +8,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className="bg-white shadow-md fixed w-full z-10 top-0 py-3">
+      <nav className="bg-white shadow-md sticky top-0 w-full z-10 py-3">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
@@ -111,7 +111,7 @@ const Navbar = () => {
         {/* Mobile Menu */}
         {isOpen && (
           <div className="md:hidden">
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white w-full absolute top-[100px]">
               <a
                 href="#"
                 className="block text-gray-800 px-3 py-2 rounded-md text-base font-semibold hover:bg-gray-200"
