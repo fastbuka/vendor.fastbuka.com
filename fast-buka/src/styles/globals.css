@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import url("../../public/images/Pattern.png"); */
 
 :root {
   --background: #ffffff;
@@ -25,3 +26,35 @@ body {
     text-wrap: balance;
   }
 }
+
+.hygiene {
+  background-image: url("../../public/images/Pattern.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-color: #0a3a6b;
+  border-radius: 20px;
+  height: 80vh;
+}
+
+.bounce:hover {
+  -webkit-animation: bounce 2s infinite;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+    transform: scale(1, 1) translate(0px, 0px);
+  }
+
+  30% {
+    transform: scale(1.1, 1.1) translate(0px, 0px);
+  }
+
+  75% {
+    /* transform: scale(1,1.1) translate(0px, 0px);  */
+  }
+
+  100% {
+    transform: scale(1, 1) translate(0px, 0px);
+  }
+}
+
