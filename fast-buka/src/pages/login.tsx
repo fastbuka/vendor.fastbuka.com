@@ -18,7 +18,7 @@ export default function Login() {
               <div className="mb-5">
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-lg font-medium text-gray-900"
                 >
                   Email Address
                 </label>
@@ -33,7 +33,7 @@ export default function Login() {
               <div className="mb-5">
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-lg font-medium text-gray-900 dark:text-white"
+                  className="block mb-2 text-lg font-medium text-gray-900"
                 >
                   Password
                 </label>
@@ -56,7 +56,7 @@ export default function Login() {
                 </div>
                 <label
                   htmlFor="remember"
-                  className="ms-2 block mb-2 text-md font-medium text-gray-900 dark:text-white"
+                  className="ms-2 block mb-2 text-md font-medium text-gray-900"
                 >
                   Remember me
                 </label>
