@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.2.8",
+    "apexcharts": "^3.45.2",
+    "flatpickr": "^4.6.13",
+    "jsvectormap": "^1.6.0",
+    "next": "^14.2.4",
     "react": "^18",
+    "react-apexcharts": "^1.4.1",
     "react-dom": "^18",
     "swiper": "^11.1.12"
   },
@@ -18,11 +22,13 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "autoprefixer": "^10.4.20",
+    "autoprefixer": "^10.0.1",
     "eslint": "^8",
-    "eslint-config-next": "14.2.8",
-    "postcss": "^8.4.45",
-    "tailwindcss": "^3.4.10",
+    "eslint-config-next": "14.1.0",
+    "postcss": "^8",
+    "prettier": "^3.2.5",
+    "prettier-plugin-tailwindcss": "^0.5.11",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }
