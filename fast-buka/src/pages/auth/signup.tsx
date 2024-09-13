@@ -1,12 +1,13 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Section from '../../../public/images/homepage/Section.png'
 import login from '../../../public/images/homepage/login.png'
+import {sendOTPtoMail, verifyOTP} from '@/lib/api'
 
 export default function Signup() {
   const [email, setEmail] = useState('')
-  const [viewVer, setViewVer] = useState<boolean>(true)
+  const [viewVer, setViewVer] = useState<boolean>(false)
   const [OTP, setOTP] = useState<string[]>(Array(4).fill(''));
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
@@ -33,14 +34,47 @@ export default function Signup() {
     setFocusedIndex(index);
   };
 
-  const handleVerifyEmail = () => {
+  const handleVerifyEmail = async () => {
+    try{
+        await sendOTPtoMail(email)
+        setViewVer(true)
+    }catch(error){
+      console.error("failed to verify email: ", error);
 
-    setViewVer(true)
+    }
+    
   }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
   }
+
+
+  useEffect(() => {
+    const fullOTP = OTP.join('');
+    if (fullOTP.length === 4 && OTP.every(digit => digit !== '')) {
+      handleSubmitOTP();
+    }
+  }, [OTP]);
+
+  const handleSubmitOTP = async (event?: React.FormEvent<HTMLFormElement>) => {
+    if (event) event.preventDefault();
+
+    const fullOTP = OTP.join('');
+    console.log("full OTP: ", fullOTP);
+    try {
+      const response = await verifyOTP(fullOTP, email);
+
+      if (!response.ok) {
+        throw new Error('OTP verification failed');
+      }
+
+    } catch (error) {
+      console.error('Could not verify OTP:', error);
+    }
+  };
+  
+
 
   return (
     <div>
@@ -50,6 +84,7 @@ export default function Signup() {
             <div className='w-5/12 bg-white rounded-lg h-[60vh] border-2 p-14 flex flex-col justify-center text-center'>
                 <h2 className='font-bold text-3xl'>Lets verify you are human</h2>
                 <p>Kindly enter the 4-digit password sent to you to verify your account</p>
+                <div className='w-full flex items-center justify-center'>
                 <div className='my-2 flex space-x-2 w-6/12 justify-center'>
                 {OTP.map((digit, index) => (
                   <input
@@ -65,6 +100,7 @@ export default function Signup() {
                     } focus:outline-none rounded-lg text-center`}
                   />
                 ))}
+                 </div>
                  </div>
             </div>
         </section>
@@ -88,6 +124,7 @@ export default function Signup() {
                 <input
                   type="email"
                   id="email"
+                  onChange={(event) => setEmail(event.target.value)}
                   className="bg-white border border-black text-gray-900 text-sm rounded-lg block w-full p-3 placeholder-gray-500 focus:outline-none"
                   placeholder="email@gmail.com"
                   required
