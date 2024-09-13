@@ -15,9 +15,13 @@ export default function Login() {
   return (
     <div>
       <div className="bg-[]"></div>
-      <Image alt="section" src={Section} className="img-fluid hidden md:block" />
+      <Image
+        alt="section"
+        src={Section}
+        className="img-fluid hidden md:block"
+      />
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center mt-5">
-        <div className="md:ms-32 ms-10 order-last md:order-1">
+        <div className="md:ms-32 order-last md:order-1">
           <h1 className="text-4xl font-bold tracking-wider">Welcome Back!</h1>
           <p className="text-lg tracking-wide">Enter Login Details Below</p>
           <div className="login-form mt-5">
@@ -115,7 +119,7 @@ export default function Login() {
               <p className="mt-3 tracking-wider">
                 Don't Have an Account{" "}
                 <span className="font-bold">
-                  <Link href="">Create Account?</Link>
+                  <Link href="/register">Create Account?</Link>
                 </span>
               </p>
             </form>

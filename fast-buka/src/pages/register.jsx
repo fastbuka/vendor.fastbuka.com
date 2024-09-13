@@ -32,7 +32,7 @@ export default function Register() {
         <p className="text-lg md:tracking-wide md:text-center ms-3">
           We'll help you set up an account in less than a minute
         </p>
-        <form action="" className="container mx-auto md:w-3/4 px-5 ">
+        <form action="" className="md:container md:mx-auto md:w-3/4 px-5 ">
           <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 mt-5">
             <div className="mb-5">
               <label
@@ -218,6 +218,12 @@ export default function Register() {
           >
             Register
           </button>
+          <p className="mt-3 tracking-wider">
+                Already Haave an account{" "}
+                <span className="font-bold">
+                  <Link href="/login">Login?</Link>
+                </span>
+              </p>
         </form>
       </div>
       <footer>
