@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import handshake from "../../../public/images/handshake.png";
+import handshake from "../../../public/images/homepage/handshake.png";
 
 export default function Partner() {
   return (

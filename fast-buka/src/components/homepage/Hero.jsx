@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
-import Vector1 from "../../../public/images/Vector1.png";
-import Vector2 from "../../../public/images/Vector2.png";
-import Vector3 from "../../../public/images/Vector3.png";
+import Link from "next/link";
+import Vector1 from "../../../public/images/homepage/Vector1.png";
+import Vector2 from "../../../public/images/homepage/Vector2.png";
+import Vector3 from "../../../public/images/homepage/Vector3.png";
 
 export default function Hero() {
   return (
@@ -25,25 +26,28 @@ export default function Hero() {
             restaurants to you in three simple steps, anytime and anywhere.
           </p>
           <div className="flex justify-center mt-3">
-                <button
-                  type="button"
-                  className="text-[#0a3a6b] bg-white border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-4 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-[#0a3a6b] hover:text-white duration-300 hover:drop-shadow-2xl me-3"
-                >
-                  Login
-                </button>
-                <button
-                  type="button"
-                  className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-4 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
-                >
-                  Register
-                </button>
-              </div>
+            <Link href="/login">
+              <button
+                type="button"
+                className="text-[#0a3a6b] bg-white border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-4 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-[#0a3a6b] hover:text-white duration-300 hover:drop-shadow-2xl me-3"
+              >
+                Login
+              </button>
+            </Link>
+            <Link href="/register">
+              <button
+                type="button"
+                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-4 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+              >
+                Register
+              </button>
+            </Link>
+          </div>
         </div>
         <div className="place-self-center">
           <Image src={Vector1} className="img-fluid hidden md:block w-24" />
         </div>
       </div>
-      
     </div>
   );
 }
