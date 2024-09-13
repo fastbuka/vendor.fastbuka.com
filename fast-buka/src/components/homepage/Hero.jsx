@@ -18,7 +18,7 @@ export default function Hero() {
         </div>
         <div className="md:col-span-2 col-span-4">
           <h1 className="md:text-[42px] text-4xl text-center font-mono font-semibold">
-            Creaving a <span className="font-bold text-[#0a3a6b]">Meal?</span>{" "}
+            Creaving a <span className="font-bold text-[#0a3a6b]">Delicious Meal?</span>{" "}
             Place <br /> an Order with FastBuka
           </h1>
           <p className="text-center md:text-xl text-lg mt-3">
