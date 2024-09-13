@@ -15,7 +15,7 @@ export default function Login() {
   return (
     <div>
       <div className="bg-[]"></div>
-      <Image alt="" src={Section} className="img-fluid hidden md:block" />
+      <Image alt="section" src={Section} className="img-fluid hidden md:block" />
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center mt-5">
         <div className="md:ms-32 ms-10 order-last md:order-1">
           <h1 className="text-4xl font-bold tracking-wider">Welcome Back!</h1>
@@ -124,7 +124,7 @@ export default function Login() {
         <div className="order-2 ">
           <Image
             src={login}
-            alt=""
+            alt="login"
             className="img-fluid p-5 transition ease-in-out delay-150 hover:-translate-y-5"
           />
         </div>

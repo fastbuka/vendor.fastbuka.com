@@ -20,9 +20,9 @@ export default function Register() {
   return (
     <div>
       <div>
-        <Image alt="" src={Section} className="img-fluid hidden md:block" />
+        <Image alt="section" src={Section} className="img-fluid hidden md:block" />
         <Image
-          alt=""
+          alt="login"
           src={login}
           className="img-fluid p-5 transition ease-in-out delay-150 hover:-translate-y-5 block md:hidden"
         />

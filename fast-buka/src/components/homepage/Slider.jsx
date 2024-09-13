@@ -56,7 +56,7 @@ export default function MySwiper() {
         <SwiperSlide>
           <div className="md:px-1 px-10">
             <div className="flex justify-center items-center bg-blue-100 rounded-3xl w-auto">
-              <Image className="img-fluid p-5 object-center" src={food_1} />
+              <Image className="img-fluid p-5 object-center" src={food_1} alt="food_1"  />
             </div>
             <div className="flex justify-between mt-3">
               <div className="">Name of Food</div>
@@ -97,7 +97,7 @@ export default function MySwiper() {
         <SwiperSlide>
           <div className="md:px-1 px-10">
             <div className="flex justify-center items-center bg-blue-100 rounded-3xl w-auto">
-              <Image className="img-fluid p-5 object-center" src={food_1} />
+              <Image className="img-fluid p-5 object-center" src={food_1} alt="food_1" />
             </div>
             <div className="flex justify-between mt-3">
               <div className="">Name of Food</div>
@@ -138,7 +138,7 @@ export default function MySwiper() {
         <SwiperSlide>
           <div className="md:px-1 px-10">
             <div className="flex justify-center items-center bg-blue-100 rounded-3xl w-auto">
-              <Image className="img-fluid p-5 object-center" src={food_1} />
+              <Image className="img-fluid p-5 object-center" src={food_1} alt="food_1" />
             </div>
             <div className="flex justify-between mt-3">
               <div className="">Name of Food</div>
@@ -179,7 +179,7 @@ export default function MySwiper() {
         <SwiperSlide>
           <div className="md:px-1 px-10">
             <div className="flex justify-center items-center bg-blue-100 rounded-3xl w-auto">
-              <Image className="img-fluid p-5 object-center" src={food_1} />
+              <Image className="img-fluid p-5 object-center" src={food_1} alt="food_1" />
             </div>
             <div className="flex justify-between mt-3">
               <div className="">Name of Food</div>
@@ -220,7 +220,7 @@ export default function MySwiper() {
         <SwiperSlide>
           <div className="md:px-1 px-10">
             <div className="flex justify-center items-center bg-blue-100 rounded-3xl w-auto">
-              <Image className="img-fluid p-5 object-center" src={food_1} />
+              <Image className="img-fluid p-5 object-center" src={food_1} alt="food_1" />
             </div>
             <div className="flex justify-between mt-3">
               <div className="">Name of Food</div>
@@ -261,7 +261,7 @@ export default function MySwiper() {
         <SwiperSlide>
           <div className="md:px-1 px-10">
             <div className="flex justify-center items-center bg-blue-100 rounded-3xl w-auto">
-              <Image className="img-fluid p-5 object-center" src={food_1} />
+              <Image className="img-fluid p-5 object-center" src={food_1} alt="food_1" />
             </div>
             <div className="flex justify-between mt-3">
               <div className="">Name of Food</div>
