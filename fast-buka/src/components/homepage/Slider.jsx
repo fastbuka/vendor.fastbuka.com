@@ -7,7 +7,7 @@ import {
   Autoplay,
 } from "swiper/modules";
 import Image from "next/image";
-import food_1 from "../../../public/images/food_1.png";
+import food_1 from "../../../public/images/homepage/food_1.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 

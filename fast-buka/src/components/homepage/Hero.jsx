@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import Vector1 from "../../../public/images/Vector1.png";
-import Vector2 from "../../../public/images/Vector2.png";
-import Vector3 from "../../../public/images/Vector3.png";
+import Vector1 from "../../../public/images/homepage/Vector1.png";
+import Vector2 from "../../../public/images/homepage/Vector2.png";
+import Vector3 from "../../../public/images/homepage/Vector3.png";
 
 export default function Hero() {
   return (

@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Section from "../../public/images/Section.png";
-import login from "../../public/images/login.png";
+import Section from "../../public/images/homepage/Section.png";
+import login from "../../public/images/homepage/login.png";
 
 export default function Register() {
   const [passwordVisible, setPasswordVisible] = useState(false);
