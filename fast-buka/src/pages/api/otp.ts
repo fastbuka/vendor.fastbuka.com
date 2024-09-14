@@ -38,9 +38,9 @@ const sendOTP = async (req: NextApiRequest, res: NextApiResponse) => {
     subject: 'OTP',
     html: `
       <p>DO NOT DISCLOSE!</p>
-      <p>Enter ${otp} to reset your password.</p>
+      <p>Enter ${otp} to verify your email address.</p>
       <p>Best Regards,</p>
-      <p>The Aramco Support Team</p>
+      <p>The FastBuka Support Team</p>
     `,
   };
 
