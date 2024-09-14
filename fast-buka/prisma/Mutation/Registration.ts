@@ -5,19 +5,15 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { firstname, lastname, email, password, phone, address, image, categories } = req.body;
+    const { name, email, city, password } = req.body;
 
     try {
       const newUser = await prisma.user.create({
         data: {
-          firstname,
-          lastname,
+          name,
           email,
+          city,
           password,
-          phone,
-          address,
-          image,
-          categories,
         },
       });
       res.status(201).json(newUser);
