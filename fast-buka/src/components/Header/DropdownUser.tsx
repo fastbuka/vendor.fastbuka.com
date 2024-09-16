@@ -1,10 +1,13 @@
-import { useState } from "react";
+import { useState, useContext  } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
+import { useAppContext } from "@/utils/AuthProvider"; 
+import { User } from "lucide-react";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const { user } = useAppContext(); 
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -15,22 +18,23 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {user?.email}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <Image
+          <User size={50} className="border rounded-full"/>
+          {/* <Image
             width={112}
             height={112}
-            src={"/images/user/user-01.png"}
+            src={"/images/homepage/food_1.png"}
             style={{
-              width: "auto",
-              height: "auto",
+              width: "100%",
+              height: "100%",
             }}
             alt="User"
-          />
+          /> */}
         </span>
 
         <svg
