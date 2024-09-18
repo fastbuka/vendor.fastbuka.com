@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, Fragment } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Section from "../../../public/images/homepage/Section.png";
@@ -17,8 +18,12 @@ export default function Signup() {
   const [register, setRegister] = useState<boolean>(false);
   const [name, setName] = useState("");
   const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [confPass, setConfPass] = useState("");
+
+  const router = useRouter();
+
   const handleOTPChange = (value: string, index: number) => {
     if (/^\d*$/.test(value)) {
       const newOTP = [...OTP];
@@ -55,22 +60,30 @@ export default function Signup() {
     const Data = {
       name,
       email,
+      phone,
       city,
-      password, 
+      password,
     };
     try {
-      await fetch("../../../prisma/Mutation/Registration", {
+      const response = await fetch("/api/registration", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(Data),
       });
+      if (response.ok) {
+        const result = await response.json();
+        router.push("/auth/login");
+      } else {
+        const error = await response.json();
+        console.error("Registration error:", error);
+      }
     } catch (error) {
       console.error("failed to submit form: ", error);
     }
 
-    console.log("data: ",name, email, city, password);
+    console.log("data: ", name, email, city, password);
   };
 
   useEffect(() => {
@@ -216,7 +229,10 @@ export default function Signup() {
           <p className="text-lg md:tracking-wide md:text-center ms-3">
             We'll help you set up an account in less than a minute
           </p>
-          <form onSubmit={handleSubmit} className="container mx-auto md:w-3/4 px-5 ">
+          <form
+            onSubmit={handleSubmit}
+            className="container mx-auto md:w-3/4 px-5 "
+          >
             <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 mt-5">
               <div className="mb-5">
                 <label
@@ -229,8 +245,47 @@ export default function Signup() {
                   type="text"
                   id="name"
                   name="name"
+                  value={name}
+                  onChange={(event) => setName(event.target?.value)}
                   className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                   placeholder="Full Name"
+                  required
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="email"
+                  className="block mb-2 text-lg font-medium text-gray-900"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target?.value)}
+                  className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
+                  placeholder={email}
+                  disabled
+                  required
+                />
+              </div>
+              <div className="mb-5">
+                <label
+                  htmlFor="phone"
+                  className="block mb-2 text-lg font-medium text-gray-900"
+                >
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={phone}
+                  onChange={(event) => setPhone(event.target?.value)}
+                  className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
+                  placeholder="Phone Number"
                   required
                 />
               </div>
@@ -245,6 +300,8 @@ export default function Signup() {
                   <select
                     id="city"
                     name="city"
+                    value={city}
+                    onChange={(event) => setCity(event.target?.value)}
                     autoComplete="city-name"
                     className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                   >
@@ -305,6 +362,8 @@ export default function Signup() {
                   type={passwordVisible ? "text" : "password"}
                   id="password"
                   name="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target?.value)}
                   className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                   placeholder="Password"
                   required
@@ -362,6 +421,8 @@ export default function Signup() {
                   type={confirmPasswordVisible ? "text" : "password"}
                   id="confirmpassword"
                   name="confirmpassword"
+                  value={confPass}
+                  onChange={(event) => setConfPass(event.target?.value)}
                   className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                   placeholder="Confirm Password"
                   required

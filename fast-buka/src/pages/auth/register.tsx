@@ -1,19 +1,22 @@
 import React from "react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Section from "../../../public/images/homepage/Section.png";
 import login from "../../../public/images/homepage/login.png";
+import { Router } from "lucide-react";
 
 export default function Register() {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [name, setUserName] = useState('')
-  const [email, setEmail] = useState('')
-  const [city, setCity] = useState('')
-  const [phone, setPhone] = useState('')
-  const [password, setPassword ] = useState('')
-  const [confPass, setConfPass] = useState('')
+  const [name, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
+  const [confPass, setConfPass] = useState("");
 
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -25,33 +28,33 @@ export default function Register() {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     if (password !== confPass) {
       return alert("Passwords do not match.");
     }
-  
+
     const data = {
       name,
       email,
+      phone,
       city,
       password,
     };
-  
+
     try {
-      const response = await fetch("/api/registration", { 
+      const response = await fetch("/api/registration", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
-  
+
       if (response.ok) {
         const result = await response.json();
-        console.log("User registered:", result);
+        router.push("/auth/login");
       } else {
         const error = await response.json();
         console.error("Registration error:", error);
@@ -60,9 +63,6 @@ export default function Register() {
       console.error("Failed to submit form:", error);
     }
   };
-  
-
-
 
   return (
     <div>
@@ -79,7 +79,10 @@ export default function Register() {
         <p className="text-lg md:tracking-wide md:text-center ms-3">
           We'll help you set up an account in less than a minute
         </p>
-        <form onSubmit={handleSubmit} className="container mx-auto md:w-3/4 px-5 ">
+        <form
+          onSubmit={handleSubmit}
+          className="container mx-auto md:w-3/4 px-5 "
+        >
           <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 mt-5">
             <div className="mb-5">
               <label
