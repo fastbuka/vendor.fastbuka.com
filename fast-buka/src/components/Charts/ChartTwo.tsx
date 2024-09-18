@@ -149,3 +149,4 @@ const ChartTwo: React.FC = () => {
 };
 
 export default ChartTwo;
+

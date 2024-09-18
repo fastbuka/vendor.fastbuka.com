@@ -7,7 +7,7 @@ export default function Partner() {
     <div className="bg-[#f2f9ff]">
       <div className="mt-10 ">
         <div className="flex justify-center">
-          <Image src={handshake} className="mt-10" />
+          <Image src={handshake} alt="handshake" className="mt-10" />
         </div>
         <h1
           className="
