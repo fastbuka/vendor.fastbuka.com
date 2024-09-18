@@ -186,32 +186,32 @@ export default function Signup() {
                     type="email"
                     id="email"
                     onChange={(event) => setEmail(event.target?.value)}
-                    className="bg-white border border-black text-gray-900 text-sm rounded-lg block w-full p-3 placeholder-gray-500 focus:outline-none"
+                    className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                     placeholder="email@gmail.com"
                     required
                   />
                 </div>
                 <div
                   onClick={handleVerifyEmail}
-                  className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-lg text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl w-full"
+                  className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl w-fit"
                 >
                   Create an Account
                 </div>
                 <p className="mt-3 tracking-wider">
                   Already has an Account?{" "}
                   <span className="font-bold">
-                    <Link href="">Login?</Link>
+                    <Link href="/auth/login">Login?</Link>
                   </span>
                 </p>
               </form>
             </div>
           </div>
-          <div className="order-2 border border-blue-500 rounded-md p-4 ll w-full md:w-8/12 bg-blue-200 bg-opacity-20 flex items-center justify-center">
-            <Image
-              src={login}
-              alt=""
-              className="img-fluid p-5 transition ease-in-out delay-150 hover:-translate-y-5"
-            />
+          <div className="order-2 ">
+          <Image
+            src={login}
+            alt=""
+            className="img-fluid p-5 transition ease-in-out delay-150 hover:-translate-y-5"
+          />
           </div>
         </div>
       )}

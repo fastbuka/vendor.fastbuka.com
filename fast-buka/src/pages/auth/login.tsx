@@ -146,9 +146,9 @@ export default function Login() {
               </button>
               {error && <p className="text-red-500 mt-2">{error}</p>}
               <p className="mt-3 tracking-wider">
-                Don't Have an Account{" "}
+                Don't Have an Account
                 <span className="font-bold">
-                  <Link href="/signup">Create Account?</Link>
+                  <Link href="/auth/signup">Create Account?</Link>
                 </span>
               </p>
             </form>
