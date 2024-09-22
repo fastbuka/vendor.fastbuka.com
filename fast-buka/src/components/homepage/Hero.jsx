@@ -34,7 +34,7 @@ export default function Hero() {
                 Login
               </button>
             </Link>
-            <Link href="/register">
+            <Link href="/auth/register">
               <button
                 type="button"
                 className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-4 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
