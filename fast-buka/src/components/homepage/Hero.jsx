@@ -9,16 +9,16 @@ export default function Hero() {
   return (
     <div>
       <div className="flex justify-center">
-        <Image src={Vector3} alt="vector 1" className="img-fluid mt-10" />
+        <Image src={Vector3} alt="vector3" className="img-fluid mt-10" />
       </div>
 
       <div className="grid grid-cols-4 justify-items-center container mx-auto px-4 mt-10">
         <div className="place-self-center">
-          <Image src={Vector2} alt="vecotor 2" className="img-fluid hidden md:block w-24" />
+          <Image src={Vector2} alt="vaector2" className="img-fluid hidden md:block w-24" />
         </div>
         <div className="md:col-span-2 col-span-4">
           <h1 className="md:text-[42px] text-4xl text-center font-mono font-semibold">
-            Creaving a <span className="font-bold text-[#0a3a6b]">Meal?</span>{" "}
+            Creaving a <span className="font-bold text-[#0a3a6b]">Delicious Meal?</span>{" "}
             Place <br /> an Order with FastBuka
           </h1>
           <p className="text-center md:text-xl text-lg mt-3">
@@ -45,7 +45,7 @@ export default function Hero() {
           </div>
         </div>
         <div className="place-self-center">
-          <Image src={Vector1} alt="vector 1" className="img-fluid hidden md:block w-24" />
+          <Image src={Vector1} alt="vector1" className="img-fluid hidden md:block w-24" />
         </div>
       </div>
     </div>

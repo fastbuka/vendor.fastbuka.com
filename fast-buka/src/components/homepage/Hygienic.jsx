@@ -8,6 +8,7 @@ export default function Hygienic() {
       <div className="flex justify-center">
         <Image
           src={Food_and_flower}
+          alt="food_and_flower"
           className="bounce img-fluid md:w-2/5 w-4/5 relative md:top-[-160px] top-[-140px]"
         />
       </div>
