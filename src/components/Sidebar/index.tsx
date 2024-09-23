@@ -47,7 +47,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Dashboard",
-        route: "/",
+        route: "/dashboard",
       },
 
       {
@@ -69,8 +69,8 @@ const menuGroups = [
         label: "Foods",
         route: "#",
         children: [
-          { label: "All Foods", route: "#" },
-          { label: "Add New Food", route: "#" },
+          { label: "All Foods", route: "/dashboard/vendor/foods" },
+          { label: "Add New Food", route: "/dashboard/vendor/foods/add-food" },
         ],
       },
 
@@ -93,8 +93,8 @@ const menuGroups = [
         label: "Food Categories",
         route: "#",
         children: [
-          { label: "All Food Category", route: "#" },
-          { label: "Add New Category", route: "#" },
+          { label: "All Food Category", route: "/dashboard/vendor/category" },
+          { label: "Add New Category", route: "/dashboard/vendor/category/add-category" },
         ],
       },
 
@@ -116,7 +116,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Orders",
-        route: "#",
+        route: "/dashboard/vendor/order",
       },
 
       {
@@ -137,7 +137,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Ordered Items",
-        route: "#",
+        route: "/dashboard/vendor/order-item",
       },
     ],
   },
