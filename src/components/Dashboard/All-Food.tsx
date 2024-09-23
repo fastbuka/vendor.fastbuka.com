@@ -1,21 +1,19 @@
 "use client";
-import dynamic from "next/dynamic";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import React from "react";
 import CardDataStats from "../CardDataStats";
 
-const AllFood: React.FC = () => {
+const ECommerce: React.FC = () => {
   return (
     <>
-      <h1 className="font-bold text-2xl mb-3 text-center">Foods / Products</h1>
-
+        <h1 className="text-center font-bold mb-5 text-3xl">Foods / Products</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <Link href="#">
           <CardDataStats
-            title="Price: 2,000"
             total="Jellof Rice"
+            title="2,000"
             rate="Category: Rice"
-            // levelUp
           >
             <svg
               className="fill-primary"
@@ -38,12 +36,7 @@ const AllFood: React.FC = () => {
         </Link>
 
         <Link href="#">
-          <CardDataStats
-            title="Price: 2,000"
-            total="Fried Rice"
-            rate="Category: Rice"
-            // levelUp
-          >
+          <CardDataStats total="Fried Rice" title="2,000" rate="Category: Rice">
             <svg
               className="fill-primary"
               width="20"
@@ -69,12 +62,7 @@ const AllFood: React.FC = () => {
         </Link>
 
         <Link href="#">
-          <CardDataStats
-            title="Price: 2,000"
-            total="White Rice"
-            rate="Category: Rice"
-            // levelUp
-          >
+          <CardDataStats total="White Rice" title="2,000" rate="Category: Rice">
             <svg
               className="fill-primary"
               width="22"
@@ -94,14 +82,9 @@ const AllFood: React.FC = () => {
             </svg>
           </CardDataStats>
         </Link>
-        
+
         <Link href="#">
-          <CardDataStats
-            title="Price: 5,000"
-            total="Turkey"
-            rate="Category: Meat"
-            // levelUp
-          >
+          <CardDataStats total="Turkey" title="5,000" rate="Category: Meat">
             <svg
               className="fill-primary"
               width="22"
@@ -123,12 +106,7 @@ const AllFood: React.FC = () => {
         </Link>
 
         <Link href="#">
-          <CardDataStats
-            title="Price: 3,500"
-            total="Chicken"
-            rate="Category: Meat"
-            // levelUp
-          >
+          <CardDataStats total="Chicken" title="3,500" rate="Category: Meat">
             <svg
               className="fill-primary"
               width="20"
@@ -154,12 +132,7 @@ const AllFood: React.FC = () => {
         </Link>
 
         <Link href="#">
-          <CardDataStats
-            title="Price: 1,000"
-            total="Beef"
-            rate="Category: Meat"
-            // levelUp
-          >
+          <CardDataStats total="Beef" title="1,000" rate="Category: Meat">
             <svg
               className="fill-primary"
               width="22"
@@ -188,4 +161,4 @@ const AllFood: React.FC = () => {
   );
 };
 
-export default AllFood;
+export default ECommerce;

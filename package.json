@@ -1,5 +1,5 @@
 {
-  "name": "fast-buka",
+  "name": "fastbuka",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,7 +11,6 @@
   "dependencies": {
     "@prisma/client": "^5.19.1",
     "apexcharts": "^3.45.2",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "cookie": "^0.6.0",
@@ -44,7 +43,7 @@
     "validator": "^13.12.0"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
+    "@types/bcryptjs": "^2.4.6",
     "@types/cookie": "^0.6.0",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20",

@@ -1,44 +1,46 @@
-import React, { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import Section from "../../../public/images/homepage/Section.png";
-import login from "../../../public/images/homepage/login.png";
+import React, { useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import Section from '../../../public/images/homepage/Section.png'
+import login from '../../../public/images/homepage/login.png'
+import toast, {Toaster} from "react-hot-toast"
 
 export default function Login() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [passwordVisible, setPasswordVisible] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
 
   const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
-  };
+    setPasswordVisible(!passwordVisible)
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
+      const response = await fetch('/api/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        throw new Error('Login failed')
       }
 
-      const data = await response.json();
+      const data = await response.json()
 
-      localStorage.setItem("token", data.token);
+      localStorage.setItem('token', data.token)
 
-      window.location.href = "/dashboard";
+      window.location.href = '/dashboard'
     } catch (err) {
-      setError("Invalid email or password");
+      setError('Invalid email or password')
+      toast.error('Invalid email or password')
     }
-  };
+  }
 
   return (
     <div>
@@ -73,6 +75,17 @@ export default function Login() {
                   className="block mb-2 text-lg font-medium text-gray-900 flex justify-between"
                 >
                   Password
+                </label>
+                <div className="flex bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-2 placeholder-gray-500">
+                  <input
+                    type={passwordVisible ? 'text' : 'password'}
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="w-full p-2 focus:outline-none"
+                    placeholder="Password"
+                    required
+                  />
                   <button type="button" onClick={togglePasswordVisibility}>
                     {passwordVisible ? (
                       <svg
@@ -111,33 +124,14 @@ export default function Login() {
                       </svg>
                     )}
                   </button>
-                </label>
-                <input
-                  type={passwordVisible ? "text" : "password"}
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
-                  placeholder="Password"
-                  required
-                />
-              </div>
-              <div className="flex items-start mb-1">
-                <div className="flex items-center h-5">
-                  <input
-                    id="remember"
-                    type="checkbox"
-                    value=""
-                    className="w-4 h-4 border border-black rounded bg-auto"
-                  />
                 </div>
-                <label
-                  htmlFor="remember"
-                  className="ms-2 block mb-2 text-md font-medium text-gray-900"
-                >
-                  Remember me
-                </label>
               </div>
+              <a
+                href="/auth/reset_password"
+                className="flex justify-end w-full items-start mb-1 text-blue-600 font-bold"
+              >
+                <p>Forgot password?</p>
+              </a>
               <button
                 type="submit"
                 className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
@@ -167,7 +161,7 @@ export default function Login() {
           FastBuka @ 2024 All Right Reserved
         </p>
       </footer>
+      <Toaster />
     </div>
-  );
+  )
 }
-

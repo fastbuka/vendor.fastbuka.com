@@ -1,5 +1,8 @@
+import { Prisma, PrismaClient } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import nodemailer from 'nodemailer';
+
+const prisma = new PrismaClient()
 
 type OTPData = {
   otp: string;
@@ -22,6 +25,20 @@ const sendOTP = async (req: NextApiRequest, res: NextApiResponse) => {
   const email = req.body.email;
   const digits = '0123456789';
   const limit = 4;
+
+  const DEmail = await prisma.user.findUnique({
+    where: {
+      email: email,
+    },
+  });
+  
+
+  if(!DEmail) {
+    res.status(404).json({error: "User not found"})
+    console.error('not sent: user not found')
+    return;
+  }
+
   let otp = '';
   for (let i = 0; i < limit; i++) {
     otp += digits[Math.floor(Math.random() * 10)];
