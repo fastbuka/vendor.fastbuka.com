@@ -27,14 +27,14 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<PayloadProps | null>(null);
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
+  const [token, setToken] = useState<string | null>(() => localStorage?.getItem('token'));
 
   if(!token){
     window.location.href='/login'
   }
 
   console.log("Token: ", token)
-  
+
   useEffect(() => {
     if (token) {
       try {
