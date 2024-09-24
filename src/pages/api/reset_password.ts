@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
  
         const UpdatePass = await prisma.user.update({
             where:{email},
-        data: hashedPassword,
+        data: {password: hashedPassword},
     })
 
     res.status(200).json(UpdatePass);
