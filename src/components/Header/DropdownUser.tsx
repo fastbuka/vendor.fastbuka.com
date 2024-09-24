@@ -25,16 +25,6 @@ const DropdownUser = () => {
 
         <span className="h-12 w-12 rounded-full">
           <User size={50} className="border rounded-full"/>
-          {/* <Image
-            width={112}
-            height={112}
-            src={"/images/homepage/food_1.png"}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-            alt="User"
-          /> */}
         </span>
 
         <svg
