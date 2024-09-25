@@ -3,7 +3,6 @@ import React from "react";
 const FoodForm: React.FC = () => {
   return (
     <>
-      <h1 className="text-center font-bold mb-5 text-3xl">Add New Foods / Products</h1>
       <form className="w-full max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg dark:bg-gray-800">
         {/* Category (Dropdown) */}
         <div className="mb-8">

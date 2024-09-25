@@ -11,7 +11,6 @@ import CardDataStats from "../CardDataStats";
 const ECommerce: React.FC = () => {
   return (
     <>
-      <h1 className="text-center font-bold mb-5 text-3xl">Foods / Products Categories</h1>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <Link href="#">
           <CardDataStats

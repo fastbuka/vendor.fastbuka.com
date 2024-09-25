@@ -60,7 +60,7 @@ const options: ApexOptions = {
     fontSize: "14px",
 
     markers: {
-      size: 99,
+      radius: 99,
     },
   },
   fill: {
@@ -88,7 +88,7 @@ const ChartTwo: React.FC = () => {
   ];
 
   return (
-    <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
+    <div className=" rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
           <h4 className="text-xl font-semibold text-black dark:text-white">
@@ -149,4 +149,3 @@ const ChartTwo: React.FC = () => {
 };
 
 export default ChartTwo;
-
