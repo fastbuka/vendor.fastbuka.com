@@ -32,7 +32,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-, "src/pages/[login].js"  ],
+, "src/pages/[login].js", "src/app/dashboard/vendor/foods/add-food/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

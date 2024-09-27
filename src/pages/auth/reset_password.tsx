@@ -8,13 +8,13 @@ import { sendOTPtoMail, verifyOTP } from '@/lib/api'
 import { Eye, Shield } from 'lucide-react'
 import toast, {Toaster} from 'react-hot-toast'
 export default function Signup() {
-  const [enterMail, setEntermail] = useState<boolean>(false)
+  const [enterMail, setEntermail] = useState<boolean>(true)
   const [email, setEmail] = useState('')
   const [viewVer, setViewVer] = useState<boolean>(false)
   const [OTP, setOTP] = useState<string[]>(Array(4).fill(''))
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null)
-  const [register, setRegister] = useState<boolean>(true)
+  const [register, setRegister] = useState<boolean>(false)
   const [password, setPassword] = useState('')
   const [confPass, setConfPass] = useState('')
 

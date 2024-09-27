@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
@@ -15,7 +15,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
  
         const UpdatePass = await prisma.user.update({
             where:{email},
-        data: hashedPassword,
+        data: {password: hashedPassword},
     })
 
     res.status(200).json(UpdatePass);
