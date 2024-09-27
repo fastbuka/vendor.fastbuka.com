@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import Deposit from "@/components/Dashboard/Deposit";
+import Withdrawal from "@/components/Dashboard/Withdrawal";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 
 // export const metadata: Metadata = {
@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>        
-      <Breadcrumb pageName="Deposit" />
-        <Deposit></Deposit>
+      <Breadcrumb pageName="Withdrawal" />
+        <Withdrawal></Withdrawal>
       </DefaultLayout>
     </>
   );
