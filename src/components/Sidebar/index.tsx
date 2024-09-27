@@ -166,7 +166,7 @@ const menuGroups = [
           </svg>
         ),
         label: "Profile",
-        route: "/profile",
+        route: "/dashboard/vendor/profile",
       },
 
       {
