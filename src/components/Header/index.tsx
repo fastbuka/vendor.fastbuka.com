@@ -1,5 +1,8 @@
 import Link from "next/link";
+import React from "react";
+import { useState } from "react";
 import DropdownUser from "./DropdownUser";
+import Balance from "./Balance";
 import Image from "next/image";
 import Logo_Dark from "../../../public/images/homepage/logo-dark.png"
 // import DarkModeSwitcher from "./DarkModeSwitcher";
@@ -70,11 +73,7 @@ const Header = (
         </div>
 
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
-            <div className="relative">
-              
-            </div>
-          </form>
+          <Balance/>
         </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
