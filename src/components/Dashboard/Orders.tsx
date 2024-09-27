@@ -42,8 +42,8 @@ const Order = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
-      <div className="flex gap-5 items-center md:justify-between">
+    <div className="w-full mx-auto p-6">
+      <div className="flex flex-wrap gap-5 items-center md:justify-between">
         {/* Search Bar */}
         <div className="mb-4">
           <input
@@ -72,47 +72,73 @@ const Order = () => {
       </div>
 
       {/* Data Table */}
-      <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
-        <table className="min-w-full bg-white">
-          <thead className="bg-gray-50">
-            <tr className="text-left text-gray-600 text-sm font-semibold">
-              <th className="py-4 px-6">ID</th>
-              <th className="py-4 px-6">Customer Name</th>
-              <th className="py-4 px-6">Phone Number</th>
-              <th className="py-4 px-6">Order Number</th>
-              <th className="py-4 px-6">Status</th>
-              <th className="py-4 px-6">Amount</th>
-              <th className="py-4 px-6">Delivery Address</th>
-              <th className="py-4 px-6">Payment Method</th>
-              <th className="py-4 px-6">Payment Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((item, index) => (
-              <tr
-                key={item.id}
-                className={`border-b ${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                } hover:bg-gray-100`}
-              >
-                <td className="py-4 px-6">{item.id}</td>
-                <td className="py-4 px-6">{item.name}</td>
-                <td className="py-4 px-6">{item.category}</td>
-                <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                <td className="py-4 px-6">{item.name}</td>
-                <td className="py-4 px-6">{item.name}</td>
-                <td className="py-4 px-6">{item.category}</td>
-                <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+      <div className="overflow-x-auto">
+        <div className="w-full shadow-lg rounded-lg border border-gray-200">
+          <table className="w-full bg-white">
+            <thead className="bg-gray-50">
+              <tr className="text-left text-gray-600 text-xs sm:text-sm font-semibold">
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  ID
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Customer Name
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Phone Number
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Order Number
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Status
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Amount
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Delivery Address
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Payment Method
+                </th>
+                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                  Payment Status
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentItems.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className={`border-b ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-100`}
+                >
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.id}</td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.category}</td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">
+                    {item.price.toFixed(2)}
+                  </td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">
+                    {item.price.toFixed(2)}
+                  </td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.category}</td>
+                  <td className="py-2 sm:py-4 px-2 sm:px-6">
+                    {item.price.toFixed(2)}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div className="flex gap-5 items-center md:justify-between">
+      <div className="flex flex-wrap gap-5 items-center md:justify-between mt-4">
         {/* Showing Entries Info */}
-        <div className="mt-4">
+        <div>
           <p className="text-gray-700">
             Showing {indexOfFirstItem + 1} to{" "}
             {Math.min(indexOfLastItem, filteredData.length)} of{" "}
@@ -142,7 +168,6 @@ const Order = () => {
           </nav>
         </div>
       </div>
-
     </div>
   );
 };
