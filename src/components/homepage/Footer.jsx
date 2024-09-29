@@ -135,7 +135,7 @@ export default function Footer() {
             <h1 className="text-lg font-bold my-2">External</h1>
             <ul className="list-none text-[#a1a1a1] leading-10 font-mono ">
               <li className="hover:text-white hover:text-xl">
-                <Link href=""> Become a Vednor </Link>
+                <Link href="/vendor/register"> Become a Vednor </Link>
               </li>
               <li className="hover:text-white hover:text-xl">
                 <Link href=""> Become a Rider </Link>

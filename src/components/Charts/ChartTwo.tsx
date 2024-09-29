@@ -95,7 +95,7 @@ const ChartTwo: React.FC = () => {
             Monthly Overview
           </h4>
         </div>
-        {/* <div>
+        <div>
           <div className="relative z-20 inline-block">
             <select
               name="#"
@@ -103,10 +103,13 @@ const ChartTwo: React.FC = () => {
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
               <option value="" className="dark:bg-boxdark">
-                This Week
+                Today
               </option>
               <option value="" className="dark:bg-boxdark">
                 Last Week
+              </option>
+              <option value="" className="dark:bg-boxdark">
+                Last Month
               </option>
             </select>
             <span className="absolute right-3 top-1/2 z-10 -translate-y-1/2">
@@ -130,7 +133,7 @@ const ChartTwo: React.FC = () => {
               </svg>
             </span>
           </div>
-        </div> */}
+        </div>
       </div>
 
       <div>

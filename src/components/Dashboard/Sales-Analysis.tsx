@@ -1,19 +1,18 @@
 "use client";
+import Turkey from "../../../public/images/turkey.jpg";
+import JellofRice from "../../../public/images/jollof1.jpg";
+import Drinks from "../../../public/images/drinks.jpg";
+import Link from "next/link";
+import Image from "next/image";
 import dynamic from "next/dynamic";
 import React from "react";
 import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import Deposit from "../../../public/images/deposit.png";
-import Pay from "../../../public/images/pay.png";
-import Swap from "../../../public/images/swap.png";
-import Add from "../../../public/images/plus.png";
-import Order from "../../../public/images/order.png";
 import CardDataStats from "../CardDataStats";
-import ExchangeRate from "@/components/Charts/ExchargeRate";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
+import ChartOne from "@/components/Charts/ChartOne";
+import ChartThree from "@/components/Charts/ChartThree";
 
-const ECommerce: React.FC = () => {
+const Sales: React.FC = () => {
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
     { id: 2, name: "Pizza", category: "Food", price: 8.99 },
@@ -57,48 +56,69 @@ const ECommerce: React.FC = () => {
   const toggleBalance = () => {
     setBalance(!balance);
   };
-
   return (
     <>
-      <h1 className="font-bold text-black text-xl my-3">Hi, Rodinia </h1>
+      <div className="flex flex-row-reverse">
+        <select
+          name="#"
+          id="#"
+          className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-3 text-md border rounded-full text-center font-medium outline-none m-2"
+        >
+          <option value="" className="dark:bg-boxdark">
+            Today
+          </option>
+          <option value="" className="dark:bg-boxdark">
+            Last Week
+          </option>
+          <option value="" className="dark:bg-boxdark">
+            Last Month
+          </option>
+        </select>
+      </div>
       <div className="grid text-black grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/dashboard/vendor/withdrawal">
-            <div className="p-3">
-              <Image src={Pay} alt="deposit" />
-              <h1 className="font-medium text-xl mt-1">Withdrawal</h1>
-            </div>
-          </Link>
+          <div className="p-3">
+            <h1 className="text-3xl font-bold">1,000,000</h1>
+            <h1 className="font-medium text-md mt-1">All Time Sales</h1>
+          </div>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="#">
-            <div className="p-3">
-              <Image src={Add} alt="deposit" />
-              <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
-            </div>
-          </Link>
+          <div className="p-3">
+            <h1 className="text-3xl font-bold">300,000</h1>
+            <h1 className="font-medium text-md mt-1">
+              Total Sales of the Month
+            </h1>
+          </div>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/dashboard/vendor/order">
-            <div className="p-3">
-              <Image src={Order} alt="swap" />
-              <h1 className="font-medium text-xl mt-1">Pending Orders</h1>
-            </div>
-          </Link>
+          <div className="p-3">
+            <h1 className="text-3xl font-bold">100,000</h1>
+            <h1 className="font-medium text-md mt-1">
+              Total Sales for the Week
+            </h1>
+          </div>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="#">
-            <div className="p-3">
-              <Image src={Swap} alt="swap" />
-              <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
-            </div>
-          </Link>
+          <div className="p-3">
+            <h1 className="text-3xl font-bold">30,000</h1>
+            <h1 className="font-medium text-md mt-1">Daily Sale</h1>
+          </div>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-4 md:gap-6 2xl:gap-7.5 mt-5">
-        <MonthlyOverview />
-        <ExchangeRate />
+      <div className="grid grid-cols-2 gap-4 md:gap-6 2xl:gap-7.5">
+        <div className="">
+          <h1 className="font-medium text-xl mt-5">Monthly Report</h1>
+          <MonthlyOverview />
+        </div>
+        <div className="">
+          <h1 className="font-medium text-xl mt-5">Weekly Report</h1>
+          <ChartThree />
+        </div>
+        <div className="">
+          <h1 className="font-medium text-xl mt-5">Yearly Report</h1>
+          <ChartOne />
+        </div>
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
@@ -197,12 +217,8 @@ const ECommerce: React.FC = () => {
           </div>
         </div>
       </div>
-
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <div className="col-span-12 xl:col-span-8"></div>
-      </div>
     </>
   );
 };
 
-export default ECommerce;
+export default Sales;
