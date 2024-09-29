@@ -119,101 +119,100 @@ const Sales: React.FC = () => {
           <h1 className="font-medium text-xl mt-5">Yearly Report</h1>
           <ChartOne />
         </div>
-      </div>
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-xl text-black font-bold my-5">
+            Transaction History
+          </h1>
+          <div className="flex gap-5 items-center md:justify-between">
+            {/* Search Bar */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search for items..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-      <div className="max-w-6xl mx-auto p-6">
-        <h1 className="text-xl text-black font-bold my-5">
-          Transaction History
-        </h1>
-        <div className="flex gap-5 items-center md:justify-between">
-          {/* Search Bar */}
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search for items..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            {/* Entries per Page Dropdown */}
+            <div className="mb-4">
+              <label className="mr-2 text-gray-700">Entries per page:</label>
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="p-2 border border-gray-300 rounded-lg bg-white"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
           </div>
 
-          {/* Entries per Page Dropdown */}
-          <div className="mb-4">
-            <label className="mr-2 text-gray-700">Entries per page:</label>
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="p-2 border border-gray-300 rounded-lg bg-white"
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Data Table */}
-        <div className="overflow-x-hidden shadow-lg rounded-lg border border-gray-200">
-          <table className="min-w-full bg-white">
-            <thead className="bg-gray-50">
-              <tr className="text-left text-gray-600 text-sm font-semibold">
-                <th className="py-4 px-6">ID</th>
-                <th className="py-4 px-6">Customer Name</th>
-                <th className="py-4 px-6">Phone Number</th>
-                <th className="py-4 px-6">Order Number</th>
-                <th className="py-4 px-6">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item, index) => (
-                <tr
-                  key={item.id}
-                  className={`border-b ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-gray-100`}
-                >
-                  <td className="py-4 px-6">{item.id}</td>
-                  <td className="py-4 px-6">{item.name}</td>
-                  <td className="py-4 px-6">{item.category}</td>
-                  <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                  <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+          {/* Data Table */}
+          <div className="overflow-x-hidden shadow-lg rounded-lg border border-gray-200">
+            <table className="min-w-full bg-white">
+              <thead className="bg-gray-50">
+                <tr className="text-left text-gray-600 text-sm font-semibold">
+                  <th className="py-4 px-6">ID</th>
+                  <th className="py-4 px-6">Customer Name</th>
+                  <th className="py-4 px-6">Phone Number</th>
+                  <th className="py-4 px-6">Order Number</th>
+                  <th className="py-4 px-6">Status</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="flex gap-5 items-center md:justify-between">
-          {/* Showing Entries Info */}
-          <div className="mt-4">
-            <p className="text-gray-700">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, filteredData.length)} of{" "}
-              {filteredData.length} entries
-            </p>
+              </thead>
+              <tbody>
+                {currentItems.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={`border-b ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
+                  >
+                    <td className="py-4 px-6">{item.id}</td>
+                    <td className="py-4 px-6">{item.name}</td>
+                    <td className="py-4 px-6">{item.category}</td>
+                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
-          {/* Pagination */}
-          <div className="flex justify-center mt-6">
-            <nav>
-              <ul className="inline-flex items-center space-x-1">
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => paginate(index + 1)}
-                      className={`px-4 py-2 rounded-lg border ${
-                        currentPage === index + 1
-                          ? "bg-blue-500 text-white"
-                          : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
-                      } shadow-md`}
-                    >
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+          <div className="flex gap-5 items-center md:justify-between">
+            {/* Showing Entries Info */}
+            <div className="mt-4">
+              <p className="text-gray-700">
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, filteredData.length)} of{" "}
+                {filteredData.length} entries
+              </p>
+            </div>
+
+            {/* Pagination */}
+            <div className="flex justify-center mt-6">
+              <nav>
+                <ul className="inline-flex items-center space-x-1">
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <li key={index}>
+                      <button
+                        onClick={() => paginate(index + 1)}
+                        className={`px-4 py-2 rounded-lg border ${
+                          currentPage === index + 1
+                            ? "bg-blue-500 text-white"
+                            : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                        } shadow-md`}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
       </div>
