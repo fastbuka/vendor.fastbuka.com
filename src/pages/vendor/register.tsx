@@ -54,7 +54,7 @@ export default function Register() {
 
       if (response.ok) {
         const result = await response.json();
-        router.push("/login");
+        router.push("/auth/login");
       } else {
         const error = await response.json();
         console.error("Registration error:", error);
