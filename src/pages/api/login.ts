@@ -25,7 +25,7 @@ export default async function handler(
       const isMatch = await comparePassword(password, user.password)
 
       if (isMatch) {
-        const token = jwt.sign({ id: user.id, email: user.email }, SECRET_KEY, {
+        const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, SECRET_KEY, {
           expiresIn: '1d',
         })
 
