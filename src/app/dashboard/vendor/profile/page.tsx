@@ -1,4 +1,4 @@
-import ECommerce from "@/components/Dashboard/All-Food";
+
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Profile from "@/components/Dashboard/Profile";

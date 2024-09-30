@@ -13,7 +13,7 @@ import CardDataStats from "../CardDataStats";
 import ExchangeRate from "@/components/Charts/ExchargeRate";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
 
-const ECommerce: React.FC = () => {
+const Category: React.FC = () => {
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
     { id: 2, name: "Pizza", category: "Food", price: 8.99 },
@@ -207,4 +207,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+export default Category;
