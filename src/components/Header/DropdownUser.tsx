@@ -76,7 +76,7 @@ const DropdownUser = () => {
               </Link>
             </li>
             <li>
-              <Link
+              {/* <Link
                 href="#"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
@@ -94,11 +94,11 @@ const DropdownUser = () => {
                   />
                 </svg>
                 My Customers
-              </Link>
+              </Link> */}
             </li>
             <li>
               <Link
-                href="/settings"
+                href="/dashboard/vendor/settings"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <svg

@@ -41,14 +41,14 @@ const ECommerce: React.FC = () => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleItemsPerPageChange = (e) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // Reset to first page when items per page change
   };
