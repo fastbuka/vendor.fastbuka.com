@@ -12,8 +12,10 @@ import Order from "../../../public/images/order.png";
 import CardDataStats from "../CardDataStats";
 import ExchangeRate from "@/components/Charts/ExchargeRate";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
+import { useAppContext } from "@/utils/AuthProvider"
 
-const Category: React.FC = () => {
+const ECommerce: React.FC = () => {
+  const { user } = useAppContext(); 
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
     { id: 2, name: "Pizza", category: "Food", price: 8.99 },
@@ -60,7 +62,7 @@ const Category: React.FC = () => {
 
   return (
     <>
-      <h1 className="font-bold text-black text-xl my-3">Hi, Rodinia </h1>
+      <h1 className="font-bold text-black text-xl my-3">Hi, {user?.name} </h1>
       <div className="grid text-black grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href="/dashboard/vendor/withdrawal">

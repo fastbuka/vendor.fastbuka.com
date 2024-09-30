@@ -2,7 +2,7 @@ import { useState, useContext  } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "@/components/ClickOutside";
-import { useAppContext } from "@/utils/AuthProvider"; 
+import { useAppContext } from "@/utils/AuthProvider"
 import { User } from "lucide-react";
 
 const DropdownUser = () => {
@@ -18,7 +18,7 @@ const DropdownUser = () => {
       >
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {user?.email}
+            {user?.name}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>

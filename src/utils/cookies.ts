@@ -13,7 +13,7 @@ export const setTokenCookie = (res: any, token: string) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'strict', 
-    maxAge: 42 * 60 * 60,
+    maxAge: 24 * 60 * 60,
     path: '/',
   };
 
@@ -21,5 +21,5 @@ export const setTokenCookie = (res: any, token: string) => {
 };
 
 export const removeTokenCookie = (res: any) => {
-  res.setHeader('Set-Cookie', cookie.serialize('token', '', { maxAge: -1, path: '/' }));
+  res.setHeader('Set-Cookie', cookie.serialize('token', '', { maxAge: -1, path: '/auth/login' }));
 };

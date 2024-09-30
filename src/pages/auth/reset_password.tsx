@@ -17,6 +17,8 @@ export default function Signup() {
   const [register, setRegister] = useState<boolean>(false)
   const [password, setPassword] = useState('')
   const [confPass, setConfPass] = useState('')
+  const [passwordVisible, setPasswordVisible] = useState(false)
+    const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
 
   const router = useRouter()
 
@@ -88,12 +90,7 @@ export default function Signup() {
     console.log('data: ', email, password)
   }
 
-  useEffect(() => {
-    const fullOTP = OTP.join('')
-    if (fullOTP.length === 4 && OTP.every((digit) => digit !== '')) {
-      handleSubmitOTP()
-    }
-  }, [OTP])
+  
 
   const handleSubmitOTP = async (event?: React.FormEvent<HTMLFormElement>) => {
     if (event) event.preventDefault()
@@ -114,13 +111,20 @@ export default function Signup() {
     }
   }
 
-  const [passwordVisible, setPasswordVisible] = useState(false)
+  useEffect(() => {
+    const fullOTP = OTP.join('')
+    if (fullOTP.length === 4 && OTP.every((digit) => digit !== '')) {
+      handleSubmitOTP()
+    }
+  }, [OTP, handleSubmitOTP])
+
+  
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible)
   }
 
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false)
+
 
   const toggleConfirmPasswordVisibility = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible)

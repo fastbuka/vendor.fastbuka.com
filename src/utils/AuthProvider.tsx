@@ -1,61 +1,66 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { jwtDecode } from 'jwt-decode'; 
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { parseCookies } from 'nookies';
 
-interface PayloadProps {
-  id?: string;
-  email?: string;
-  name?: string;
+interface User {
+  id: string; 
+  name: string;
+  email: string;
 }
 
-interface AppContextProps {
-  user: PayloadProps | null;  
+interface AuthContextType {
+  isAuthenticated: boolean;
+  loading: boolean;
+  user?: User;
 }
 
-const AppContext = createContext<AppContextProps | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAppContext = (): AppContextProps => {
-  const context = useContext(AppContext);
-  if (!context) {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [user, setUser] = useState<User | undefined>(undefined);
+
+  useEffect(() => {
+    const cookies = parseCookies();
+    const token = cookies.token; 
+
+    if (token) {
+      setIsAuthenticated(true);
+      const fetchUserDetails = async () => {
+        try {
+          const response = await fetch('/api/user');
+          if (!response.ok) {
+            throw new Error('Failed to fetch user details');
+          }
+          const userData = await response.json();
+          setUser(userData); 
+          console.log("User Data: ", userData);
+        } catch (error) {
+          console.error("Failed to fetch user:", error);
+          setIsAuthenticated(false);
+          window.location.href = '/auth/login';
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchUserDetails();
+    } else {
+      setIsAuthenticated(false);
+      window.location.href = '/auth/login';
+    }
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, loading, user }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAppContext = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
     throw new Error('useAppContext must be used within an AuthProvider');
   }
   return context;
-};
-
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<PayloadProps | null>(null);
-  const [token, setToken] = useState<string | null>(() => localStorage?.getItem('token'));
-
-  if(!token){
-    window.location.href='/login'
-  }
-
-  console.log("Token: ", token)
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const USER = jwtDecode<PayloadProps>(token); 
-        setUser(USER);
-      } catch (error) {
-        console.error('Failed to decode token:', error);
-        setUser(null);
-      }
-    } else {
-      setUser(null);
-    }
-  }, [token]);
-
-  console.log("User: ", user);  
-
-  const value: AppContextProps = { user };  
-
-  return (
-    <AppContext.Provider value={value}>
-      {children}
-    </AppContext.Provider>
-  );
 };
