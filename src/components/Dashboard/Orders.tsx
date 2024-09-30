@@ -29,20 +29,38 @@ const Order = () => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleItemsPerPageChange = (e) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // Reset to first page when items per page change
   };
 
   return (
     <div className="w-full mx-auto p-6">
+      <div className="flex flex-row-reverse my-3">
+        <select
+          name="#"
+          id="#"
+          className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-3 text-md border rounded-full text-center font-medium outline-none m-2"
+        >
+          <option value="" className="dark:bg-boxdark">
+            Active Orders
+          </option>
+          <option value="" className="dark:bg-boxdark">
+            Recent Orders
+          </option>
+          <option value="" className="dark:bg-boxdark">
+            Order History
+          </option>
+        </select>
+      </div>
+
       <div className="flex flex-wrap gap-5 items-center md:justify-between">
         {/* Search Bar */}
         <div className="mb-4">
@@ -72,67 +90,73 @@ const Order = () => {
       </div>
 
       {/* Data Table */}
-      <div className="overflow-x-auto">
-        <div className="w-full shadow-lg rounded-lg border border-gray-200">
-          <table className="w-full bg-white">
-            <thead className="bg-gray-50">
-              <tr className="text-left text-gray-600 text-xs sm:text-sm font-semibold">
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  ID
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Customer Name
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Phone Number
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Order Number
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Status
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Amount
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Delivery Address
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Payment Method
-                </th>
-                <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
-                  Payment Status
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item, index) => (
-                <tr
-                  key={item.id}
-                  className={`border-b ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-gray-100`}
-                >
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.id}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.category}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">
-                    {item.price.toFixed(2)}
-                  </td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">
-                    {item.price.toFixed(2)}
-                  </td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">{item.category}</td>
-                  <td className="py-2 sm:py-4 px-2 sm:px-6">
-                    {item.price.toFixed(2)}
-                  </td>
+      <div className="grid">
+        <div className="overflow-x-auto">
+          <div className="w-full shadow-lg rounded-xl">
+            <table className="w-full bg-white">
+              <thead className="bg-gray-50">
+                <tr className="text-left text-gray-600 text-xs sm:text-sm font-semibold">
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    ID
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Customer Name
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Phone Number
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Order Number
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Status
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Amount
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Delivery Address
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Payment Method
+                  </th>
+                  <th className="py-2 sm:py-4 px-2 sm:px-6 whitespace-nowrap">
+                    Payment Status
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentItems.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={`border-b ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
+                  >
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">{item.id}</td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">
+                      {item.category}
+                    </td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">
+                      {item.price.toFixed(2)}
+                    </td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">
+                      {item.price.toFixed(2)}
+                    </td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">{item.name}</td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">
+                      {item.category}
+                    </td>
+                    <td className="py-2 sm:py-4 px-2 sm:px-6">
+                      {item.price.toFixed(2)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 

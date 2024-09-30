@@ -7,7 +7,7 @@ import Image from "next/image";
 import Logo_Dark from "../../../public/images/homepage/logo-dark.png"
 // import DarkModeSwitcher from "./DarkModeSwitcher";
 // import DropdownMessage from "./DropdownMessage";
-// import DropdownNotification from "./DropdownNotification";
+import DropdownNotification from "./DropdownNotification";
 
 const Header = (
   props: {
@@ -62,7 +62,7 @@ const Header = (
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden dark:bg-white p-2 rounded-full" href="/">
+          <Link className="block flex-shrink-0 lg:hidden dark:bg-white p-2 rounded-full" href="/dashboard">
             <Image
               width={70}
               height={50}
@@ -83,7 +83,7 @@ const Header = (
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            {/* <DropdownNotification /> */}
+            <DropdownNotification />
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}

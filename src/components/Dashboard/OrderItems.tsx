@@ -24,14 +24,14 @@ const OrderItems = () => {
   const currentItems = filteredData.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
 
-  const handleItemsPerPageChange = (e) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // Reset to first page when items per page change
   };
@@ -67,36 +67,38 @@ const OrderItems = () => {
       </div>
 
       {/* Data Table */}
-      <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
-        <table className="min-w-full bg-white">
-          <thead className="bg-gray-50">
-            <tr className="text-left text-gray-600 text-sm font-semibold">
-              <th className="py-4 px-6">ID</th>
-              <th className="py-4 px-6">Customer Name</th>
-              <th className="py-4 px-6">Order Number</th>
-              <th className="py-4 px-6">Items</th>
-              <th className="py-4 px-6">Price</th>
-              <th className="py-4 px-6">Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((item, index) => (
-              <tr
-                key={item.id}
-                className={`border-b ${
-                  index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                } hover:bg-gray-100`}
-              >
-                <td className="py-4 px-6">{item.id}</td>
-                <td className="py-4 px-6">{item.name}</td>
-                <td className="py-4 px-6">{item.category}</td>
-                <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                <td className="py-4 px-6">{item.name}</td>
+      <div className="grid">
+        <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
+          <table className="min-w-full bg-white">
+            <thead className="bg-gray-50">
+              <tr className="text-left text-gray-600 text-sm font-semibold">
+                <th className="py-4 px-6">ID</th>
+                <th className="py-4 px-6">Customer Name</th>
+                <th className="py-4 px-6">Order Number</th>
+                <th className="py-4 px-6">Items</th>
+                <th className="py-4 px-6">Price</th>
+                <th className="py-4 px-6">Quantity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {currentItems.map((item, index) => (
+                <tr
+                  key={item.id}
+                  className={`border-b ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-100`}
+                >
+                  <td className="py-4 px-6">{item.id}</td>
+                  <td className="py-4 px-6">{item.name}</td>
+                  <td className="py-4 px-6">{item.category}</td>
+                  <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                  <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                  <td className="py-4 px-6">{item.name}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div className="flex gap-5 items-center md:justify-between">

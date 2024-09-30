@@ -42,12 +42,14 @@ export default function Partner() {
                 A platform for managing menus and taking orders, along with
                 tools to boost visibility and attract more customers.
               </p>
-              <button
-                type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl mt-5"
-              >
-                Join Now
-              </button>
+              <Link href="/vendor/register">
+                <button
+                  type="button"
+                  className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl mt-5"
+                >
+                  Join Now
+                </button>
+              </Link>
             </div>
           </div>
           <div className="shadow shadow-xl rounded-2xl  bg-white md:my-5 mb-20">

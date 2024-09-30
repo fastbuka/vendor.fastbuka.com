@@ -74,10 +74,10 @@ export default function Register() {
           className="img-fluid p-5 transition ease-in-out delay-150 hover:-translate-y-5 block md:hidden"
         />
         <h1 className="text-4xl font-bold md:tracking-wider md:text-center ms-3 mt-5">
-          Let's Get to know you!
+          Vendor Registeration
         </h1>
         <p className="text-lg md:tracking-wide md:text-center ms-3">
-          We'll help you set up an account in less than a minute
+          Become a Vendor, setup your account with this few steps
         </p>
         <form
           onSubmit={handleSubmit}
@@ -86,19 +86,19 @@ export default function Register() {
           <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 mt-5">
             <div className="mb-5">
               <label
-                htmlFor="name"
+                htmlFor="business_name"
                 className="block mb-2 text-lg font-medium text-gray-900"
               >
-                Full Name
+                Business Name
               </label>
               <input
                 type="text"
-                id="name"
-                name="name"
+                id="business_name"
+                name="business_name"
                 value={name}
                 onChange={(event) => setUserName(event.target?.value)}
                 className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
-                placeholder="Full Name"
+                placeholder="Business Name"
                 required
               />
             </div>
@@ -136,7 +136,9 @@ export default function Register() {
                   autoComplete="city-name"
                   className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                 >
-                  <option value="Delta">Delta</option>
+                  <option value="">Choose your City</option>
+                  <option value="Delta">Asaba</option>
+                  <option value="Delta">Warri</option>
                   <option value="Lagos">Lagos</option>
                   <option value="Abuja">Abuja</option>
                   <option value="Port Harcourt">Port Harcourt</option>
@@ -280,6 +282,12 @@ export default function Register() {
           >
             Register
           </button>
+          <p className="mt-3 tracking-wider">
+            Already has an Account?{" "}
+            <span className="font-bold">
+              <Link href="/auth/login">Login?</Link>
+            </span>
+          </p>
         </form>
       </div>
       <footer>
