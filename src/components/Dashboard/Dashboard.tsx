@@ -14,7 +14,7 @@ import ExchangeRate from "@/components/Charts/ExchargeRate";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
 import { useAppContext } from "@/utils/AuthProvider"
 
-const ECommerce: React.FC = () => {
+const Dashboard: React.FC = () => {
   const { user } = useAppContext(); 
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
@@ -209,4 +209,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default Category;
+export default Dashboard;

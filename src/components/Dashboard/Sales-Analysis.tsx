@@ -1,13 +1,6 @@
 "use client";
-import Turkey from "../../../public/images/turkey.jpg";
-import JellofRice from "../../../public/images/jollof1.jpg";
-import Drinks from "../../../public/images/drinks.jpg";
-import Link from "next/link";
-import Image from "next/image";
-import dynamic from "next/dynamic";
 import React from "react";
 import { useState } from "react";
-import CardDataStats from "../CardDataStats";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
 import ChartOne from "@/components/Charts/ChartOne";
 import ChartThree from "@/components/Charts/ChartThree";
