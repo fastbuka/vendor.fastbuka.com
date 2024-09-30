@@ -29,9 +29,10 @@ const OrderItems = () => {
     setCurrentPage(1);
   };
 
-  const paginate = (pageNumber:number) => setCurrentPage(pageNumber);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Correct the event type here to HTMLSelectElement
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // Reset to first page when items per page change
   };

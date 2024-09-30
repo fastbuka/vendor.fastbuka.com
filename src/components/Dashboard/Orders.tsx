@@ -36,7 +36,7 @@ const Order = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // Reset to first page when items per page change
   };
