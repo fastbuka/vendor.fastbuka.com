@@ -23,9 +23,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const cookies = parseCookies();
     const token = cookies.token; 
+    console.log("Token from cookies: ", token);
 
     if (token) {
-      setIsAuthenticated(true);
       const fetchUserDetails = async () => {
         try {
           const response = await fetch('/api/user');
@@ -34,6 +34,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
           const userData = await response.json();
           setUser(userData); 
+          setIsAuthenticated(true);
           console.log("User Data: ", userData);
         } catch (error) {
           console.error("Failed to fetch user:", error);
@@ -47,6 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else {
       setIsAuthenticated(false);
       window.location.href = '/auth/login';
+      console.log("No token found")
     }
   }, []);
 
