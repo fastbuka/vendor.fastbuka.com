@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 import React from "react";
 import CardDataStats from "../CardDataStats";
 
-const ECommerce: React.FC = () => {
+const Category: React.FC = () => {
   return (
     <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
@@ -62,4 +62,4 @@ const ECommerce: React.FC = () => {
   );
 };
 
-export default ECommerce;
+export default Category;

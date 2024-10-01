@@ -1,4 +1,4 @@
-import ECommerce from "@/components/Dashboard/All-Food";
+
 import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Sales from "@/components/Dashboard/Sales-Analysis";
@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <DefaultLayout>
       <Breadcrumb pageName="Sales Analysis" />
-        <Sales></Sales>
+        <Sales />
       </DefaultLayout>
     </>
   );

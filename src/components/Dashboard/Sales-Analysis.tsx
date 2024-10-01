@@ -8,9 +8,10 @@ import dynamic from "next/dynamic";
 import React from "react";
 import { useState } from "react";
 import CardDataStats from "../CardDataStats";
-import MonthlyOverview from "@/components/Charts/ChartTwo";
-import ChartOne from "@/components/Charts/ChartOne";
-import ChartThree from "@/components/Charts/ChartThree";
+const MonthlyOverview = dynamic(() => import("@/components/Charts/ChartTwo"), { ssr: false });
+const ChartOne = dynamic(() => import("@/components/Charts/ChartOne"), { ssr: false });
+const ChartThree = dynamic(() => import("@/components/Charts/ChartThree"), { ssr: false });
+
 
 const Sales: React.FC = () => {
   const data = [
