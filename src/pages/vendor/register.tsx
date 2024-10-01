@@ -138,7 +138,7 @@ export default function Register() {
                 >
                   <option value="">Choose your City</option>
                   <option value="Delta">Asaba</option>
-                  <option value="Delta">Warri</option>
+                  <option value="Warri">Warri</option>
                   <option value="Lagos">Lagos</option>
                   <option value="Abuja">Abuja</option>
                   <option value="Port Harcourt">Port Harcourt</option>
