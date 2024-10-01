@@ -47,7 +47,7 @@ export default function Login() {
       <div className="bg-[]"></div>
       <Image alt="" src={Section} className="img-fluid hidden md:block" />
       <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 items-center mt-5">
-        <div className="md:ms-32 ms-10 order-last md:order-1">
+        <div className="md:ms-32 mx-5 order-last md:order-1">
           <h1 className="text-4xl font-bold tracking-wider">Welcome Back!</h1>
           <p className="text-lg tracking-wide">Enter Login Details Below</p>
           <div className="login-form mt-5">
@@ -152,7 +152,7 @@ export default function Login() {
           <Image
             src={login}
             alt=""
-            className="img-fluid p-5 transition ease-in-out delay-150 hover:-translate-y-5"
+            className="img-fluid hidden md:block p-5 transition ease-in-out delay-150 hover:-translate-y-5"
           />
         </div>
       </div>
