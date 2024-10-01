@@ -33,7 +33,7 @@ export default function Login() {
 
       const data = await response.json()
 
-      const { token } = data;
+      const { tokena } = data;
 
       window.location.href = '/dashboard'
     } catch (err) {
