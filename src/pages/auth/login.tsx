@@ -142,7 +142,7 @@ export default function Login() {
               <p className="mt-3 tracking-wider">
                 Don't Have an Account
                 <span className="font-bold">
-                  <Link href="/auth/signup">Create Account?</Link>
+                  <Link href="/auth/register">Create Account?</Link>
                 </span>
               </p>
             </form>

@@ -34,7 +34,7 @@ const Navbar = () => {
                 </button>
               </Link>
 
-              <Link href="/auth/singup">
+              <Link href="/auth/register">
                 <button
                   type="button"
                   className="text-white bg-[#0a3a6b] border border-[#0a3a6b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
@@ -151,7 +151,7 @@ const Navbar = () => {
                   </button>
                 </Link>
 
-                <Link href="/auth/singup">
+                <Link href="/auth/register">
                   <button
                     type="button"
                     className="text-white bg-[#0a3a6b] border border-[#0a3a6b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"

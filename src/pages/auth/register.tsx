@@ -136,7 +136,9 @@ export default function Register() {
                   autoComplete="city-name"
                   className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
                 >
-                  <option value="Delta">Delta</option>
+                  <option value="">Choose your City</option>
+                  <option value="Asaba">Asaba</option>
+                  <option value="Warri">Warri</option>
                   <option value="Lagos">Lagos</option>
                   <option value="Abuja">Abuja</option>
                   <option value="Port Harcourt">Port Harcourt</option>
