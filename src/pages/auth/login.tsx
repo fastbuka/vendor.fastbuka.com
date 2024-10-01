@@ -33,7 +33,7 @@ export default function Login() {
 
       const data = await response.json()
 
-      localStorage.setItem('token', data.token)
+      const { token } = data;
 
       window.location.href = '/dashboard'
     } catch (err) {

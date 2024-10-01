@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <DefaultLayout>
       <Breadcrumb pageName="Sales Analysis" />
-        <Sales></Sales>
+        <Sales />
       </DefaultLayout>
     </>
   );
