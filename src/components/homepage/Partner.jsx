@@ -5,26 +5,26 @@ import handshake from "../../../public/images/homepage/handshake.png";
 
 export default function Partner() {
   return (
-    <div className="bg-[#f2f9ff]">
+    <div className="bg-[#f2f9ff]" id="waitlist">
       <div className="mt-10 ">
         <div className="flex justify-center">
           <Image src={handshake} alt="handshake" className="mt-10" />
         </div>
         <h1
           className="
-      text-[#0a3a6b] font-black md:text-4xl text-center text-4xl md:tracking-wider mb-10"
+      text-[#0a3a6b] font-black md:text-4xl text-center text-4xl mb-10"
         >
-          Work With Us
+          Get Involved with FastBuka – The Future of Food Delivery
         </h1>
       </div>
       <div className="container mx-auto md:pb-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:px-20 px-10">
-          <div className="shadow shadow-xl rounded-2xl  bg-white md:my-5">
+          <div className="rounded-2xl  bg-white md:my-5">
             <div className="p-5">
-              <h1 className="text-2xl text-center font-bold">Become a Rider</h1>
+              <h1 className="text-2xl text-center font-bold">Join as a User</h1>
               <p className="text-lg mt-3">
-                Experience flexibility, freedom, and competitive earnings by
-                delivering with Fastbuka.
+                Be the first to enjoy convenient food delivery once we launch
+                
               </p>
               <button
                 type="button"
@@ -40,8 +40,7 @@ export default function Partner() {
                 Become a Vendor
               </h1>
               <p className="text-lg mt-3">
-                A platform for managing menus and taking orders, along with
-                tools to boost visibility and attract more customers.
+                Sign up to grow your food business with FastBuka
               </p>
               <Link href="/vendor/register">
                 <button
@@ -53,14 +52,14 @@ export default function Partner() {
               </Link>
             </div>
           </div>
-          <div className="shadow shadow-xl rounded-2xl  bg-white md:my-5 mb-20">
+          <div className="rounded-2xl  bg-white md:my-5 mb-20">
             <div className="p-5">
               <h1 className="text-2xl text-center font-bold">
-                Become a Partner
+                Become a Delivery Agent
               </h1>
               <p className="text-lg mt-3">
-                Grow with Fastbuka! Our technology and user base can help you
-                boost sales and unlock new opportunities!
+                Join our delivery team and help bring delicious needs to
+                customers
               </p>
               <button
                 type="button"
