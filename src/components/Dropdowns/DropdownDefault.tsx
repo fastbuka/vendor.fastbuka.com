@@ -39,7 +39,7 @@ const DropdownDefault = () => {
         ref={trigger}
         onClick={() => setDropdownOpen(!dropdownOpen)}
       >
-        <svg
+        {/* <svg
           className="fill-current"
           width="18"
           height="18"
@@ -59,7 +59,7 @@ const DropdownDefault = () => {
             d="M15.75 11.25C16.9926 11.25 18 10.2426 18 9C18 7.75736 16.9926 6.75 15.75 6.75C14.5074 6.75 13.5 7.75736 13.5 9C13.5 10.2426 14.5074 11.25 15.75 11.25Z"
             fill=""
           />
-        </svg>
+        </svg> */}
       </button>
       <div
         ref={dropdown}
@@ -70,7 +70,7 @@ const DropdownDefault = () => {
         }`}
       >
         <button className="flex w-full items-center gap-2 rounded-sm px-4 py-1.5 text-left text-sm hover:bg-gray dark:hover:bg-meta-4">
-          <svg
+          {/* <svg
             className="fill-current"
             width="16"
             height="16"
@@ -89,11 +89,11 @@ const DropdownDefault = () => {
                 <rect width="16" height="16" fill="white" />
               </clipPath>
             </defs>
-          </svg>
+          </svg> */}
           Edit
         </button>
         <button className="flex w-full items-center gap-2 rounded-sm px-4 py-1.5 text-left text-sm hover:bg-gray dark:hover:bg-meta-4">
-          <svg
+          {/* <svg
             className="fill-current"
             width="16"
             height="16"
@@ -117,7 +117,7 @@ const DropdownDefault = () => {
               d="M5.97497 8.60004C5.67497 8.62504 5.42497 8.90004 5.44997 9.20004L5.62497 11.4C5.64997 11.7 5.89997 11.925 6.17497 11.925C6.19997 11.925 6.19997 11.925 6.22497 11.925C6.52497 11.9 6.77497 11.625 6.74997 11.325L6.57497 9.12504C6.57497 8.80004 6.29997 8.57504 5.97497 8.60004Z"
               fill=""
             />
-          </svg>
+          </svg> */}
           Delete
         </button>
       </div>

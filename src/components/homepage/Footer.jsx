@@ -14,7 +14,7 @@ export default function Footer() {
               Phone:+234 7026 000 076 <br />
               Email: info@fastbuka.com
             </p>
-            <div className="social-media flex items-center justify-start gap-2 flex-wrap my-4">
+            {/* <div className="social-media flex items-center justify-start gap-2 flex-wrap my-4">
               <Link
                 href="#"
                 className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#0a3a6b] "
@@ -89,7 +89,7 @@ export default function Footer() {
                   />
                 </svg>
               </Link>
-            </div>
+            </div> */}
             <p className="mt-3">
               © Copyright <span className="font-bold">FastBuka.</span> All Right
               Reserved

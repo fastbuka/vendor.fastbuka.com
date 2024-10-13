@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Vector1 from "../../../public/images/homepage/Vector1.png";
-import Vector2 from "../../../public/images/homepage/Vector2.png";
-import Vector3 from "../../../public/images/homepage/Vector3.png";
+import Vector1 from "../../../public/Vector1.png";
+import Vector2 from "../../../public/Vector2.png";
+import Vector3 from "../../../public/Vector3.png";
 
 export default function Hero() {
   return (
@@ -26,7 +26,7 @@ export default function Hero() {
           </h1>
           <p className="text-center md:text-xl text-lg mt-3">
             Experience the fastest way to order and deliver food with steller
-            blockchain technology. Join the FastBuka's revolution in food
+            blockchain technology. Join the FastBuka&apos;s revolution in food
             delivery and support locat food vendors
           </p>
 

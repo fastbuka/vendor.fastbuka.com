@@ -4,7 +4,7 @@ import { useState } from "react";
 import DropdownUser from "./DropdownUser";
 import Balance from "./Balance";
 import Image from "next/image";
-import Logo_Dark from "../../../public/images/homepage/logo-dark.png"
+import Logo_Dark from "../../../public/logo-dark.png"
 // import DarkModeSwitcher from "./DarkModeSwitcher";
 // import DropdownMessage from "./DropdownMessage";
 import DropdownNotification from "./DropdownNotification";

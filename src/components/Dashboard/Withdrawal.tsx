@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import Nigeria from "../../../public/images/nigeria2.png";
-import USDC from "../../../public/images/usdc.png";
-import XLM from "../../../public/images/xlm.png";
+import Nigeria from "../../../public/nigeria2.png";
+import USDC from "../../../public/usdc.png";
+import XLM from "../../../public/xlm.png";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import CardDataStats from "../CardDataStats";

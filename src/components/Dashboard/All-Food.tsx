@@ -1,10 +1,10 @@
 "use client";
-import Beef from "../../../public/images/beef.jpg";
-import Chicken from "../../../public/images/chicken1.jpg";
-import Turkey from "../../../public/images/turkey.jpg";
-import JellofRice from "../../../public/images/jollof1.jpg";
-import WhiteRice from "../../../public/images/white-rice.jpg";
-import FriedRice from "../../../public/images/friedrice.jpg";
+import Beef from "../../../public/beef.jpg";
+import Chicken from "../../../public/chicken1.jpg";
+import Turkey from "../../../public/turkey.jpg";
+import JellofRice from "../../../public/jollof1.jpg";
+import WhiteRice from "../../../public/white-rice.jpg";
+import FriedRice from "../../../public/friedrice.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
