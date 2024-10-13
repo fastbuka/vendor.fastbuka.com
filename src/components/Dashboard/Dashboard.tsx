@@ -4,18 +4,16 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Deposit from "../../../public/images/deposit.png";
-import Pay from "../../../public/images/pay.png";
-import Swap from "../../../public/images/swap.png";
-import Add from "../../../public/images/plus.png";
-import Order from "../../../public/images/order.png";
+import Deposit from "../../../public/deposit.png";
+import Pay from "../../../public/pay.png";
+import Swap from "../../../public/swap.png";
+import Add from "../../../public/plus.png";
+import Order from "../../../public/order.png";
 import CardDataStats from "../CardDataStats";
 import ExchangeRate from "@/components/Charts/ExchargeRate";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
-import { useAppContext } from "@/utils/AuthProvider"
 
-const Category: React.FC = () => {
-  const { user } = useAppContext(); 
+const Dashboard: React.FC = () => {
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
     { id: 2, name: "Pizza", category: "Food", price: 8.99 },
@@ -50,7 +48,9 @@ const Category: React.FC = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1); // Reset to first page when items per page change
   };
@@ -62,7 +62,9 @@ const Category: React.FC = () => {
 
   return (
     <>
-      <h1 className="font-bold text-black text-xl my-3">Hi, {user?.name} </h1>
+      <h1 className="font-bold text-black text-xl my-3">
+        Hi, Rodinia Kitchen{" "}
+      </h1>
       <div className="grid text-black grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href="/dashboard/vendor/withdrawal">
@@ -103,104 +105,106 @@ const Category: React.FC = () => {
         <ExchangeRate />
       </div>
 
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-6xl mx-auto p-1">
         <h1 className="text-xl text-black font-bold my-5">
           Transaction History
         </h1>
-        <div className="flex gap-5 items-center md:justify-between">
-          {/* Search Bar */}
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search for items..."
-              value={searchTerm}
-              onChange={handleSearchChange}
-              className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <div className="flex gap-5 items-center md:justify-between">
+            {/* Search Bar */}
+            <div className="mb-4">
+              <input
+                type="text"
+                placeholder="Search for items..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Entries per Page Dropdown */}
+            <div className="mb-4">
+              <label className="mr-2 text-gray-700">Entries per page:</label>
+              <select
+                value={itemsPerPage}
+                onChange={handleItemsPerPageChange}
+                className="p-2 border border-gray-300 rounded-lg bg-white"
+              >
+                <option value={5}>5</option>
+                <option value={10}>10</option>
+                <option value={15}>15</option>
+                <option value={20}>20</option>
+              </select>
+            </div>
           </div>
 
-          {/* Entries per Page Dropdown */}
-          <div className="mb-4">
-            <label className="mr-2 text-gray-700">Entries per page:</label>
-            <select
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-              className="p-2 border border-gray-300 rounded-lg bg-white"
-            >
-              <option value={5}>5</option>
-              <option value={10}>10</option>
-              <option value={15}>15</option>
-              <option value={20}>20</option>
-            </select>
-          </div>
-        </div>
-
-        {/* Data Table */}
-        <div className="grid">
-          <div className="overflow-x-hidden shadow-lg rounded-lg border border-gray-200">
-            <table className="min-w-full bg-white">
-              <thead className="bg-gray-50">
-                <tr className="text-left text-gray-600 text-sm font-semibold">
-                  <th className="py-4 px-6">ID</th>
-                  <th className="py-4 px-6">Customer Name</th>
-                  <th className="py-4 px-6">Phone Number</th>
-                  <th className="py-4 px-6">Order Number</th>
-                  <th className="py-4 px-6">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((item, index) => (
-                  <tr
-                    key={item.id}
-                    className={`border-b ${
-                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    } hover:bg-gray-100`}
-                  >
-                    <td className="py-4 px-6">{item.id}</td>
-                    <td className="py-4 px-6">{item.name}</td>
-                    <td className="py-4 px-6">{item.category}</td>
-                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+          {/* Data Table */}
+          <div className="grid">
+            <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
+              <table className="min-w-full bg-white">
+                <thead className="bg-gray-50">
+                  <tr className="text-left text-gray-600 text-sm font-semibold">
+                    <th className="py-4 px-6">ID</th>
+                    <th className="py-4 px-6">Customer Name</th>
+                    <th className="py-4 px-6">Order Number</th>
+                    <th className="py-4 px-6">Items</th>
+                    <th className="py-4 px-6">Price</th>
+                    <th className="py-4 px-6">Quantity</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div className="flex gap-5 items-center md:justify-between">
-          {/* Showing Entries Info */}
-          <div className="mt-4">
-            <p className="text-gray-700">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, filteredData.length)} of{" "}
-              {filteredData.length} entries
-            </p>
-          </div>
-
-          {/* Pagination */}
-          <div className="flex justify-center mt-6">
-            <nav>
-              <ul className="inline-flex items-center space-x-1">
-                {Array.from({ length: totalPages }, (_, index) => (
-                  <li key={index}>
-                    <button
-                      onClick={() => paginate(index + 1)}
-                      className={`px-4 py-2 rounded-lg border ${
-                        currentPage === index + 1
-                          ? "bg-blue-500 text-white"
-                          : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
-                      } shadow-md`}
+                </thead>
+                <tbody>
+                  {currentItems.map((item, index) => (
+                    <tr
+                      key={item.id}
+                      className={`border-b ${
+                        index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                      } hover:bg-gray-100`}
                     >
-                      {index + 1}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+                      <td className="py-4 px-6">{item.id}</td>
+                      <td className="py-4 px-6">{item.name}</td>
+                      <td className="py-4 px-6">{item.category}</td>
+                      <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                      <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                      <td className="py-4 px-6">{item.name}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="flex gap-5 items-center md:justify-between">
+            {/* Showing Entries Info */}
+            <div className="mt-4">
+              <p className="text-gray-700">
+                Showing {indexOfFirstItem + 1} to{" "}
+                {Math.min(indexOfLastItem, filteredData.length)} of{" "}
+                {filteredData.length} entries
+              </p>
+            </div>
+
+            {/* Pagination */}
+            <div className="flex justify-center mt-6">
+              <nav>
+                <ul className="inline-flex items-center space-x-1">
+                  {Array.from({ length: totalPages }, (_, index) => (
+                    <li key={index}>
+                      <button
+                        onClick={() => paginate(index + 1)}
+                        className={`px-4 py-2 rounded-lg border ${
+                          currentPage === index + 1
+                            ? "bg-blue-500 text-white"
+                            : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                        } shadow-md`}
+                      >
+                        {index + 1}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </div>
         </div>
-      </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-8"></div>
@@ -209,4 +213,4 @@ const Category: React.FC = () => {
   );
 };
 
-export default Category;
+export default Dashboard;

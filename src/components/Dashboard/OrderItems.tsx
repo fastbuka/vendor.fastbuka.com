@@ -38,7 +38,7 @@ const OrderItems = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl mx-auto p-1">
       <div className="flex gap-5 items-center md:justify-between">
         {/* Search Bar */}
         <div className="mb-4">
