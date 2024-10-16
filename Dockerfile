@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install --frozen-lockfile
+RUN npm ci --only=production
 
 # Copy the rest of your application code to the container
 COPY . .
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose the port that Next.js runs on
-EXPOSE 3003
+EXPOSE 3000
 
 # Start the Next.js app
 CMD ["npm", "run", "start"]

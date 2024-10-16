@@ -1,13 +1,14 @@
-version: '3'
+# version: '3'
 services:
-  web:
-    image: fastbuka-app
+  fastbuka-vendor:
     build:
       context: .
+      dockerfile: Dockerfile
+    image: fastbuka-vendor:1.0.0
+    container_name: fastbuka-vendor
+    restart: unless-stopped
     ports:
-      - "3003:3003"
+      - "3000:3000"
     environment:
       NODE_ENV: production
-    volumes:
-      - .:/app
     command: npm run start
