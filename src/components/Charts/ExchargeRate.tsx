@@ -51,7 +51,7 @@ const CryptoTable: React.FC = () => {
               <thead className="bg-gray-100">
                 <tr className="text-left text-gray-600 text-sm font-semibold">
                   <th className="py-4 px-6">Cryptocurrency</th>
-                  <th className="py-4 px-6">Symbol</th>
+                  {/* <th className="py-4 px-6">Symbol</th> */}
                   <th className="py-4 px-6">Current Price (USD)</th>
                   <th className="py-4 px-6">24h Change</th>
                 </tr>
@@ -62,14 +62,14 @@ const CryptoTable: React.FC = () => {
                     key={crypto.id}
                     className={`border-b ${index % 2 === 0 ? "bg-gray-50" : "bg-white"} hover:bg-gray-100`}
                   >
-                    <td className="py-4 px-6 flex items-center gap-2">
+                    {/* <td className="py-4 px-6 flex items-center gap-2">
                       <Image
                         src={crypto.image}
                         alt={crypto.name}
                         className="w-6 h-6 rounded-full"
                       />
                       {crypto.name}
-                    </td>
+                    </td> */}
                     <td className="py-4 px-6">{crypto.symbol.toUpperCase()}</td>
                     <td className="py-4 px-6">
                       ${crypto.current_price.toLocaleString()}
