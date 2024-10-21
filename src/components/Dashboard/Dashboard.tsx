@@ -10,8 +10,8 @@ import Swap from "../../../public/swap.png";
 import Add from "../../../public/plus.png";
 import Order from "../../../public/order.png";
 import CardDataStats from "../CardDataStats";
-import ExchangeRate from "@/components/Charts/ExchargeRate";
-import MonthlyOverview from "@/components/Charts/ChartTwo";
+import ExchangeRate from "../../components/Charts/ExchargeRate";
+import MonthlyOverview from "../../components/Charts/ChartTwo";
 
 const Dashboard: React.FC = () => {
   const data = [

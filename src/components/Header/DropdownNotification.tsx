@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Link from "next/link";
-import ClickOutside from "@/components/ClickOutside";
+import ClickOutside from "../../components/ClickOutside";
 import { IoMdNotificationsOutline } from "react-icons/io";
 
 const DropdownNotification = () => {

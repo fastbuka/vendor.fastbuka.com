@@ -1,8 +1,8 @@
 
 import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import Sales from "@/components/Dashboard/Sales-Analysis";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import DefaultLayout from "../../../../../components/Layouts/DefaultLayout";
+import Sales from "../../../../../components/Dashboard/Sales-Analysis";
+import Breadcrumb from "../../../../../components/Breadcrumbs/Breadcrumb";
 
 // export const metadata: Metadata = {
 //   title: "FastBuka | Dashboard",
