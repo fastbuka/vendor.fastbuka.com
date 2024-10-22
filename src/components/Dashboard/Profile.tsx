@@ -19,9 +19,9 @@ const Settings = () => {
 
       <div className="mt-5">
         <div className="col-span-5 xl:col-span-3">
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-            <div className="border-b border-stroke px-7 py-4 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">
+          <div className="rounded-sm border border-stroke bg-white shadow-default">
+            <div className="border-b border-stroke px-7 py-4">
+              <h3 className="font-medium text-black">
                 Personal Information
               </h3>
             </div>
@@ -30,7 +30,7 @@ const Settings = () => {
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full sm:w-1/2">
                     <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      className="mb-3 block text-sm font-medium text-black"
                       htmlFor="fullName"
                     >
                       Full Name
@@ -40,7 +40,7 @@ const Settings = () => {
                         <FaRegUserCircle />
                       </span>
                       <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none "
                         type="text"
                         name="fullName"
                         id="fullName"
@@ -53,13 +53,13 @@ const Settings = () => {
 
                   <div className="w-full sm:w-1/2">
                     <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      className="mb-3 block text-sm font-medium text-black"
                       htmlFor="phoneNumber"
                     >
                       Phone Number
                     </label>
                     <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none"
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
@@ -72,7 +72,7 @@ const Settings = () => {
 
                 <div className="mb-5.5">
                   <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    className="mb-3 block text-sm font-medium text-black"
                     htmlFor="emailAddress"
                   >
                     Email Address
@@ -82,7 +82,7 @@ const Settings = () => {
                       <BsEnvelopeAt />
                     </span>
                     <input
-                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none"
                       type="email"
                       name="emailAddress"
                       id="emailAddress"
@@ -95,13 +95,13 @@ const Settings = () => {
 
                 <div className="mb-5.5">
                   <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    className="mb-3 block text-sm font-medium text-black"
                     htmlFor="Username"
                   >
                     Username
                   </label>
                   <input
-                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none"
                     type="text"
                     name="Username"
                     id="Username"

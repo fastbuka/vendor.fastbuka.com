@@ -89,10 +89,10 @@ const ChartTwo: React.FC = () => {
   ];
 
   return (
-    <div className=" rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+    <div className=" rounded-sm border border-stroke bg-white p-7.5 shadow-default">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
+          <h4 className="text-xl font-semibold text-black">
             Monthly Overview
           </h4>
         </div>
@@ -103,13 +103,13 @@ const ChartTwo: React.FC = () => {
               id="#"
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
-              <option value="" className="dark:bg-boxdark">
+              <option value="" className="">
                 Today
               </option>
-              <option value="" className="dark:bg-boxdark">
+              <option value="" className="">
                 Last Week
               </option>
-              <option value="" className="dark:bg-boxdark">
+              <option value="" className="">
                 Last Month
               </option>
             </select>

@@ -72,13 +72,13 @@ const Sales: React.FC = () => {
           id="#"
           className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-3 text-md border rounded-full text-center font-medium outline-none m-2"
         >
-          <option value="" className="dark:bg-boxdark">
+          <option value="" className="">
             Today
           </option>
-          <option value="" className="dark:bg-boxdark">
+          <option value="" className="">
             Last Week
           </option>
-          <option value="" className="dark:bg-boxdark">
+          <option value="" className="">
             Last Month
           </option>
         </select>

@@ -13,9 +13,9 @@ const Settings = () => {
     <>
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
-          <div className="rounded-sm border border-stroke bg-white shadow-default dark:bg-boxdark">
+          <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="border-b border-stroke px-7 py-4">
-              <h3 className="font-medium text-black dark:text-white">
+              <h3 className="font-medium text-black">
                 Personal Information
               </h3>
             </div>
@@ -24,7 +24,7 @@ const Settings = () => {
                 <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                   <div className="w-full sm:w-1/2">
                     <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      className="mb-3 block text-sm font-medium text-black"
                       htmlFor="fullName"
                     >
                       Full Name
@@ -34,7 +34,7 @@ const Settings = () => {
                         <FaRegUserCircle />
                       </span>
                       <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none"
                         type="text"
                         name="fullName"
                         id="fullName"
@@ -46,13 +46,13 @@ const Settings = () => {
 
                   <div className="w-full sm:w-1/2">
                     <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
+                      className="mb-3 block text-sm font-medium text-black"
                       htmlFor="phoneNumber"
                     >
                       Phone Number
                     </label>
                     <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none "
                       type="text"
                       name="phoneNumber"
                       id="phoneNumber"
@@ -64,7 +64,7 @@ const Settings = () => {
 
                 <div className="mb-5.5">
                   <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    className="mb-3 block text-sm font-medium text-black"
                     htmlFor="emailAddress"
                   >
                     Email Address
@@ -74,7 +74,7 @@ const Settings = () => {
                       <BsEnvelopeAt />
                     </span>
                     <input
-                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none "
                       type="email"
                       name="emailAddress"
                       id="emailAddress"
@@ -86,13 +86,13 @@ const Settings = () => {
 
                 <div className="mb-5.5">
                   <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    className="mb-3 block text-sm font-medium text-black "
                     htmlFor="Username"
                   >
                     Username
                   </label>
                   <input
-                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none"
                     type="text"
                     name="Username"
                     id="Username"
@@ -103,7 +103,7 @@ const Settings = () => {
 
                 <div className="mb-5.5">
                   <label
-                    className="mb-3 block text-sm font-medium text-black dark:text-white"
+                    className="mb-3 block text-sm font-medium text-black "
                     htmlFor="Username"
                   >
                     BIO
@@ -114,7 +114,7 @@ const Settings = () => {
                     </span>
 
                     <textarea
-                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:bg-meta-4 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none"
                       name="bio"
                       id="bio"
                       rows={6}
@@ -126,7 +126,7 @@ const Settings = () => {
 
                 <div className="flex justify-end gap-4.5">
                   <button
-                    className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1 dark:text-white"
+                    className="flex justify-center rounded border border-stroke px-6 py-2 font-medium text-black hover:shadow-1"
                     type="submit"
                   >
                     Cancel
@@ -145,34 +145,34 @@ const Settings = () => {
         <div className="col-span-5 xl:col-span-2 bg-light">
           <div className="rounded-sm ">
             <div className="border-b border-stroke px-7 bg-white py-4">
-              <h3 className="font-medium text-black dark:text-white">
+              <h3 className="font-medium text-black">
                 Settings
               </h3>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black dark:text-white">
+                <h3 className="font-medium text-black">
                   Preference
                 </h3>
               </Link>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black dark:text-white">
+                <h3 className="font-medium text-black">
                   Help Center
                 </h3>
               </Link>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black dark:text-white">
+                <h3 className="font-medium text-black">
                   Provide FeedBack
                 </h3>
               </Link>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black dark:text-white">
+                <h3 className="font-medium text-black">
                   Vendor Support
                 </h3>
               </Link>
