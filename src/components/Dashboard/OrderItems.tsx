@@ -31,15 +31,15 @@ const OrderItems = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  // Correct the event type here to HTMLSelectElement
+
   const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1); // Reset to first page when items per page change
+    setCurrentPage(1);
   };
 
   return (
     <>
-    <div className="max-w-6xl mx-auto p-1">
+    <div className="max-w-6xl md:w-full mx-auto p-1">
       <div className="flex gap-5 items-center md:justify-between">
         {/* Search Bar */}
         <div className="mb-4">
@@ -52,7 +52,7 @@ const OrderItems = () => {
           />
         </div>
 
-        {/* Entries per Page Dropdown */}
+        {/*Data Per Page */}
         <div className="mb-4">
           <label className="mr-2 text-gray-700">Entries per page:</label>
           <select
@@ -70,8 +70,8 @@ const OrderItems = () => {
 
       {/* Data Table */}
       <div className="grid">
-        <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
-          <table className="min-w-full bg-white">
+        <div className="overflow-x-auto shadow-lg rounded-lg border border-[#333a48]">
+          <table className="min-w-full md:w-full bg-white rounded-lg">
             <thead className="bg-gray-50">
               <tr className="text-left text-gray-600 text-sm font-semibold">
                 <th className="py-4 px-6">ID</th>

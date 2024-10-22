@@ -41,13 +41,13 @@ const CryptoTable: React.FC = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto p-1">
+    <div className="max-w-6xl md:w-full mx-auto p-1">
       {loading ? (
         <p>Loading...</p>
       ) : (
         <div className="grid">
-          <div className="overflow-x-auto shadow-lg rounded-lg border border-gray-200">
-            <table className="min-w-full bg-white border border-gray-200 rounded-lg">
+          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#333a48]">
+            <table className="min-w-full md:w-full bg-white rounded-lg">
               <thead className="bg-gray-100">
                 <tr className="text-left text-gray-600 text-sm font-semibold">
                   <th className="py-4 px-6">Cryptocurrency</th>
