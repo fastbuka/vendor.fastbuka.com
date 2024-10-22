@@ -78,14 +78,14 @@ const SidebarWithFoodItems: React.FC = () => {
   };
 
   return (
-    <div className="flex">
+    <div className="md:flex ">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-800 text-white p-6">
+      <div className="w-64 bg-gray-800 text-white">
         <div className="sticky top-30">
-          <h2 className="text-2xl font-semibold mb-6 text-black">
+          <h2 className="text-lg font-semibold mb-6 text-black">
             Food Categories
           </h2>
-          <ul className="text-black text-xl">
+          <ul className="text-black text-md">
             {(Object.keys(foodData) as Array<FoodCategory>) // Cast the keys to FoodCategory[]
               .map((category) => (
                 <li key={category}>
@@ -104,8 +104,8 @@ const SidebarWithFoodItems: React.FC = () => {
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 p-8 bg-gray-100">
-        <h2 className="text-3xl font-semibold mb-6">
+      <div className="flex-1 bg-gray-100">
+        <h2 className="text-lg font-semibold mb-6">
           {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}{" "}
         </h2>
 
