@@ -13,7 +13,7 @@ import CardDataStats from "../CardDataStats";
 
 const Category: React.FC = () => {
   return (
-    <>  
+    <>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <Link href="#">
           <CardDataStats
@@ -22,54 +22,60 @@ const Category: React.FC = () => {
             rate="Category: Rice"
           >
             <Image
-            src={JellofRice}
-            alt="JellofRice"
-            className="img-fluid rounded-full object-cover h-10 w-30"/>
+              src={JellofRice}
+              alt="JellofRice"
+              className="img-fluid rounded-full object-cover h-10 w-30"
+            />
           </CardDataStats>
         </Link>
 
         <Link href="#">
           <CardDataStats total="Fried Rice" title="2,000" rate="Category: Rice">
-          <Image
-            src={FriedRice}
-            alt="JellofRice"
-            className="img-fluid rounded-full object-cover h-10 w-30"/>
+            <Image
+              src={FriedRice}
+              alt="JellofRice"
+              className="img-fluid rounded-full object-cover h-10 w-30"
+            />
           </CardDataStats>
         </Link>
 
         <Link href="#">
           <CardDataStats total="White Rice" title="2,000" rate="Category: Rice">
-          <Image
-            src={WhiteRice}
-            alt="JellofRice"
-            className="img-fluid rounded-full object-cover h-10 w-30"/>
+            <Image
+              src={WhiteRice}
+              alt="JellofRice"
+              className="img-fluid rounded-full object-cover h-10 w-30"
+            />
           </CardDataStats>
         </Link>
 
         <Link href="#">
           <CardDataStats total="Turkey" title="5,000" rate="Category: Meat">
             <Image
-            src={Turkey}
-            alt="JellofRice"
-            className="img-fluid rounded-full object-cover h-10 w-30"/>
+              src={Turkey}
+              alt="JellofRice"
+              className="img-fluid rounded-full object-cover h-10 w-30"
+            />
           </CardDataStats>
         </Link>
 
         <Link href="#">
           <CardDataStats total="Chicken" title="3,500" rate="Category: Meat">
-          <Image
-            src={Chicken}
-            alt="JellofRice"
-            className="img-fluid rounded-full object-cover h-10 w-30"/>
+            <Image
+              src={Chicken}
+              alt="JellofRice"
+              className="img-fluid rounded-full object-cover h-10 w-30"
+            />
           </CardDataStats>
         </Link>
 
         <Link href="#">
           <CardDataStats total="Beef" title="1,000" rate="Category: Meat">
-          <Image
-            src={Beef}
-            alt="JellofRice"
-            className="img-fluid rounded-full object-cover h-10 w-30"/>
+            <Image
+              src={Beef}
+              alt="JellofRice"
+              className="img-fluid rounded-full object-cover h-10 w-30"
+            />
           </CardDataStats>
         </Link>
       </div>

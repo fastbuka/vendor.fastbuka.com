@@ -7,10 +7,12 @@ import XLM from "../../../public/xlm.png";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import CardDataStats from "../CardDataStats";
+import CryptoRate from "../../components/Charts/CryptoRate";
 
 const Deposit: React.FC = () => {
   return (
     <>
+    <CryptoRate/>
       <h1>Choose Your Withdrawal Currency</h1>
 
       <div className="w-full mx-auto">

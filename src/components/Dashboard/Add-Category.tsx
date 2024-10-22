@@ -2,6 +2,7 @@ import React from 'react';
 
 const CategoryForm: React.FC = () => {
   return (
+    <>
     <form className="w-full max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-lg ">
       {/* Category Name (Text) */}
       <div className="mb-8">
@@ -41,6 +42,7 @@ const CategoryForm: React.FC = () => {
         </button>
       </div>
     </form>
+    </>
   );
 };
 

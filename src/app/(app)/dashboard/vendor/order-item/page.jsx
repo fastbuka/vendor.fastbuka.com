@@ -1,8 +1,8 @@
-
 import { Metadata } from "next";
 import DefaultLayout from "../../../../../components/Layouts/DefaultLayout";
 import OrderItem from "../../../../../components/Dashboard/OrderItems";
 import Breadcrumb from "../../../../../components/Breadcrumbs/Breadcrumb";
+import CryptoRate from "../../../../../components/Charts/CryptoRate";
 
 // export const metadata: Metadata = {
 //   title: "FastBuka | Dashboard",
@@ -11,8 +11,9 @@ import Breadcrumb from "../../../../../components/Breadcrumbs/Breadcrumb";
 export default function Home() {
   return (
     <>
-      <DefaultLayout>        
-      <Breadcrumb pageName="Ordered Item" />
+      <DefaultLayout>
+        <CryptoRate />
+        <Breadcrumb pageName="Ordered Item" />
         <OrderItem></OrderItem>
       </DefaultLayout>
     </>

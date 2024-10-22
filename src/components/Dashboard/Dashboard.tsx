@@ -12,6 +12,7 @@ import Order from "../../../public/order.png";
 import CardDataStats from "../CardDataStats";
 import ExchangeRate from "../../components/Charts/ExchargeRate";
 import MonthlyOverview from "../../components/Charts/ChartTwo";
+import CryptoRate from "../../components/Charts/CryptoRate";
 
 const Dashboard: React.FC = () => {
   const data = [
@@ -62,6 +63,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <>
+    <CryptoRate/>
       <h1 className="font-bold text-black text-xl my-3">
         Hi, Rodinia Kitchen{" "}
       </h1>
