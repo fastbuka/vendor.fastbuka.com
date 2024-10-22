@@ -1,12 +1,12 @@
 import { useState } from "react";
-import Navbar from "../components/Homepage/Navbar";
-import Hero from "../components/Homepage/Hero";
-import Hygienic from "../components/Homepage/Hygienic";
-import Services from "../components/Homepage/Services";
-import Partner from "../components/Homepage/Partner";
-import Sponser from "../components/Homepage/Sponser";
-import Faq from "../components/Homepage/Faq";
-import Footer from "../components/Homepage/Footer";
+import Navbar from "../components/homepage/Navbar";
+import Hero from "../components/homepage/Hero";
+import Hygienic from "../components/homepage/Hygienic";
+import Services from "../components/homepage/Services";
+import Partner from "../components/homepage/Partner";
+import Sponser from "../components/homepage/Sponser";
+import Faq from "../components/homepage/Faq";
+import Footer from "../components/homepage/Footer";
 
 const Index = () => {
   // const [isOpen, setIsOpen] = useState(false);
