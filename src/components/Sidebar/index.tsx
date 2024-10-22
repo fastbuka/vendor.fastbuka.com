@@ -89,7 +89,7 @@ const menuGroups = [
         icon: (
           <GiWallet />
         ),
-        label: "Withdrawal",
+        label: "Wallet",
         route: "/dashboard/vendor/withdrawal",
       },
 

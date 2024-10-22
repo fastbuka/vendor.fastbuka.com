@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "FastBuka",
 };
 
-const Settings = () => {
+const Profile = () => {
   return (
     <>
       <div className="flex justify-center">
@@ -128,4 +128,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Profile;

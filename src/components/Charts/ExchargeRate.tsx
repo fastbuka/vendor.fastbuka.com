@@ -41,7 +41,7 @@ const CryptoTable: React.FC = () => {
   }, []);
 
   return (
-    <div className="max-w-6xl md:w-full mx-auto p-1">
+    <div className="w-full">
       {loading ? (
         <p>Loading...</p>
       ) : (

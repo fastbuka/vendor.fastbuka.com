@@ -40,7 +40,7 @@ const CryptoRate: React.FC = () => {
   }, []);
 
   return (
-    <div className="bg-gray-800 text-black">
+    <div className="bg-gray-800 text-black grid ">
       {cryptoData ? (
         <Marquee speed={50} gradient={false}>
           <div className="flex gap-5">

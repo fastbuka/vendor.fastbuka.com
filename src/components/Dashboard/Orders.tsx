@@ -39,7 +39,7 @@ const Order = () => {
 
   return (
     <>
-    <div className="max-w-6xl md:w-full mx-auto p-1">
+    <div className="w-full">
       <div className="flex gap-5 items-center md:justify-between">
         {/* Search Bar */}
         <div className="mb-4">

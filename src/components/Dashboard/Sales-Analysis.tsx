@@ -135,7 +135,7 @@ const Sales: React.FC = () => {
           <h1 className="text-xl text-black font-bold my-5">
             Transaction History
           </h1>
-          <div className="max-w-6xl md:w-full mx-auto p-1">
+          <div className="md:w-full">
             <div className="flex gap-5 items-center md:justify-between">
               {/* Search Bar */}
               <div className="mb-4">

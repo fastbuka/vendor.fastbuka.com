@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
       <h1 className="font-bold text-black text-xl my-3">
         Hi, Rodinia Kitchen{" "}
       </h1>
-      <div className="grid text-black grid-cols-2 gap-4 md:grid-cols-4 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-4 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href="/dashboard/vendor/withdrawal">
             <div className="p-3">
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
           </Link>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="#">
+          <Link href="/dashboard/vendor/add-account">
             <div className="p-3">
               <Image src={Add} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
@@ -93,7 +93,7 @@ const Dashboard: React.FC = () => {
           </Link>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="#">
+          <Link href="/dashboard/vendor/deposit">
             <div className="p-3">
               <Image src={Deposit} alt="swap" />
               <h1 className="font-medium text-xl mt-1">Deposit</h1>
@@ -104,10 +104,10 @@ const Dashboard: React.FC = () => {
 
       <div className="grid md:grid-cols-2 gap-4 md:gap-6 2xl:gap-7.5 mt-5">
         <MonthlyOverview />
-        <ExchangeRate />
+        {/* <ExchangeRate /> */}
       </div>
 
-      <div className="max-w-6xl md:w-full mx-auto p-1">
+      <div className="w-full">
         <h1 className="text-xl text-black font-bold my-5">
           Transaction History
         </h1>
