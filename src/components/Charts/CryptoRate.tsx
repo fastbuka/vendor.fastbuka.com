@@ -1,5 +1,6 @@
-"use client"
+"use client";
 import React, { useEffect, useState } from "react";
+import Marquee from "react-fast-marquee";
 
 // Define the structure of our API response
 interface CryptoRate {
@@ -41,25 +42,13 @@ const CryptoRate: React.FC = () => {
   return (
     <div className="bg-gray-800 text-white">
       {cryptoData ? (
-        // <div className="overflow-hidden whitespace-nowrap">
-        //   <div className="marquee flex space-x-12 py-2">
-        //     <span>USDC: ${cryptoData.usdc.usd.toFixed(4)}</span>
-        //     <span>XLM: ${cryptoData.stellar.usd.toFixed(4)}</span>
-        //   </div>
-        // </div>
-        <marquee
-          behavior="scroll"
-          direction="left"
-          scrollamount="6"
-          className="text-black font-bold text-md"
-        >
+        <Marquee speed={50} gradient={false}>
           <div className="flex gap-5">
-
             <span>Current Exchange Rate</span>
             <span>USDC: ${cryptoData.usdc.usd.toFixed(4)}</span>
             <span>XLM: ${cryptoData.stellar.usd.toFixed(4)}</span>
           </div>
-        </marquee>
+        </Marquee>
       ) : (
         <p className="text-black">Loading crypto rates...</p>
       )}

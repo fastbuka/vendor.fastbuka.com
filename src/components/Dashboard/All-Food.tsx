@@ -5,7 +5,7 @@ import FoodImage from "../../../public/food_1.png";
 import Image from "next/image";
 
 // Define the type for the category keys
-type FoodCategory = 'appetizer' | 'main' | 'dessert' | 'drink';
+type FoodCategory = "appetizer" | "main" | "dessert" | "drink";
 
 // Sample data: categories and food items
 const foodData = {
@@ -69,7 +69,8 @@ const foodData = {
 
 const SidebarWithFoodItems: React.FC = () => {
   // State to track selected category
-  const [selectedCategory, setSelectedCategory] = useState<FoodCategory>("appetizer");
+  const [selectedCategory, setSelectedCategory] =
+    useState<FoodCategory>("appetizer");
 
   // Function to handle category selection
   const handleCategoryClick = (category: FoodCategory) => {
@@ -85,18 +86,19 @@ const SidebarWithFoodItems: React.FC = () => {
             Food Categories
           </h2>
           <ul className="text-black text-xl">
-            {Object.keys(foodData).map((category) => (
-              <li key={category}>
-                <button
-                  onClick={() => handleCategoryClick(category)}
-                  className={`block w-full text-left p-4 my-2 rounded-lg hover:bg-gray-700 ${
-                    selectedCategory === category ? "bg-gray-700" : ""
-                  }`}
-                >
-                  {category.charAt(0).toUpperCase() + category.slice(1)}
-                </button>
-              </li>
-            ))}
+            {(Object.keys(foodData) as Array<FoodCategory>) // Cast the keys to FoodCategory[]
+              .map((category) => (
+                <li key={category}>
+                  <button
+                    onClick={() => handleCategoryClick(category)}
+                    className={`block w-full text-left p-4 my-2 rounded-lg hover:bg-gray-700 ${
+                      selectedCategory === category ? "bg-gray-700" : ""
+                    }`}
+                  >
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                  </button>
+                </li>
+              ))}
           </ul>
         </div>
       </div>
