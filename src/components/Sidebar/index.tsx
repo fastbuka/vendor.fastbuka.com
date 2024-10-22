@@ -38,7 +38,7 @@ const menuGroups = [
         label: "Foods",
         route: "#",
         children: [
-          { label: "All Foods", route: "/dashboard/vendor/foods" },
+          { label: "Foods", route: "/dashboard/vendor/foods" },
           { label: "Add New Food", route: "/dashboard/vendor/foods/add-food" },
         ],
       },
@@ -48,7 +48,7 @@ const menuGroups = [
         label: "Food Categories",
         route: "#",
         children: [
-          { label: "All Food Category", route: "/dashboard/vendor/category" },
+          { label: "Food Category", route: "/dashboard/vendor/category" },
           {
             label: "Add New Category",
             route: "/dashboard/vendor/category/add-category",
