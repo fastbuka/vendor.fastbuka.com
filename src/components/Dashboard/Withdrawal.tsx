@@ -2,17 +2,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import Nigeria from "../../../public/nigeria2.png";
-import USDC from "../../../public/usdc.png";
-import XLM from "../../../public/xlm.png";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import CardDataStats from "../CardDataStats";
-import CryptoRate from "../../components/Charts/CryptoRate";
 
 const Deposit: React.FC = () => {
   return (
     <>
-    <CryptoRate/>
       <h1>Choose Your Withdrawal Currency</h1>
 
       <div className="w-full mx-auto">
