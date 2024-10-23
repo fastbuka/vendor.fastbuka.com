@@ -18,7 +18,7 @@ const CategoryForm: React.FC = () => {
   return (
     <>
       <div className="grid md:grid-cols-2 gap-10">
-        <form className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg ">
+        <form className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2">
           {/* Category Name (Text) */}
           <div className="mb-8">
             <label
@@ -64,7 +64,7 @@ const CategoryForm: React.FC = () => {
             </button>
           </div>
         </form>
-        <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-2 order-1">
           {/* Image Preview */}
           {imagePreview && (
             <div className="mb-8">

@@ -18,8 +18,8 @@ const FoodForm: React.FC = () => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-10">
-      <form className="w-fullmx-auto bg-white p-8 rounded-lg shadow-lg">
+    <div className="grid md:grid-cols-2 gap-10">
+      <form className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2">
         {/* Category (Dropdown) */}
         <div className="mb-8">
           <label
@@ -161,7 +161,7 @@ const FoodForm: React.FC = () => {
         </div>
       </form>
 
-      <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg">
+      <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-2 order-1">
         {/* Image Preview */}
         {imagePreview && (
           <div className="mb-8">
