@@ -22,7 +22,7 @@ export default function MySwiper() {
     <div className="mt-16">
       <h1
         className="
-      text-[#0a3a6b] font-black md:text-4xl text-center text-4xl md:tracking-wider md:ms-32"
+      text-[#3ab764] font-black md:text-4xl text-center text-4xl md:tracking-wider md:ms-32"
       >
         Nutritious Delights for <br />
         Every Craving
@@ -70,7 +70,7 @@ export default function MySwiper() {
               <h1 className="font-bold text-3xl">N8,500</h1>
               <button
                 type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
               >
                 Order Now
               </button>
@@ -94,7 +94,7 @@ export default function MySwiper() {
               <h1 className="font-bold text-3xl">N8,500</h1>
               <button
                 type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
               >
                 Order Now
               </button>
@@ -118,7 +118,7 @@ export default function MySwiper() {
               <h1 className="font-bold text-3xl">N8,500</h1>
               <button
                 type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
               >
                 Order Now
               </button>
@@ -142,7 +142,7 @@ export default function MySwiper() {
               <h1 className="font-bold text-3xl">N8,500</h1>
               <button
                 type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
               >
                 Order Now
               </button>
@@ -166,7 +166,7 @@ export default function MySwiper() {
               <h1 className="font-bold text-3xl">N8,500</h1>
               <button
                 type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
               >
                 Order Now
               </button>
@@ -190,7 +190,7 @@ export default function MySwiper() {
               <h1 className="font-bold text-3xl">N8,500</h1>
               <button
                 type="button"
-                className="text-white bg-[#0a3a6b] border border-[#0a3a6b] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
               >
                 Order Now
               </button>

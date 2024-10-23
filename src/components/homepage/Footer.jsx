@@ -17,7 +17,7 @@ export default function Footer() {
             {/* <div className="social-media flex items-center justify-start gap-2 flex-wrap my-4">
               <Link
                 href="#"
-                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#0a3a6b] "
+                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#3ab764] "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -34,7 +34,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="#"
-                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#0a3a6b] "
+                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#3ab764] "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -51,7 +51,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="#"
-                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#0a3a6b] "
+                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#3ab764] "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,7 +74,7 @@ export default function Footer() {
               </Link>
               <Link
                 href="#"
-                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#0a3a6b] "
+                className="p-2 rounded-full bg-[#2b2b2b] flex w-auto hover:bg-[#3ab764] "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -4,7 +4,7 @@ import Food_and_flower from "../../../public/Food_and_flower.png";
 
 export default function Hygienic() {
   return (
-    <div className="bg-[#0a3a6b] rounded-3xl mt-14 hygiene">
+    <div className="bg-[#3ab764] rounded-3xl mt-14 hygiene">
       {/* <div className="flex justify-center">
         <Image
           src={Food_and_flower}
@@ -51,7 +51,7 @@ export default function Hygienic() {
           </p>
           {/* <button
             type="button"
-            className="text-[#0a3a6b] bg-white border border-white font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-[#0a3a6b] hover:text-white duration-300 hover:drop-shadow-2xl mt-5"
+            className="text-[#3ab764] bg-white border border-white font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-[#3ab764] hover:text-white duration-300 hover:drop-shadow-2xl mt-5"
           >
             See Menu
           </button> */}

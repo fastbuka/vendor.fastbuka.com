@@ -30,7 +30,7 @@ const Navbar = () => {
               <Link href="/auth/login">
                 <button
                   type="button"
-                  className="text-white bg-[#0a3a6b] border border-[#0a3a6b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                  className="text-white bg-[#3ab764] border border-[#3ab764] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
                 >
                   Login
                 </button>
@@ -39,7 +39,7 @@ const Navbar = () => {
               <Link href="/auth/register">
                 <button
                   type="button"
-                  className="text-white bg-[#0a3a6b] border border-[#0a3a6b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                  className="text-white bg-[#3ab764] border border-[#3ab764] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
                 >
                   Register
                 </button>
@@ -53,7 +53,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="#"
-                    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-[#0a3a6b] md:p-0 font-semibold"
+                    className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-[#3ab764] md:p-0 font-semibold"
                     aria-current="page"
                   >
                     Home
@@ -62,7 +62,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="#"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#0a3a6b] md:p-0 font-semibold"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#3ab764] md:p-0 font-semibold"
                   >
                     About
                   </Link>
@@ -70,7 +70,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="#"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#0a3a6b] md:p-0 font-semibold"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#3ab764] md:p-0 font-semibold"
                   >
                     Services
                   </Link>
@@ -78,7 +78,7 @@ const Navbar = () => {
                 <li>
                   <Link
                     href="#"
-                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#0a3a6b] md:p-0 font-semibold"
+                    className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#3ab764] md:p-0 font-semibold"
                   >
                     Contact
                   </Link>
@@ -90,7 +90,7 @@ const Navbar = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-gray-800 hover:text-[#0a3a6b] focus:outline-none"
+                className="text-gray-800 hover:text-[#3ab764] focus:outline-none"
               >
                 {isOpen ? (
                   <HiX className="w-6 h-6" /> // Close icon when menu is open
@@ -134,7 +134,7 @@ const Navbar = () => {
                 <Link href="/auth/login">
                   <button
                     type="button"
-                    className="text-white bg-[#0a3a6b] border border-[#0a3a6b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center  drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl me-3"
+                    className="text-white bg-[#3ab764] border border-[#3ab764] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center  drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl me-3"
                   >
                     Login
                   </button>
@@ -143,7 +143,7 @@ const Navbar = () => {
                 <Link href="/auth/register">
                   <button
                     type="button"
-                    className="text-white bg-[#0a3a6b] border border-[#0a3a6b] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#0a3a6b] duration-300 hover:drop-shadow-2xl"
+                    className="text-white bg-[#3ab764] border border-[#3ab764] hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-semibold rounded-full text-sm px-4 py-2 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
                   >
                     Register
                   </button>
