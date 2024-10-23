@@ -54,7 +54,7 @@ const Wallet: React.FC = () => {
 
   return (
     <>
-      <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-4 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+      <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href="/dashboard/vendor/withdrawal">
             <div className="p-3">
@@ -76,14 +76,6 @@ const Wallet: React.FC = () => {
             <div className="p-3">
               <Image src={Order} alt="swap" />
               <h1 className="font-medium text-xl mt-1">Pending Orders</h1>
-            </div>
-          </Link>
-        </div>
-        <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/dashboard/vendor/deposit">
-            <div className="p-3">
-              <Image src={Deposit} alt="swap" />
-              <h1 className="font-medium text-xl mt-1">Deposit</h1>
             </div>
           </Link>
         </div>

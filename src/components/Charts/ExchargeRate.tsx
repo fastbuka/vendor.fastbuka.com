@@ -32,7 +32,7 @@ const CryptoTable: React.FC = () => {
         setCryptoData(response.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching crypto data:", error);
+        console.error("Error fetching exchange data:", error);
         setLoading(false);
       }
     };

@@ -15,7 +15,7 @@ interface CryptoData {
 const CryptoRate: React.FC = () => {
   const [cryptoData, setCryptoData] = useState<CryptoData | null>(null);
 
-  // Fetch crypto prices from CoinGecko API
+  // Fetch Exchange prices from CoinGecko API
   const fetchCryptoRates = async () => {
     try {
       const response = await fetch(
@@ -27,7 +27,7 @@ const CryptoRate: React.FC = () => {
         stellar: data["stellar"],
       });
     } catch (error) {
-      console.error("Error fetching crypto rates:", error);
+      console.error("Error fetching exchange rates:", error);
     }
   };
 
@@ -50,7 +50,7 @@ const CryptoRate: React.FC = () => {
           </div>
         </Marquee>
       ) : (
-        <p className="text-black">Loading crypto rates...</p>
+        <p className="text-black">Loading Exchange rates...</p>
       )}
     </div>
   );
