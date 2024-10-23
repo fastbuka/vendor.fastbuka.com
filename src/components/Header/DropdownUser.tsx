@@ -24,8 +24,8 @@ const DropdownUser = () => {
           {/* <span className="block text-xs">UX Designer</span> */}
         </span>
 
-        <span className="h-12 w-12 rounded-full">
-          <User size={50} className="border rounded-full" />
+        <span className="h-auto w-auto rounded-full">
+          <User className="border rounded-full" />
         </span>
 
         <BsChevronDown />
