@@ -3,84 +3,109 @@ import React, { useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import FoodImage from "../../../public/food_1.png";
 import Image from "next/image";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 // Define the type for the category keys
 type FoodCategory = "appetizer" | "main" | "dessert" | "drink";
 
+type FoodItem = {
+  id: number;
+  name: string;
+  price: number;
+  imageUrl: string | StaticImport;
+  description: string;
+  discount: number;
+};
+
 // Sample data: categories and food items
 const foodData = {
   appetizer: [
-    { id: 1, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage },
-    { id: 2, name: "Bruschetta", price: 7.99, imageUrl: FoodImage },
-    { id: 3, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage },
-    { id: 4, name: "Bruschetta", price: 7.99, imageUrl: FoodImage },
-    { id: 5, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage },
-    { id: 6, name: "Bruschetta", price: 7.99, imageUrl: FoodImage },
-    { id: 7, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage },
-    { id: 8, name: "Bruschetta", price: 7.99, imageUrl: FoodImage },
-    { id: 9, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage },
-    { id: 10, name: "Bruschetta", price: 7.99, imageUrl: FoodImage },
-    { id: 11, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage },
-    { id: 12, name: "Bruschetta", price: 7.99, imageUrl: FoodImage },
+    { id: 1, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 2, name: "Bruschetta", price: 7.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 3, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 4, name: "Bruschetta", price: 7.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 5, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 6, name: "Bruschetta", price: 7.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 7, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 8, name: "Bruschetta", price: 7.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 9, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 10, name: "Bruschetta", price: 7.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 11, name: "Spring Rolls", price: 5.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 12, name: "Bruschetta", price: 7.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
   ],
   main: [
-    { id: 13, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage },
-    { id: 14, name: "Beef Steak", price: 19.99, imageUrl: FoodImage },
-    { id: 15, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage },
-    { id: 16, name: "Beef Steak", price: 19.99, imageUrl: FoodImage },
-    { id: 17, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage },
-    { id: 18, name: "Beef Steak", price: 19.99, imageUrl: FoodImage },
-    { id: 19, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage },
-    { id: 20, name: "Beef Steak", price: 19.99, imageUrl: FoodImage },
-    { id: 21, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage },
-    { id: 22, name: "Beef Steak", price: 19.99, imageUrl: FoodImage },
-    { id: 23, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage },
-    { id: 24, name: "Beef Steak", price: 19.99, imageUrl: FoodImage },
+    { id: 13, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 14, name: "Beef Steak", price: 19.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 15, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 16, name: "Beef Steak", price: 19.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 17, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 18, name: "Beef Steak", price: 19.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 19, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 20, name: "Beef Steak", price: 19.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 21, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 22, name: "Beef Steak", price: 19.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 23, name: "Grilled Chicken", price: 12.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 24, name: "Beef Steak", price: 19.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
   ],
   dessert: [
-    { id: 25, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage },
-    { id: 26, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage },
-    { id: 27, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage },
-    { id: 28, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage },
-    { id: 29, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage },
-    { id: 30, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage },
-    { id: 31, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage },
-    { id: 32, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage },
-    { id: 33, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage },
-    { id: 34, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage },
-    { id: 35, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage },
-    { id: 36, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage },
+    { id: 25, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 26, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 27, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 28, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 29, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 30, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 31, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 32, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 33, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 34, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 35, name: "Chocolate Cake", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 36, name: "Ice Cream Sundae", price: 3.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
   ],
   drink: [
-    { id: 37, name: "Lemonade", price: 2.99, imageUrl: FoodImage },
-    { id: 38, name: "Cappuccino", price: 4.99, imageUrl: FoodImage },
-    { id: 39, name: "Lemonade", price: 2.99, imageUrl: FoodImage },
-    { id: 40, name: "Cappuccino", price: 4.99, imageUrl: FoodImage },
-    { id: 41, name: "Lemonade", price: 2.99, imageUrl: FoodImage },
-    { id: 42, name: "Cappuccino", price: 4.99, imageUrl: FoodImage },
-    { id: 43, name: "Lemonade", price: 2.99, imageUrl: FoodImage },
-    { id: 44, name: "Cappuccino", price: 4.99, imageUrl: FoodImage },
-    { id: 45, name: "Lemonade", price: 2.99, imageUrl: FoodImage },
-    { id: 46, name: "Cappuccino", price: 4.99, imageUrl: FoodImage },
-    { id: 47, name: "Lemonade", price: 2.99, imageUrl: FoodImage },
-    { id: 48, name: "Cappuccino", price: 4.99, imageUrl: FoodImage },
+    { id: 37, name: "Lemonade", price: 2.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 38, name: "Cappuccino", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 39, name: "Lemonade", price: 2.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 40, name: "Cappuccino", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 41, name: "Lemonade", price: 2.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 42, name: "Cappuccino", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 43, name: "Lemonade", price: 2.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 44, name: "Cappuccino", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 45, name: "Lemonade", price: 2.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 46, name: "Cappuccino", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 47, name: "Lemonade", price: 2.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
+    { id: 48, name: "Cappuccino", price: 4.99, imageUrl: FoodImage, description: "this is the decription of the food item", discount: 0.00},
   ],
 };
 
 const SidebarWithFoodItems: React.FC = () => {
-  // State to track selected category
   const [selectedCategory, setSelectedCategory] =
     useState<FoodCategory>("appetizer");
+
+  // State for modal visibility and selected food item
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
 
   // Function to handle category selection
   const handleCategoryClick = (category: FoodCategory) => {
     setSelectedCategory(category);
   };
 
+  // Function to open the modal and set the selected food
+  const handleViewDetails = (foodItem: FoodItem) => {
+    setSelectedFood(foodItem);
+    setIsModalOpen(true);
+  };
+
+  // Function to close the modal
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedFood(null);
+  };
+
   return (
-    <div className="md:flex ">
+    <div className="flex gap-3">
       {/* Sidebar */}
-      <div className="w-64 bg-gray-800 text-white">
+      <div className="bg-gray-800 text-white md:p-6">
         <div className="sticky top-30">
           <h2 className="text-lg font-semibold mb-6 text-black">
             Food Categories
@@ -104,21 +129,19 @@ const SidebarWithFoodItems: React.FC = () => {
       </div>
 
       {/* Main content area */}
-      <div className="flex-1 bg-gray-100">
-        <h2 className="text-lg font-semibold mb-6">
+      <div className="flex-1 md:p-8 bg-gray-100">
+        <h2 className="text-lg font-semibold mb-6 text-black flex flex-row-reverse">
           {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}{" "}
         </h2>
 
-        {/* Conditional check before rendering the items */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+        {/* Food Items */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
           {foodData[selectedCategory]?.length > 0 ? (
             foodData[selectedCategory].map((foodItem) => (
               <div
                 key={foodItem.id}
                 className="bg-white p-6 rounded-lg shadow-lg"
               >
-                {/* Food Name */}
-                <h3 className="text-xl font-semibold mb-2">{foodItem.name}</h3>
                 {/* Image */}
                 <Image
                   src={foodItem.imageUrl}
@@ -126,20 +149,26 @@ const SidebarWithFoodItems: React.FC = () => {
                   className="w-auto h-[100px] object-cover rounded-lg mb-4"
                 />
 
+                {/* Food Name */}
+                <h3 className="text-xl font-semibold mb-2">{foodItem.name}</h3>
+
                 {/* Price */}
                 <p className="text-lg text-gray-700 mb-4">
                   ${foodItem.price.toFixed(2)}
                 </p>
 
-                {/* Action Icons: Edit, View, Delete */}
+                {/* Action Icons: View, Edit, Delete */}
                 <div className="flex justify-between">
-                  <button className="text-blue-600 hover:text-blue-700">
+                  <button
+                    className="text-blue-600"
+                    onClick={() => handleViewDetails(foodItem)}
+                  >
                     <FaEye size={20} />
                   </button>
-                  <button className="text-green-600 hover:text-green-700">
+                  <button className="text-green-600">
                     <FaEdit size={20} />
                   </button>
-                  <button className="text-red-600 hover:text-red-700">
+                  <button className="text-[#dc2626]">
                     <FaTrash size={20} />
                   </button>
                 </div>
@@ -152,6 +181,56 @@ const SidebarWithFoodItems: React.FC = () => {
           )}
         </div>
       </div>
+
+      {/* Modal for viewing food details */}
+      {isModalOpen && selectedFood && (
+        <div className="fixed top-10 md:top-24 inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg mx-3 w-full">
+            {/* Close button */}
+            <button
+              className="relative left-[100%] text-[#dc2626] text-2xl"
+              onClick={handleCloseModal}
+            >
+              &times;
+            </button>
+
+            {/* Food Image */}
+            <Image
+                  src={selectedFood.imageUrl}
+                  alt={selectedFood.name}
+                  className="w-auto h-[100px] object-cover rounded-lg mb-4"
+                />
+
+            {/* Food Name */}
+            <h2 className="text-2xl font-semibold mb-2">{selectedFood.name}</h2>
+
+            {/* Description */}
+            <p className="text-lg text-gray-700 mb-4">
+              Description: {selectedFood.description}
+            </p>
+
+            {/* Price */}
+            <p className="text-md font-bold text-gray-900">
+              Price: ${selectedFood.price.toFixed(2)}
+            </p>
+
+            {/* Discount */}
+            <p className="text-md font-bold text-gray-900">
+              Discount: ${selectedFood.discount.toFixed(2)}
+            </p>
+
+            {/* Close button */}
+            <div className="mt-6 flex justify-end">
+              <button
+                className="bg-[#dc2626] text-white px-4 py-2 rounded-lg hover:bg-[#dc2626]"
+                onClick={handleCloseModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
