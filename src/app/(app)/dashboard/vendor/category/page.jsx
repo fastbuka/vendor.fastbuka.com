@@ -13,7 +13,7 @@ export default function Home() {
     <>
       <DefaultLayout>
         <CryptoRate />
-        <Breadcrumb pageName="Foods Categories" />
+        <Breadcrumb pageName="Items Categories" />
         <AllCategory></AllCategory>
       </DefaultLayout>
     </>

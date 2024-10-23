@@ -6,7 +6,7 @@ import XLM from "../../../public/xlm.png";
 
 const CurrencyForm = () => {
   // State to track selected currency
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("NGNC");
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("NGN");
 
   // Handle the change of the radio input
   const handleCurrencyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +22,8 @@ const CurrencyForm = () => {
             <input
               type="radio"
               name="currency"
-              value="NGNC"
-              checked={selectedCurrency === "NGNC"}
+              value="NGN"
+              checked={selectedCurrency === "NGN"}
               onChange={handleCurrencyChange}
               className="form-radio h-5 w-5 text-blue-600"
             />
@@ -37,7 +37,7 @@ const CurrencyForm = () => {
               />
               <div>
                 <span className="font-bold">Nigeria Naira</span> <br />
-                <span>NGNC</span>
+                <span>NGN</span>
               </div>
             </span>
           </label>
@@ -49,8 +49,8 @@ const CurrencyForm = () => {
             <input
               type="radio"
               name="currency"
-              value="XLM"
-              checked={selectedCurrency === "XLM"}
+              value="NGNC"
+              checked={selectedCurrency === "NGNC"}
               onChange={handleCurrencyChange}
               className="form-radio h-5 w-5 text-blue-600"
             />
@@ -64,7 +64,7 @@ const CurrencyForm = () => {
               />
               <div>
                 <span className="font-bold">Stellar</span> <br />
-                <span>XLM</span>
+                <span>NGNC</span>
               </div>
             </span>
           </label>
@@ -73,7 +73,7 @@ const CurrencyForm = () => {
 
       {/* Conditional Rendering of Forms based on Selected Currency */}
       <div className="mt-6">
-        {selectedCurrency === "NGNC" && (
+        {selectedCurrency === "NGN" && (
           <div className="p-4 bg-white shadow rounded-lg">
             {/* Nigeria Naira form content */}
             <h3 className="text-lg font-bold">Nigeria Naira Payment Form</h3>
@@ -153,7 +153,7 @@ const CurrencyForm = () => {
           </div>
         )}
 
-        {selectedCurrency === "XLM" && (
+        {selectedCurrency === "NGNC" && (
           <div className="p-4 bg-white shadow rounded-lg">
             {/* Stellar form content */}
             <h3 className="text-lg font-bold">Stellar Payment Form</h3>

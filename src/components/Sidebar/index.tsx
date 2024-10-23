@@ -35,7 +35,7 @@ const menuGroups = [
 
       {
         icon: <MdOutlineFoodBank />,
-        label: "Foods",
+        label: "Items",
         route: "#",
         children: [
           { label: "Foods", route: "/dashboard/vendor/foods" },
