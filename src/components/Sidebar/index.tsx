@@ -90,7 +90,7 @@ const menuGroups = [
           <GiWallet />
         ),
         label: "Wallet",
-        route: "/dashboard/vendor/withdrawal",
+        route: "/dashboard/vendor/wallet",
       },
 
       {
