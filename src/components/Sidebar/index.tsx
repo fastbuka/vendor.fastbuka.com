@@ -38,17 +38,17 @@ const menuGroups = [
         label: "Items",
         route: "#",
         children: [
-          { label: "Foods", route: "/dashboard/vendor/foods" },
-          { label: "Add New Food", route: "/dashboard/vendor/foods/add-food" },
+          { label: "Items", route: "/dashboard/vendor/foods" },
+          { label: "Add New Item", route: "/dashboard/vendor/foods/add-food" },
         ],
       },
 
       {
         icon: <BsCollection />,
-        label: "Food Categories",
+        label: "Item Categories",
         route: "#",
         children: [
-          { label: "Food Category", route: "/dashboard/vendor/category" },
+          { label: "Item Category", route: "/dashboard/vendor/category" },
           {
             label: "Add New Category",
             route: "/dashboard/vendor/category/add-category",
