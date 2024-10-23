@@ -72,7 +72,7 @@ const Header = (
           </Link>
         </div>
 
-        <div className="hidden sm:block">
+        <div className="hidden sm:block md:w-2/3">
           <Balance/>
         </div>
 
