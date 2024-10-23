@@ -46,7 +46,7 @@ const CryptoTable: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <div className="grid">
-          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#333a48]">
+          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
             <table className="min-w-full md:w-full bg-white rounded-lg">
               <thead className="bg-gray-100">
                 <tr className="text-left text-gray-600 text-sm font-semibold">
