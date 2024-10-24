@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import FoodImage from "../../../public/food_1.png";
+import FoodImage from "/public/food_1.png";
 import Image from "next/image";
 import Link from "next/link";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
@@ -502,7 +502,7 @@ const SidebarWithFoodItems: React.FC = () => {
                   >
                     <FaEye size={20} />
                   </button>
-                  <Link href={`/dashboard/vendor/foods/${foodItem.id}`}>
+                  <Link href={`/vendor/foods/${foodItem.id}`}>
                     <button className="text-green-600">
                       <FaEdit size={20} />
                     </button>

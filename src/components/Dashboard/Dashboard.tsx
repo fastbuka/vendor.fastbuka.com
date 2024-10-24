@@ -4,15 +4,15 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Deposit from "../../../public/deposit.png";
-import Pay from "../../../public/pay.png";
-import Swap from "../../../public/swap.png";
-import Add from "../../../public/plus.png";
-import Order from "../../../public/order.png";
-import CardDataStats from "../CardDataStats";
-import FoodAnalysis from "../../components/Charts/ChartThree";
-import MonthlyOverview from "../../components/Charts/ChartTwo";
-import CryptoRate from "../../components/Charts/CryptoRate";
+import Deposit from "/public/deposit.png";
+import Pay from "/public/pay.png";
+import Swap from "/public/swap.png";
+import Add from "/public/plus.png";
+import Order from "/public/order.png";
+import CardDataStats from "@/components/CardDataStats";
+import FoodAnalysis from "@/components/Charts/ChartThree";
+import MonthlyOverview from "@/components/Charts/ChartTwo";
+import CryptoRate from "@/components/Charts/CryptoRate";
 
 const Dashboard: React.FC = () => {
   const data = [
@@ -69,7 +69,7 @@ const Dashboard: React.FC = () => {
       </h1>
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/dashboard/vendor/withdrawal">
+          <Link href="/vendor/withdrawal">
             <div className="p-3">
               <Image src={Pay} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Withdrawal</h1>
@@ -77,7 +77,7 @@ const Dashboard: React.FC = () => {
           </Link>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/dashboard/vendor/add-account">
+          <Link href="/vendor/add-account">
             <div className="p-3">
               <Image src={Add} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
@@ -85,7 +85,7 @@ const Dashboard: React.FC = () => {
           </Link>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/dashboard/vendor/order">
+          <Link href="/vendor/order">
             <div className="p-3">
               <Image src={Order} alt="swap" />
               <h1 className="font-medium text-xl mt-1">Pending Orders</h1>

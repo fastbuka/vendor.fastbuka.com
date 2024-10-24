@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React from "react";
 import { useState } from "react";
-import DropdownUser from "./DropdownUser";
-import Balance from "./Balance";
+import DropdownUser from "@/components/Header/DropdownUser";
+import Balance from "@/components/Header/Balance";
 import Image from "next/image";
-import Logo_Dark from "../../../public/logo-dark.png"
+import Logo_Dark from "/public/logo-dark.png"
 // import DarkModeSwitcher from "./DarkModeSwitcher";
 // import DropdownMessage from "./DropdownMessage";
 import DropdownNotification from "./DropdownNotification";

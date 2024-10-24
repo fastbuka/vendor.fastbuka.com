@@ -1,12 +1,12 @@
 "use client";
-import Turkey from "../../../public/turkey.jpg";
-import JellofRice from "../../../public/jollof1.jpg";
-import Drinks from "../../../public/drinks.jpg";
+import Turkey from "/public/turkey.jpg";
+import JellofRice from "/public/jollof1.jpg";
+import Drinks from "/public/drinks.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import React from "react";
-import CardDataStats from "../CardDataStats";
+import CardDataStats from "@/components/CardDataStats";
 
 const FoodCategory = [
   {

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import handshake from "../../../public/handshake.png";
+import handshake from "/public/handshake.png";
 
 export default function Partner() {
   return (

@@ -1,8 +1,8 @@
 "use client";
 import { useState } from "react";
 import Image from "next/image";
-import Nigeria from "../../../public/nigeria2.png";
-import XLM from "../../../public/xlm.png";
+import Nigeria from "/public/nigeria2.png";
+import XLM from "/public/xlm.png";
 
 const AddAccount = () => {
   // State to track selected currency

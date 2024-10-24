@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Food_and_flower from "../../../public/Food_and_flower.png";
+import Food_and_flower from "/public/Food_and_flower.png";
 
 export default function Hygienic() {
   return (

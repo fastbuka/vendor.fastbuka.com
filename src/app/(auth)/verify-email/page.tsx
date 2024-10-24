@@ -2,11 +2,10 @@
 
 import Button from '@/components/Button';
 import Notify from '@/components/Notify';
-import { useAuth } from '@/hooks/auth';
+
 import { useState } from 'react';
 
 const Page: React.FC = () => {
-  const { logout, resendEmailVerification } = useAuth();
 
   const [status, setStatus] = useState({});
 
@@ -17,17 +16,17 @@ const Page: React.FC = () => {
       </div>
 
       <div className="mt-4 flex items-center justify-between">
-        <Button onClick={() => resendEmailVerification({ setStatus })}>
+        {/* <Button onClick={() => resendEmailVerification({ setStatus })}>
           Resend Verification Email
-        </Button>
+        </Button> */}
 
-        <button
+        {/* <button
           type="button"
           className="underline text-sm text-gray-600 hover:text-gray-900"
           onClick={() => logout({setStatus})}
         >
           Logout
-        </button>
+        </button> */}
       </div>
 
       <Notify status={status} />

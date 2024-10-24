@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* @import url("../../public/Pattern.png"); */
+/* @import url("/public/Pattern.png"); */
 
 :root {
   --background: #ffffff;
@@ -28,7 +28,7 @@ body {
 }
 
 .hygiene {
-  background-image: url("../../public/Pattern.png");
+  background-image: url("/public/Pattern.png");
   background-size: auto;
   background-repeat: no-repeat;
   background-color: #3ab764;

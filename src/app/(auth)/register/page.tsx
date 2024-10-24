@@ -2,9 +2,8 @@
 
 import { useState, FormEvent, ChangeEvent } from "react";
 import Link from "next/link";
-import login from "../../../../public/login.png";
-import Section from "../../../../public/Section.png";
-import { useAuth } from "@/hooks/auth";
+import login from "/public/login.png";
+import Section from "/public/Section.png";
 import { BiHide } from "react-icons/bi";
 import { BiShowAlt } from "react-icons/bi";
 import Image from "next/image";
@@ -20,7 +19,6 @@ interface Errors {
 }
 
 const Page: React.FC = () => {
-  const { register } = useAuth();
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [first_name, setUserFirstName] = useState<string>("");
   const [last_name, setUserLastName] = useState<string>("");
@@ -46,16 +44,16 @@ const Page: React.FC = () => {
   const submitForm = (event: FormEvent) => {
     event.preventDefault();
 
-    register({
-      first_name,
-      last_name,
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-      remember,
-      setErrors,
-      setStatus,
-    });
+    // register({
+    //   first_name,
+    //   last_name,
+    //   email,
+    //   password,
+    //   password_confirmation: passwordConfirmation,
+    //   remember,
+    //   setErrors,
+    //   setStatus,
+    // });
   };
 
   return (

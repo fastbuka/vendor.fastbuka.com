@@ -5,7 +5,6 @@ import Button from '@/components/Button';
 import Input from '@/components/Input';
 import InputError from '@/components/InputError';
 import Label from '@/components/Label';
-import { useAuth } from '@/hooks/auth';
 import { useSearchParams } from 'next/navigation';
 import Notify from '@/components/Notify';
 
@@ -18,7 +17,6 @@ interface Errors {
 const PasswordReset: React.FC = () => {
   const searchParams = useSearchParams();
 
-  const { resetPassword } = useAuth();
 
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -29,13 +27,13 @@ const PasswordReset: React.FC = () => {
   const submitForm = (event: FormEvent) => {
     event.preventDefault();
 
-    resetPassword({
-      email,
-      password,
-      password_confirmation: passwordConfirmation,
-      setErrors,
-      setStatus,
-    });
+    // resetPassword({
+    //   email,
+    //   password,
+    //   password_confirmation: passwordConfirmation,
+    //   setErrors,
+    //   setStatus,
+    // });
   };
 
   useEffect(() => {
