@@ -39,7 +39,7 @@ const DropdownUser = () => {
           <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5">
             <li>
               <Link
-                href="/dashboard/vendor/profile"
+                href="/vendor/profile"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <FaRegUserCircle />
@@ -48,7 +48,7 @@ const DropdownUser = () => {
             </li>
             <li>
               <Link
-                href="/dashboard/vendor/settings"
+                href="/vendor/settings"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
                 <TbSettingsCog/>

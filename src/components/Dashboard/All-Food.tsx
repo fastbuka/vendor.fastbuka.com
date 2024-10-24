@@ -502,7 +502,7 @@ const SidebarWithFoodItems: React.FC = () => {
                   >
                     <FaEye size={20} />
                   </button>
-                  <Link href={`/dashboard/vendor/foods/${foodItem.id}`}>
+                  <Link href={`/vendor/foods/${foodItem.id}`}>
                     <button className="text-green-600">
                       <FaEdit size={20} />
                     </button>

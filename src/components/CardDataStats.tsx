@@ -40,12 +40,12 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
       </div>
 
       <div className="flex justify-between mt-5">
-        <Link href={`/dashboard/vendor/foods/`}>
+        <Link href={`/vendor/foods/`}>
           <button className="text-blue-600">
             <CgMoreO size={20} />
           </button>
         </Link>
-        <Link href={`/dashboard/vendor/foods/${id}`}>
+        <Link href={`/vendor/foods/${id}`}>
           <button className="text-green-600">
             <FaEdit size={20} />
           </button>

@@ -38,8 +38,8 @@ const menuGroups = [
         label: "Items",
         route: "#",
         children: [
-          { label: "Items", route: "/dashboard/vendor/foods" },
-          { label: "Add New Item", route: "/dashboard/vendor/foods/add-food" },
+          { label: "Items", route: "/vendor/foods" },
+          { label: "Add New Item", route: "/vendor/foods/add-food" },
         ],
       },
 
@@ -48,10 +48,10 @@ const menuGroups = [
         label: "Item Categories",
         route: "#",
         children: [
-          { label: "Item Category", route: "/dashboard/vendor/category" },
+          { label: "Item Category", route: "/vendor/category" },
           {
             label: "Add New Category",
-            route: "/dashboard/vendor/category/add-category",
+            route: "/vendor/category/add-category",
           },
         ],
       },
@@ -61,7 +61,7 @@ const menuGroups = [
           <LiaCartArrowDownSolid />
         ),
         label: "Orders",
-        route: "/dashboard/vendor/order",
+        route: "/vendor/order",
       },
 
       {
@@ -69,7 +69,7 @@ const menuGroups = [
           <BsDiagram3 />
         ),
         label: "Ordered Items",
-        route: "/dashboard/vendor/order-item",
+        route: "/vendor/order-item",
       },
     ],
   },
@@ -82,7 +82,7 @@ const menuGroups = [
           <FaRegUserCircle />
         ),
         label: "Profile",
-        route: "/dashboard/vendor/profile",
+        route: "/vendor/profile",
       },
 
       {
@@ -90,7 +90,7 @@ const menuGroups = [
           <GiWallet />
         ),
         label: "Wallet",
-        route: "/dashboard/vendor/wallet",
+        route: "/vendor/wallet",
       },
 
       {
@@ -98,7 +98,7 @@ const menuGroups = [
           <TbSettingsCog />
         ),
         label: "Account Settings",
-        route: "/dashboard/vendor/settings",
+        route: "/vendor/settings",
       },
 
       {
@@ -106,7 +106,7 @@ const menuGroups = [
           <TbPresentationAnalytics />
         ),
         label: "Sales Analysis",
-        route: "/dashboard/vendor/sales",
+        route: "/vendor/sales",
       },
 
       {
