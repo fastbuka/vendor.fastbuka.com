@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import placeholderImage from "../../../public/Food_and_flower.png"
+import placeholderImage from "/public/Food_and_flower.png"
 
 const EditCategory: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);

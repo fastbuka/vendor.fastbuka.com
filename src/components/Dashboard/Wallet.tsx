@@ -3,12 +3,12 @@ import React from "react";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link"
-import ExchangeRate from "../../components/Charts/ExchargeRate"
-import Deposit from "../../../public/deposit.png";
-import Pay from "../../../public/pay.png";
-import Swap from "../../../public/swap.png";
-import Add from "../../../public/plus.png";
-import Order from "../../../public/order.png";
+import ExchangeRate from "@/components/Charts/ExchargeRate"
+import Deposit from "/public/deposit.png";
+import Pay from "/public/pay.png";
+import Swap from "/public/swap.png";
+import Add from "/public/plus.png";
+import Order from "/public/order.png";
 
 const Wallet: React.FC = () => {
   const data = [

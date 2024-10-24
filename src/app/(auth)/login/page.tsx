@@ -1,45 +1,45 @@
 "use client";
 
-import { FormEvent, useState, ChangeEvent } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/hooks/auth";
 import Image from "next/image";
-import Section from "../../../../public/Section.png";
-import LoginImg from "../../../../public/login.png";
+import Section from "/public/Section.png";
+import LoginImg from "/public/login.png";
 import { BiHide } from "react-icons/bi";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { useLogin } from "@/queries/auth";
 import { BiShowAlt } from "react-icons/bi";
-import toast, { Toaster } from "react-hot-toast";
-
-interface Errors {
-  email?: string[];
-  password?: string[];
-}
+import { useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const { login } = useAuth();
-  const [error, setError] = useState<string | null>(null);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [shouldRemember, setShouldRemember] = useState(true);
-  const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState({});
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { mutate: login } = useLogin();
+  const router = useRouter();
+  const [loginError, setLoginError] = useState<string | null>(null);
 
-  const submitForm = async (event: FormEvent) => {
-    event.preventDefault();
-
-    login({
-      email,
-      password,
-      remember: shouldRemember,
-      setErrors,
-      setStatus,
-    });
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    login(
+      { email, password },
+      {
+        onSuccess: () => {
+          router.push("/vendor/dashboard");
+        },
+        onError: () => {
+          setLoginError(
+            "Login failed. Please check your credentials and try again."
+          );
+        },
+      }
+    );
   };
 
   return (
@@ -54,8 +54,15 @@ const Login: React.FC = () => {
         <div className="md:ms-32 mx-5 order-last md:order-1">
           <h1 className="text-4xl font-bold tracking-wider">Welcome Back!</h1>
           <p className="text-lg tracking-wide">Enter Login Details Below</p>
+
+          {loginError && (
+            <Alert variant="destructive" className="mb-4">
+              <ExclamationTriangleIcon className="h-4 w-4" />
+              <AlertDescription>{loginError}</AlertDescription>
+            </Alert>
+          )}
           <div className="login-form mt-5">
-            <form onSubmit={submitForm} className="">
+            <form onSubmit={handleLogin} className="">
               <div className="mb-5">
                 <label
                   htmlFor="email"
@@ -92,9 +99,9 @@ const Login: React.FC = () => {
                   />
                   <button type="button" onClick={togglePasswordVisibility}>
                     {passwordVisible ? (
-                      <BiShowAlt size="26px"/>
+                      <BiShowAlt size="26px" />
                     ) : (
-                      <BiHide size="26px"/>
+                      <BiHide size="26px" />
                     )}
                   </button>
                 </div>
@@ -111,7 +118,6 @@ const Login: React.FC = () => {
               >
                 Login
               </button>
-              {error && <p className="text-red-500 mt-2">{error}</p>}
               <p className="mt-3 tracking-wider">
                 Don&apos;t Have an Account
                 <span className="font-bold">
@@ -134,7 +140,6 @@ const Login: React.FC = () => {
           FastBuka @ 2024 All Right Reserved
         </p>
       </footer>
-      <Toaster />
     </div>
   );
 };

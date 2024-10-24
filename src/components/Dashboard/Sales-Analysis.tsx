@@ -1,24 +1,23 @@
 "use client";
-import Turkey from "../../../public/turkey.jpg";
-import JellofRice from "../../../public/jollof1.jpg";
-import Drinks from "../../../public/drinks.jpg";
+import Turkey from "/public/turkey.jpg";
+import JellofRice from "/public/jollof1.jpg";
+import Drinks from "/public/drinks.jpg";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import React from "react";
 import { useState } from "react";
-import CardDataStats from "../CardDataStats";
 
 const MonthlyOverview = dynamic(
-  () => import("../../components/Charts/ChartTwo"),
+  () => import("@/components/Charts/ChartTwo"),
   {
     ssr: false,
   }
 );
-const ChartOne = dynamic(() => import("../../components/Charts/ChartOne"), {
+const ChartOne = dynamic(() => import("@/components/Charts/ChartOne"), {
   ssr: false,
 });
-const ChartThree = dynamic(() => import("../../components/Charts/ChartThree"), {
+const ChartThree = dynamic(() => import("@/components/Charts/ChartThree"), {
   ssr: false,
 });
 

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "../../../public/logo-dark.png";
+import Logo from "/public/logo-dark.png";
 import { HiMenu, HiX } from "react-icons/hi";
 
 const Navbar = () => {

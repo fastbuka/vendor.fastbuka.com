@@ -4,15 +4,15 @@ import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import Deposit from "../../../public/deposit.png";
-import Pay from "../../../public/pay.png";
-import Swap from "../../../public/swap.png";
-import Add from "../../../public/plus.png";
-import Order from "../../../public/order.png";
-import CardDataStats from "../CardDataStats";
-import FoodAnalysis from "../../components/Charts/ChartThree";
-import MonthlyOverview from "../../components/Charts/ChartTwo";
-import CryptoRate from "../../components/Charts/CryptoRate";
+import Deposit from "/public/deposit.png";
+import Pay from "/public/pay.png";
+import Swap from "/public/swap.png";
+import Add from "/public/plus.png";
+import Order from "/public/order.png";
+import CardDataStats from "@/components/CardDataStats";
+import FoodAnalysis from "@/components/Charts/ChartThree";
+import MonthlyOverview from "@/components/Charts/ChartTwo";
+import CryptoRate from "@/components/Charts/CryptoRate";
 
 const Dashboard: React.FC = () => {
   const data = [

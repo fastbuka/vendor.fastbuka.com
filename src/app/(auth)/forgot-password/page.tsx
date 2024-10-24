@@ -6,14 +6,13 @@ import Input from '@/components/Input';
 import InputError from '@/components/InputError';
 import Label from '@/components/Label';
 import Notify from '@/components/Notify';
-import { useAuth } from '@/hooks/auth';
+
 
 interface Errors {
   email?: string[];
 }
 
 const Page: React.FC = () => {
-  const { forgotPassword } = useAuth()
 
   const [email, setEmail] = useState<string>('');
   const [errors, setErrors] = useState<Errors>({});
@@ -22,7 +21,7 @@ const Page: React.FC = () => {
   const submitForm = (event: FormEvent) => {
     event.preventDefault();
 
-    forgotPassword({ email, setErrors, setStatus });
+    // forgotPassword({ email, setErrors, setStatus });
   };
 
   return (

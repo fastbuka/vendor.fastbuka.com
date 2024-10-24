@@ -1,9 +1,9 @@
 
 import { Metadata } from "next";
-import DefaultLayout from "../../../../../components/Layouts/DefaultLayout";
-import Settings from "../../../../../components/Dashboard/Settings";
-import Breadcrumb from "../../../../../components/Breadcrumbs/Breadcrumb";
-import CryptoRate from "../../../../../components/Charts/CryptoRate";
+import DefaultLayout from "@/components/Layouts/DefaultLayout";
+import Settings from "@/components/Dashboard/Settings";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import CryptoRate from "@/components/Charts/CryptoRate";
 
 // export const metadata: Metadata = {
 //   title: "FastBuka | Dashboard",

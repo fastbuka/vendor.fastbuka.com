@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import Link from "next/link";
-import ClickOutside from "../../components/ClickOutside";
+import ClickOutside from "@/components/ClickOutside";
 import { User } from "lucide-react";
 import { FaRegUserCircle } from "react-icons/fa";
 import { TbSettingsCog } from "react-icons/tb";
