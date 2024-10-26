@@ -20,6 +20,7 @@ interface Vendor {
   id: number;
   uuid: string;
   name: string;
+  slug: string;
   description: string;
   country: string;
   city: string;
@@ -79,13 +80,15 @@ const Home: React.FC = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 lg:max-w-3xl mx-auto">
           {vendors.length > 0 ? (
             vendors.map((vendor) => (
-              <VendorCard
-                key={vendor.id}
-                name={vendor.name}
-                description={vendor.description}
-                country={vendor.country}
-                city={vendor.city}
-              />
+              <Link href={"dashboard/" + vendor.slug}>
+                <VendorCard
+                  key={vendor.id}
+                  name={vendor.name}
+                  description={vendor.description}
+                  country={vendor.country}
+                  city={vendor.city}
+                />
+              </Link>
             ))
           ) : (
             <p>No vendors available</p>
@@ -95,7 +98,14 @@ const Home: React.FC = () => {
 
       <div className="text-center">
         Want to place an order Click{" "}
-        <Link className="text-black" target="_blank" href="https://www.fastbuka.com/"> here </Link>{" "}
+        <Link
+          className="text-black"
+          target="_blank"
+          href="https://www.fastbuka.com/"
+        >
+          {" "}
+          Here{" "}
+        </Link>{" "}
       </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
