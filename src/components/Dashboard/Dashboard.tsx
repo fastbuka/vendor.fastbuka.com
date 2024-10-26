@@ -1,18 +1,27 @@
 "use client";
-import dynamic from "next/dynamic";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { ShoppingBag, Wallet, AlertCircle } from "lucide-react";
+import { getDefaultFirstName } from "@/utils/defaults";
 import Link from "next/link";
 import Image from "next/image";
-import Deposit from "/public/deposit.png";
 import Pay from "/public/pay.png";
-import Swap from "/public/swap.png";
 import Add from "/public/plus.png";
 import Order from "/public/order.png";
-import CardDataStats from "@/components/CardDataStats";
 import FoodAnalysis from "@/components/Charts/ChartThree";
 import MonthlyOverview from "@/components/Charts/ChartTwo";
 import CryptoRate from "@/components/Charts/CryptoRate";
+
+interface UserProfile {
+  profile: {
+    first_name: string;
+    email: string;
+  };
+}
 
 const Dashboard: React.FC = () => {
   const data = [
@@ -56,16 +65,35 @@ const Dashboard: React.FC = () => {
     setCurrentPage(1);
   };
 
-  const [balance, setBalance] = useState(false);
-  const toggleBalance = () => {
-    setBalance(!balance);
+  // Check for token to authenticate
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    logout.mutate();
   };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <CryptoRate />
       <h1 className="font-bold text-black text-xl my-3">
-        Hi, Rodinia Kitchen{" "}
+        Welcome, {getDefaultFirstName(user.profile?.first_name)}
       </h1>
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">

@@ -12,8 +12,13 @@ interface LoginData {
 
 export interface RegisterData {
   name: string;
-  email: string;
-  password: string;
+  description: string;
+  country: string;
+  state: string;
+  city: string;
+  address: string;
+  opening_time: string;
+  closing_time: string;
 }
 // Modified to match the structure of the response form the API
 interface AuthResponse {
@@ -59,35 +64,37 @@ export function useLogin() {
     }
   );
 }
-export function useRegister() {
+export function useRegister() {  
   return useMutation<AuthResponse, Error, RegisterData>(
-    (data) =>
-      request(API_ENDPOINTS.REGISTER, {
+    (data) => {
+      // Fetch the "fastbuka_auth_token" from localStorage
+      const token = localStorage.getItem("fastbuka_auth_token");
+
+      return request(API_ENDPOINTS.REGISTER, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          token: `${token || ""}`,
+        },
         body: JSON.stringify(data),
-      }),
+      });
+    },
     {
       onError: (error: any) => {
         console.error("Registration failed", error);
         if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
           console.error(error.response.data);
           console.error(error.response.status);
           console.error(error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
           console.error(error.request);
         } else {
-          // Something happened in setting up the request that triggered an Error
           console.error("Error", error.message);
         }
       },
     }
   );
 }
-
 export function useVerifyToken() {
   const { logout } = useAuth(); // Use your existing auth context
 
@@ -133,7 +140,7 @@ export function useLogout(queryClient: QueryClient) {
       onSuccess: () => {
         clearToken();
         queryClient.clear(); // Clear all React Query caches
-        window.location.href = "/auth/login"; // Redirect to login page
+        window.location.href = "/login"; // Redirect to login page
       },
       onError: (error) => {
         console.error("Logout failed", error);
