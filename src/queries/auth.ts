@@ -64,7 +64,8 @@ export function useLogin() {
     }
   );
 }
-export function useRegister() {  
+
+export function useRegister() {
   return useMutation<AuthResponse, Error, RegisterData>(
     (data) => {
       // Fetch the "fastbuka_auth_token" from localStorage
@@ -95,6 +96,7 @@ export function useRegister() {
     }
   );
 }
+
 export function useVerifyToken() {
   const { logout } = useAuth(); // Use your existing auth context
 
@@ -148,4 +150,29 @@ export function useLogout(queryClient: QueryClient) {
       },
     }
   );
+}
+
+// Fetch the "fastbuka_auth_token" from localStorage
+const token = localStorage.getItem("fastbuka_auth_token");
+export async function allAccounts(token: string) {
+  try {
+    const response = await fetch(API_ENDPOINTS.ALL_ACCOUNTS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`, 
+        token: `${token || ""}`
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch vendors");
+    }
+
+    const data = await response.json();
+    return data.data.vendors; // Access the vendors array from the response
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+    throw error;
+  }
 }

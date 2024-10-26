@@ -62,7 +62,7 @@ const Header = (
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden p-2 rounded-full" href="/dashboard">
+          <Link className="block flex-shrink-0 lg:hidden p-2 rounded-full" href="/vendor/dashboard">
             <Image
               width={70}
               height={50}

@@ -4,6 +4,7 @@ export const API_ENDPOINTS = {
   REGISTER: "https://api.fastbuka.com/api/v1/vendor",
   VERIFY_TOKEN: "https://api.fastbuka.com/api/v1/auth/verify-token",
   LOGOUT: "https://api.fastbuka.com/api/v1/auth/logout",
+  ALL_ACCOUNTS: "https://api.fastbuka.com/api/v1/vendor",
   // Add other endpoints as needed
 };
 
