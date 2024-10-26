@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
-import { ShoppingBag, Wallet, AlertCircle } from "lucide-react";
 import { getDefaultFirstName } from "@/utils/defaults";
 import Link from "next/link";
 import Image from "next/image";

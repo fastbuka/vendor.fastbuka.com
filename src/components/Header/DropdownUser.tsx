@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { TbSettingsCog } from "react-icons/tb";
 import { BiLogOutCircle } from "react-icons/bi";
 import { BsChevronDown } from "react-icons/bs";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -53,6 +54,15 @@ const DropdownUser = () => {
               >
                 <TbSettingsCog/>
                 Account Settings
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/vendor/home"
+                className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+              >
+                <AiOutlineDashboard />
+                Account Center
               </Link>
             </li>
           </ul>
