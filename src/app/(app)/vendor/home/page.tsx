@@ -1,6 +1,6 @@
 import Homes from "@/components/Dashboard/Home";
 import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
+// import DefaultLayout from "@/components/Layouts/DefaultLayout";
 
 export const metadata: Metadata = {
   title: "FastBuka | Dashboard",
@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <>
-      <DefaultLayout>
+      {/* <DefaultLayout> */}
         {/* <Breadcrumb pageName="Dashboard" /> */}
         <Homes />
-      </DefaultLayout>
+      {/* </DefaultLayout> */}
     </>
   );
 }

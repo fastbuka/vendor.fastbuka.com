@@ -1,5 +1,7 @@
 "use client";
 import React from "react";
+import Link from "next/link";
+import VendorCard from "@/components/VendorCard";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { allAccounts, useLogout } from "@/queries/auth";
@@ -16,14 +18,11 @@ interface UserProfile {
 
 interface Vendor {
   id: number;
+  uuid: string;
   name: string;
   description: string;
   country: string;
-  state: string;
   city: string;
-  address: string;
-  opening_time: string;
-  closing_time: string;
   // Add other fields if needed
 }
 
@@ -72,29 +71,32 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <h1 className="font-bold text-black text-xl my-3">
+      <h1 className="font-bold text-black text-xl my-3 text-center">
         Welcome, {getDefaultFirstName(user.profile?.first_name)}
       </h1>
-
+      <h1 className="text-center">All Accounts</h1>
       <div>
-      <h1>Vendors</h1>
-      {vendors.length > 0 ? (
-        <ul>
-          {vendors.map((vendor) => (
-            <li key={vendor.id}>
-              <h3>{vendor.name}</h3>
-              <p>{vendor.description}</p>
-              <p>Location: {vendor.city}, {vendor.state}, {vendor.country}</p>
-              <p>Address: {vendor.address}</p>
-              <p>Opening Time: {vendor.opening_time}</p>
-              <p>Closing Time: {vendor.closing_time}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No vendors available</p>
-      )}
-    </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 lg:max-w-3xl mx-auto">
+          {vendors.length > 0 ? (
+            vendors.map((vendor) => (
+              <VendorCard
+                key={vendor.id}
+                name={vendor.name}
+                description={vendor.description}
+                country={vendor.country}
+                city={vendor.city}
+              />
+            ))
+          ) : (
+            <p>No vendors available</p>
+          )}
+        </div>
+      </div>
+
+      <div className="text-center">
+        Want to place an order Click{" "}
+        <Link className="text-black" target="_blank" href="https://www.fastbuka.com/"> here </Link>{" "}
+      </div>
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
         <div className="col-span-12 xl:col-span-8"></div>
