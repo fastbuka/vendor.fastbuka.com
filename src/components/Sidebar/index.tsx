@@ -17,6 +17,7 @@ import { GiWallet } from "react-icons/gi";
 import { TbSettingsCog } from "react-icons/tb";
 import { TbPresentationAnalytics } from "react-icons/tb";
 import { BiLogOutCircle } from "react-icons/bi";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -57,17 +58,13 @@ const menuGroups = [
       },
 
       {
-        icon: (
-          <LiaCartArrowDownSolid />
-        ),
+        icon: <LiaCartArrowDownSolid />,
         label: "Orders",
         route: "/vendor/order",
       },
 
       {
-        icon: (
-          <BsDiagram3 />
-        ),
+        icon: <BsDiagram3 />,
         label: "Ordered Items",
         route: "/vendor/order-item",
       },
@@ -78,41 +75,37 @@ const menuGroups = [
     name: "SETTINGS",
     menuItems: [
       {
-        icon: (
-          <FaRegUserCircle />
-        ),
+        icon: <FaRegUserCircle />,
         label: "Profile",
         route: "/vendor/profile",
       },
 
       {
-        icon: (
-          <GiWallet />
-        ),
+        icon: <GiWallet />,
         label: "Wallet",
         route: "/vendor/wallet",
       },
 
       {
-        icon: (
-          <TbSettingsCog />
-        ),
+        icon: <TbSettingsCog />,
         label: "Account Settings",
         route: "/vendor/settings",
       },
 
       {
-        icon: (
-          <TbPresentationAnalytics />
-        ),
+        icon: <AiOutlineDashboard />,
+        label: "Account Center",
+        route: "/vendor/home",
+      },
+
+      {
+        icon: <TbPresentationAnalytics />,
         label: "Sales Analysis",
         route: "/vendor/sales",
       },
 
       {
-        icon: (
-          <BiLogOutCircle />
-        ),
+        icon: <BiLogOutCircle />,
         label: "Logout",
         route: "#",
       },
