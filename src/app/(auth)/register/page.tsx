@@ -1,108 +1,145 @@
 "use client";
 
-import { useState, FormEvent, ChangeEvent } from "react";
-import Link from "next/link";
-import login from "/public/login.png";
+import { useState, FormEvent, useEffect } from "react";
 import Section from "/public/Section.png";
-import { BiHide } from "react-icons/bi";
-import { BiShowAlt } from "react-icons/bi";
 import Image from "next/image";
-import toast, { Toaster } from "react-hot-toast";
+import { useRouter } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { NIGERIA_STATE_WITH_CITY } from "@/constants";
+import { useRegister } from "@/queries/auth";
 
-interface Errors {
-  first_name?: string[];
-  last_name?: string[];
-  email?: string[];
-  phone_number?: string[];
-  password?: string[];
-  password_confirmation?: string[];
+interface UserProfile {
+  profile: {
+    first_name: string;
+  };
 }
 
-const Page: React.FC = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [first_name, setUserFirstName] = useState<string>("");
-  const [last_name, setUserLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [city, setCity] = useState("");
-  const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
-  const [remember, setRemember] = useState(true);
-  const [errors, setErrors] = useState<Errors>({});
-  const [status, setStatus] = useState({});
+const Register: React.FC = () => {
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [opening_time, setOpeningTime] = useState<string>("");
+  const [closing_time, setClosingTime] = useState<string>("");
+  const { mutate: register } = useRegister();
+  const router = useRouter();
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [state, setState] = useState<string>("");
+  const [city, setCity] = useState<string>("");
 
-  const togglePasswordVisibility = () => {
-    setPasswordVisible(!passwordVisible);
+  const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const state = event.target.value;
+    setState(state);
+    setCity(""); // Reset city when the state changes
   };
 
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
-
-  const toggleConfirmPasswordVisibility = () => {
-    setConfirmPasswordVisible(!confirmPasswordVisible);
+  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCity(event.target.value);
   };
+
+  // Check for token to authenticate
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    logout.mutate();
+  };
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  const cities =
+    NIGERIA_STATE_WITH_CITY.find((s) => s.state === state)?.city || [];
 
   const submitForm = (event: FormEvent) => {
     event.preventDefault();
-
-    // register({
-    //   first_name,
-    //   last_name,
-    //   email,
-    //   password,
-    //   password_confirmation: passwordConfirmation,
-    //   remember,
-    //   setErrors,
-    //   setStatus,
-    // });
+    register(
+      {
+        name,
+        description,
+        country,
+        state,
+        city,
+        address,
+        opening_time,
+        closing_time,
+      },
+      {
+        onSuccess: () => {
+          router.push("/vendor/dashboard");
+        },
+        onError: () => {
+          // setRegisterError(
+          //   "Registration failed. Please check your credentials and try again."
+          // );
+          console.log(
+            "name " + name,
+            "description " + description,
+            "country " + country,
+            "state " + state,
+            "city " + city,
+            "address " + address,
+            "opening_time " + opening_time,
+            "closing_time " + closing_time
+          );
+        },
+      }
+    );
   };
 
   return (
     <div>
       <div>
         <Image alt="" src={Section} className="img-fluid md:block" />
-        <h1 className="text-4xl font-bold md:tracking-wider md:text-center ms-3 mt-5">
-          Let&apos;s Get to know you!
-        </h1>
-        <p className="text-lg md:tracking-wide md:text-center ms-3">
+        <h1 className="text-3xl font-bold text-green-600 my-6 container mx-auto md:w-3/4 px-5">
           We&apos;ll help you set up an account in less than a minute
-        </p>
+        </h1>
+
+        {registerError && (
+          <Alert
+            variant="destructive"
+            className="mb-4 container mx-auto md:w-3/4 px-5"
+          >
+            <ExclamationTriangleIcon className="h-4 w-4" />
+            <AlertDescription>{registerError}</AlertDescription>
+          </Alert>
+        )}
+
         <form
           onSubmit={submitForm}
-          className="container mx-auto md:w-3/4 px-5 "
+          className="md:container mx-auto md:w-3/4 px-5 "
         >
           <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 mt-5">
             <div className="mb-5">
               <label
                 htmlFor="name"
-                className="block mb-2 text-lg font-medium text-gray-900"
+                className="block mb-2 text-lg font-medium text-[#000000]"
               >
-                First Name
+                Restaurant Name:
               </label>
               <input
                 type="text"
                 id="name"
                 name="name"
-                value={first_name}
-                onChange={(event) => setUserFirstName(event.target?.value)}
-                className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
-                placeholder="Full Name"
-                required
-              />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="name"
-                className="block mb-2 text-lg font-medium text-gray-900"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={last_name}
-                onChange={(event) => setUserLastName(event.target?.value)}
-                className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
+                value={name}
+                onChange={(event) => setName(event.target?.value)}
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
                 placeholder="Full Name"
                 required
               />
@@ -110,7 +147,7 @@ const Page: React.FC = () => {
             <div className="mb-5">
               <label
                 htmlFor="email"
-                className="block mb-2 text-lg font-medium text-gray-900"
+                className="block mb-2 text-lg font-medium text-[#000000]"
               >
                 Email Address
               </label>
@@ -118,9 +155,9 @@ const Page: React.FC = () => {
                 type="email"
                 id="email"
                 name="email"
-                value={email}
-                onChange={(event) => setEmail(event.target?.value)}
-                className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
+                value={description}
+                onChange={(event) => setDescription(event.target?.value)}
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
                 placeholder="name@gmail.com"
                 required
               />
@@ -128,95 +165,121 @@ const Page: React.FC = () => {
             <div className="mb-5">
               <label
                 htmlFor="city"
-                className="block mb-2 text-lg font-medium text-gray-900"
+                className="block mb-2 text-lg font-medium text-[#000000]"
               >
-                City
+                Country
               </label>
-              <div className="mt-2">
-                <select
-                  id="city"
-                  name="city"
-                  value={city}
-                  onChange={(event) => setCity(event.target?.value)}
-                  autoComplete="city-name"
-                  className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
-                >
-                  <option value="">Choose your City</option>
-                  <option value="Asaba">Asaba</option>
-                  <option value="Warri">Warri</option>
-                  <option value="Lagos">Lagos</option>
-                  <option value="Abuja">Abuja</option>
-                  <option value="Port Harcourt">Port Harcourt</option>
-                </select>
-              </div>
+              <select
+                id="city"
+                name="city"
+                value={country}
+                onChange={(event) => setCountry(event.target?.value)}
+                autoComplete="city-name"
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-gray-500"
+                required
+              >
+                <option value="">Choose your Country</option>
+                <option value="Nigeria">Nigeria</option>
+              </select>
+            </div>
+
+            <div className="mb-6">
+              <label
+                htmlFor="state"
+                className="block mb-2 text-lg font-semibold text-[#000000]"
+              >
+                Select State
+              </label>
+              <select
+                id="state"
+                value={state}
+                onChange={handleStateChange}
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
+              >
+                <option value="">Choose a state</option>
+                {NIGERIA_STATE_WITH_CITY.map((stateData) => (
+                  <option key={stateData.state} value={stateData.state}>
+                    {stateData.state}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* City Dropdown */}
+            <div className="mb-6">
+              <label
+                htmlFor="city"
+                className="block mb-2 text-lg font-semibold text-[#000000]"
+              >
+                Select City
+              </label>
+              <select
+                id="city"
+                value={city}
+                onChange={handleCityChange}
+                disabled={!state} // Disable if no state is selected
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
+              >
+                <option value="">Choose a city</option>
+                {cities.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="mb-5">
+              <label
+                htmlFor="email"
+                className="block mb-2 text-lg font-medium text-[#000000]"
+              >
+                Store Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={address}
+                onChange={(event) => setAddress(event.target?.value)}
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
+                placeholder="name@gmail.com"
+                required
+              />
             </div>
             <div className="mb-5">
               <label
                 htmlFor="phone"
-                className="block mb-2 text-lg font-medium text-gray-900"
+                className="block mb-2 text-lg font-medium text-[#000000]"
               >
-                Phone Number
+                Opening Time
               </label>
               <input
                 type="tel"
                 id="phone"
                 name="phone"
-                value={phone}
-                onChange={(event) => setPhone(event.target?.value)}
-                className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
+                value={opening_time}
+                onChange={(event) => setOpeningTime(event.target?.value)}
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
                 placeholder="Phone Number"
                 required
               />
             </div>
             <div className="mb-5">
               <label
-                htmlFor="password"
-                className="block mb-2 text-lg font-medium text-gray-900 flex justify-between"
+                htmlFor="phone"
+                className="block mb-2 text-lg font-medium text-[#000000]"
               >
-                Password
-                <button type="button" onClick={togglePasswordVisibility}>
-                  {passwordVisible ? (
-                    <BiShowAlt size="26px" />
-                  ) : (
-                    <BiHide size="26px" />
-                  )}
-                </button>
+                Closing Time
               </label>
               <input
-                type={passwordVisible ? "text" : "password"}
-                id="password"
-                name="password"
-                value={password}
-                onChange={(event) => setPassword(event.target?.value)}
-                className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
-                placeholder="Password"
-                required
-              />
-            </div>
-            <div className="mb-5">
-              <label
-                htmlFor="confirmpassword"
-                className="block mb-2 text-lg font-medium text-gray-900 flex justify-between"
-              >
-                Confirm Password
-                <button type="button" onClick={toggleConfirmPasswordVisibility}>
-                  {confirmPasswordVisible ? (
-                    <BiShowAlt size="26px" />
-                  ) : (
-                    <BiHide size="26px" />
-                  )}
-                </button>
-              </label>
-              <input
-                type={confirmPasswordVisible ? "text" : "password"}
-                id="confirmpassword"
-                name="confirmpassword"
-                value={passwordConfirmation}
-                onChange={(event) =>
-                  setPasswordConfirmation(event.target?.value)
-                }
-                className="bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-3 placeholder-gray-500"
-                placeholder="Confirm Password"
+                type="tel"
+                id="phone"
+                name="phone"
+                value={closing_time}
+                onChange={(event) => setClosingTime(event.target?.value)}
+                className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
+                placeholder="Phone Number"
                 required
               />
             </div>
@@ -238,4 +301,4 @@ const Page: React.FC = () => {
   );
 };
 
-export default Page;
+export default Register;

@@ -30,7 +30,7 @@ const menuGroups = [
       {
         icon: <RxDashboard />,
         label: "Dashboard",
-        route: "/dashboard",
+        route: "/vendor/dashboard",
       },
 
       {
