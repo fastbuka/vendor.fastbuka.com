@@ -80,9 +80,10 @@ const Home: React.FC = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 lg:max-w-3xl mx-auto">
           {vendors.length > 0 ? (
             vendors.map((vendor) => (
-              <Link href={"dashboard/" + vendor.slug}>
+              <Link href={"dashboard/" + vendor.slug} key={vendor.id}>
+                {" "}
+                {/* Apply the key here */}
                 <VendorCard
-                  key={vendor.id}
                   name={vendor.name}
                   description={vendor.description}
                   country={vendor.country}
