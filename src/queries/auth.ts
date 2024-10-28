@@ -69,7 +69,7 @@ export function useRegister() {
   return useMutation<AuthResponse, Error, RegisterData>(
     (data) => {
       // Fetch the "fastbuka_auth_token" from localStorage
-      const token = localStorage.getItem("fastbuka_auth_token");
+      const token = getTokenFromLocalStorage();
 
       return request(API_ENDPOINTS.REGISTER, {
         method: "POST",
@@ -95,6 +95,13 @@ export function useRegister() {
       },
     }
   );
+}
+
+function getTokenFromLocalStorage() {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem("fastbuka_auth_token");
+  }
+  return null;
 }
 
 export function useVerifyToken() {
