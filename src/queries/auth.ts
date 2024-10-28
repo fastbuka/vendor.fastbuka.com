@@ -160,14 +160,15 @@ export function useLogout(queryClient: QueryClient) {
 }
 
 // Fetch the "fastbuka_auth_token" from localStorage
-const token = localStorage.getItem("fastbuka_auth_token");
+const token = typeof window !== 'undefined' ? localStorage.getItem("fastbuka_auth_token") : null;
+
 export async function allAccounts(token: string) {
   try {
     const response = await fetch(API_ENDPOINTS.ALL_ACCOUNTS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, 
+        Authorization: `Bearer ${token}`,
         token: `${token || ""}`
       },
     });
