@@ -70,7 +70,7 @@ export function useRegister() {
   return useMutation<AuthResponse, Error, RegisterData>(
     (data) => {
       // Fetch the "fastbuka_auth_token" from localStorage
-      const token = localStorage.getItem("fastbuka_auth_token");
+      const token = getTokenFromLocalStorage();
 
       return request(API_ENDPOINTS.REGISTER, {
         method: "POST",
@@ -96,6 +96,13 @@ export function useRegister() {
       },
     }
   );
+}
+
+function getTokenFromLocalStorage() {
+  if (typeof window !== 'undefined') {
+    return localStorage.getItem("fastbuka_auth_token");
+  }
+  return null;
 }
 
 export function useVerifyToken() {
@@ -154,26 +161,27 @@ export function useLogout(queryClient: QueryClient) {
 }
 
 // Fetch the "fastbuka_auth_token" from localStorage
-// const token = localStorage.getItem("fastbuka_auth_token");
-// export async function allAccounts(token: string) {
-//   try {
-//     const response = await fetch(API_ENDPOINTS.ALL_ACCOUNTS, {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`, 
-//         token: `${token || ""}`
-//       },
-//     });
+const token = typeof window !== 'undefined' ? localStorage.getItem("fastbuka_auth_token") : null;
+
+export async function allAccounts(token: string) {
+  try {
+    const response = await fetch(API_ENDPOINTS.ALL_ACCOUNTS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+        token: `${token || ""}`
+      },
+    });
 
 //     if (!response.ok) {
 //       throw new Error("Failed to fetch vendors");
 //     }
 
-//     const data = await response.json();
-//     return data.data.vendors; // Access the vendors array from the response
-//   } catch (error) {
-//     console.error("Error fetching vendors:", error);
-//     throw error;
-//   }
-// }
+    const data = await response.json();
+    return data.data.vendors; // Access the vendors array from the response
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+    throw error;
+  }
+}

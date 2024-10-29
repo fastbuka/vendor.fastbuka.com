@@ -1,5 +1,3 @@
-"use client"
-import { Metadata } from "next";
 import DefaultLayout from "@/components/Layouts/DefaultLayout";
 import Orders from "@/components/Dashboard/Orders";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
