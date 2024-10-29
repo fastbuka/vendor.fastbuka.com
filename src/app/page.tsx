@@ -30,7 +30,7 @@ const Login: React.FC = () => {
       { email, password },
       {
         onSuccess: () => {
-          router.push("/vendor/dashboard");
+          router.push("/vendor/home");
         },
         onError: () => {
           setLoginError(

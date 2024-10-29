@@ -4,7 +4,7 @@ import Link from "next/link";
 import VendorCard from "@/components/VendorCard";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { allAccounts, useLogout } from "@/queries/auth";
+import {  useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getDefaultFirstName } from "@/utils/defaults";
@@ -47,18 +47,18 @@ const Home: React.FC = () => {
       setUser(userData as UserProfile);
 
       // Use a function expression instead of a declaration
-      const fetchData = async () => {
-        try {
-          const vendorsData = await allAccounts(token);
-          setVendors(vendorsData);
-        } catch (err) {
-          setError("Failed to fetch vendors data");
-        } finally {
-          setLoading(false);
-        }
-      };
+      // const fetchData = async () => {
+      //   try {
+      //     const vendorsData = await allAccounts(token);
+      //     setVendors(vendorsData);
+      //   } catch (err) {
+      //     setError("Failed to fetch vendors data");
+      //   } finally {
+      //     setLoading(false);
+      //   }
+      // };
 
-      fetchData();
+      // fetchData();
     }
   }, [router]);
 

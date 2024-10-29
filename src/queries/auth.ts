@@ -1,3 +1,4 @@
+"use client"
 import { useMutation, useQuery, QueryClient } from "react-query";
 import { useRouter } from "next/navigation";
 import { API_ENDPOINTS } from "@/constants";
@@ -47,7 +48,7 @@ export function useLogin() {
           if (res.data.user) {
             setUser(res.data.user);
             // Navigate to user dashboard after setting user data
-            router.push("/vendor/dashboard");
+            router.push("/vendor/home");
           } else {
             console.warn(
               "User data is null or undefined, not setting in localStorage"
@@ -173,9 +174,9 @@ export async function allAccounts(token: string) {
       },
     });
 
-    if (!response.ok) {
-      throw new Error("Failed to fetch vendors");
-    }
+//     if (!response.ok) {
+//       throw new Error("Failed to fetch vendors");
+//     }
 
     const data = await response.json();
     return data.data.vendors; // Access the vendors array from the response
