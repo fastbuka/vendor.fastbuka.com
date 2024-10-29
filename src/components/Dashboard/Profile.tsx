@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "/public/logo-dark.png";
@@ -5,9 +6,6 @@ import { Metadata } from "next";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BsEnvelopeAt } from "react-icons/bs";
 
-export const metadata: Metadata = {
-  title: "FastBuka",
-};
 
 const Profile = () => {
   return (

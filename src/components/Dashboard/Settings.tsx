@@ -1,12 +1,10 @@
+"use client"
 import Link from "next/link";
 import { Metadata } from "next";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BsEnvelopeAt } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
 
-export const metadata: Metadata = {
-  title: "FastBuka",
-};
 
 const Settings = () => {
   return (
