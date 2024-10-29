@@ -82,7 +82,7 @@ const Register: React.FC = () => {
       },
       {
         onSuccess: () => {
-          router.push("/vendor/dashboard");
+          router.push("/vendor/home");
         },
         onError: () => {
           // setRegisterError(

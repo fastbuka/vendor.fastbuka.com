@@ -48,7 +48,7 @@ export function useLogin() {
           if (res.data.user) {
             setUser(res.data.user);
             // Navigate to user dashboard after setting user data
-            router.push("/vendor/dashboard");
+            router.push("/vendor/home");
           } else {
             console.warn(
               "User data is null or undefined, not setting in localStorage"
