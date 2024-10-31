@@ -70,3 +70,25 @@ export const clearUser = (): void => {
     localStorage.removeItem(USER_KEY);
   }
 };
+
+// /utils/api.ts
+
+export const API_ENDPOINTS = {
+  VENDOR_BY_SLUG: (slug: string) => `https://api.fastbuka.com/api/v1/vendor/${slug}`, // Adjust this based on your actual API structure
+};
+
+export async function getVendorBySlug(slug: string) {
+  const response = await fetch(API_ENDPOINTS.VENDOR_BY_SLUG(slug), {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      // Add any other headers you need, e.g., Authorization
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch vendor data");
+  }
+
+  return await response.json(); // Adjust based on your API response structure
+}
