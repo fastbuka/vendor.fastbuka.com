@@ -15,16 +15,20 @@ const VendorCard: React.FC<VendorCardProps> = ({
   city,
 }) => {
   return (
-      <div style={cardStyle}>
-        <h2>{name}</h2>
-        <p>{description}</p>
-        <p>
-          <strong>Country:</strong> {country}
-        </p>
-        <p>
-          <strong>City:</strong> {city}
-        </p>
-      </div>
+    <div style={cardStyle}>
+      <h2>
+        <strong>Name:</strong> {name}
+      </h2>
+      <p>
+        <strong>Description:</strong> {description}
+      </p>
+      <p>
+        <strong>Country:</strong> {country}
+      </p>
+      <p>
+        <strong>City:</strong> {city}
+      </p>
+    </div>
   );
 };
 
