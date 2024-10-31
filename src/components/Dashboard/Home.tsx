@@ -77,7 +77,7 @@ const Home: React.FC = () => {
       </h1>
       <h1 className="text-center">All Accounts</h1>
       <div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 lg:max-w-3xl mx-auto">
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 lg:max-w-3xl mx-auto">
           {vendors.length > 0 ? (
             vendors.map((vendor) => (
               <Link href={"dashboard/" + vendor.slug} key={vendor.id}>
@@ -98,7 +98,18 @@ const Home: React.FC = () => {
       </div>
 
       <div className="text-center">
-        Want to place an order Click{" "}
+        Want to add a new vendor account? Click{" "}
+        <Link
+          className="text-black"
+          target="_blank"
+          href="https://vendor.fastbuka.com/register"
+        >
+          {" "}
+          Here{" "}
+        </Link>{" "}
+      </div>
+      <div className="text-center">
+        Want to place an order? Click{" "}
         <Link
           className="text-black"
           target="_blank"
@@ -106,6 +117,16 @@ const Home: React.FC = () => {
         >
           {" "}
           Here{" "}
+        </Link>{" "}
+      </div>
+      <div className="text-center">
+        <Link
+          className="text-[#f61855]"
+          target="_blank"
+          href="https://www.fastbuka.com/"
+        >
+          {" "}
+          Logout{" "}
         </Link>{" "}
       </div>
 

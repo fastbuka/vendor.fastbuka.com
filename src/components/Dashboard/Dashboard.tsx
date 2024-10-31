@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
@@ -22,7 +22,21 @@ interface UserProfile {
   };
 }
 
-const Dashboard: React.FC = () => {
+interface Vendor {
+  id: number;
+  uuid: string;
+  name: string;
+  slug: string;
+  description: string;
+  country: string;
+  city: string;
+  // Add other fields if needed
+}
+// /app/vendors/[slug]/page.tsx
+
+import { getVendorBySlug } from "@/utils/token"; // Adjust the import based on where you keep your API functions
+
+const VendorDashboard = () => {
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
     { id: 2, name: "Pizza", category: "Food", price: 8.99 },
@@ -70,6 +84,29 @@ const Dashboard: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const token = getToken();
     const userData = getUser();
@@ -78,15 +115,19 @@ const Dashboard: React.FC = () => {
     } else {
       setUser(userData as UserProfile);
     }
-  }, [router]);
 
-  const handleLogout = () => {
-    logout.mutate();
-  };
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
 
   if (!user) {
     return <div>Loading...</div>;
   }
+
+  if (loading) return <div>Loading vendor details...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!vendor) return <div>No vendor found</div>;
 
   return (
     <>
@@ -94,6 +135,17 @@ const Dashboard: React.FC = () => {
       <h1 className="font-bold text-black text-xl my-3">
         Welcome, {getDefaultFirstName(user.profile?.first_name)}
       </h1>
+      <div>
+        <h1>{vendor.name}</h1>
+        <p>Description: {vendor.description}</p>
+        <p>
+          Location: {vendor.city}, {vendor.state}, {vendor.country}
+        </p>
+        <p>Address: {vendor.address}</p>
+        <p>Opening Time: {vendor.opening_time}</p>
+        <p>Closing Time: {vendor.closing_time}</p>
+        {/* Add more fields as necessary */}
+      </div>
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href="/vendor/withdrawal">
@@ -238,4 +290,4 @@ const Dashboard: React.FC = () => {
   );
 };
 
-export default Dashboard;
+export default VendorDashboard;
