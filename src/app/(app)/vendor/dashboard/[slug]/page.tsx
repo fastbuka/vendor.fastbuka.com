@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        {/* <Breadcrumb pageName="Dashboard" /> */}
+        <Breadcrumb pageName="Dashboard" />
         <Dashboard />
       </DefaultLayout>
     </>
