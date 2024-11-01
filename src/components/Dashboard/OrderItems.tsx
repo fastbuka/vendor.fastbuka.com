@@ -1,5 +1,28 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { getVendorBySlug } from "@/utils/token";
+
+interface UserProfile {
+  profile: {
+    first_name: string;
+    email: string;
+  };
+}
+
+interface Vendor {
+  id: number;
+  uuid: string;
+  name: string;
+  slug: string;
+  description: string;
+  country: string;
+  city: string;
+  // Add other fields if needed
+}
 
 const OrderItems = () => {
   const data = [
@@ -31,111 +54,161 @@ const OrderItems = () => {
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-
-  const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setItemsPerPage(Number(e.target.value));
     setCurrentPage(1);
   };
 
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!vendor) return null;
+
   return (
     <>
-    <div className="w-full">
-      <div className="flex gap-5 items-center md:justify-between">
-        {/* Search Bar */}
-        <div className="mb-4">
-          <input
-            type="text"
-            placeholder="Search......"
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+      <div className="w-full">
+        <div className="flex gap-5 items-center md:justify-between">
+          {/* Search Bar */}
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search......"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          {/*Data Per Page */}
+          <div className="mb-4">
+            <label className="mr-2 text-gray-700">Entries per page:</label>
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              className="p-2 border border-gray-300 rounded-lg bg-white"
+            >
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={15}>15</option>
+              <option value={20}>20</option>
+            </select>
+          </div>
         </div>
 
-        {/*Data Per Page */}
-        <div className="mb-4">
-          <label className="mr-2 text-gray-700">Entries per page:</label>
-          <select
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-            className="p-2 border border-gray-300 rounded-lg bg-white"
-          >
-            <option value={5}>5</option>
-            <option value={10}>10</option>
-            <option value={15}>15</option>
-            <option value={20}>20</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Data Table */}
-      <div className="grid">
-        <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
-          <table className="min-w-full md:w-full bg-white rounded-lg">
-            <thead className="bg-gray-50">
-              <tr className="text-left text-gray-600 text-sm font-semibold">
-                <th className="py-4 px-6">ID</th>
-                <th className="py-4 px-6">Customer Name</th>
-                <th className="py-4 px-6">Order Number</th>
-                <th className="py-4 px-6">Items</th>
-                <th className="py-4 px-6">Price</th>
-                <th className="py-4 px-6">Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item, index) => (
-                <tr
-                  key={item.id}
-                  className={`border-b ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  } hover:bg-gray-100`}
-                >
-                  <td className="py-4 px-6">{item.id}</td>
-                  <td className="py-4 px-6">{item.name}</td>
-                  <td className="py-4 px-6">{item.category}</td>
-                  <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                  <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                  <td className="py-4 px-6">{item.name}</td>
+        {/* Data Table */}
+        <div className="grid">
+          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
+            <table className="min-w-full md:w-full bg-white rounded-lg">
+              <thead className="bg-gray-50">
+                <tr className="text-left text-gray-600 text-sm font-semibold">
+                  <th className="py-4 px-6">ID</th>
+                  <th className="py-4 px-6">Customer Name</th>
+                  <th className="py-4 px-6">Order Number</th>
+                  <th className="py-4 px-6">Items</th>
+                  <th className="py-4 px-6">Price</th>
+                  <th className="py-4 px-6">Quantity</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="flex gap-5 items-center md:justify-between">
-        {/* Showing Entries Info */}
-        <div className="mt-4">
-          <p className="text-gray-700">
-            Showing {indexOfFirstItem + 1} to{" "}
-            {Math.min(indexOfLastItem, filteredData.length)} of{" "}
-            {filteredData.length} entries
-          </p>
-        </div>
-
-        {/* Pagination */}
-        <div className="flex justify-center mt-6">
-          <nav>
-            <ul className="inline-flex items-center space-x-1">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <li key={index}>
-                  <button
-                    onClick={() => paginate(index + 1)}
-                    className={`px-4 py-2 rounded-lg border ${
-                      currentPage === index + 1
-                        ? "bg-blue-500 text-white"
-                        : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
-                    } shadow-md`}
+              </thead>
+              <tbody>
+                {currentItems.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={`border-b ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
                   >
-                    {index + 1}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </nav>
+                    <td className="py-4 px-6">{item.id}</td>
+                    <td className="py-4 px-6">{item.name}</td>
+                    <td className="py-4 px-6">{item.category}</td>
+                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
+                    <td className="py-4 px-6">{item.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="flex gap-5 items-center md:justify-between">
+          {/* Showing Entries Info */}
+          <div className="mt-4">
+            <p className="text-gray-700">
+              Showing {indexOfFirstItem + 1} to{" "}
+              {Math.min(indexOfLastItem, filteredData.length)} of{" "}
+              {filteredData.length} entries
+            </p>
+          </div>
+
+          {/* Pagination */}
+          <div className="flex justify-center mt-6">
+            <nav>
+              <ul className="inline-flex items-center space-x-1">
+                {Array.from({ length: totalPages }, (_, index) => (
+                  <li key={index}>
+                    <button
+                      onClick={() => paginate(index + 1)}
+                      className={`px-4 py-2 rounded-lg border ${
+                        currentPage === index + 1
+                          ? "bg-blue-500 text-white"
+                          : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                      } shadow-md`}
+                    >
+                      {index + 1}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

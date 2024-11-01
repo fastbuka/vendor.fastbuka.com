@@ -1,21 +1,91 @@
-"use client"
+"use client";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Metadata } from "next";
 import { FaRegUserCircle } from "react-icons/fa";
 import { BsEnvelopeAt } from "react-icons/bs";
 import { AiFillEdit } from "react-icons/ai";
+import { useRouter, useParams } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { getVendorBySlug } from "@/utils/token";
 
+interface UserProfile {
+  profile: {
+    first_name: string;
+    email: string;
+  };
+}
+
+interface Vendor {
+  id: number;
+  uuid: string;
+  name: string;
+  slug: string;
+  description: string;
+  country: string;
+  city: string;
+  // Add other fields if needed
+}
 
 const Settings = () => {
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!vendor) return null;
+
   return (
     <>
       <div className="grid grid-cols-5 gap-8">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="border-b border-stroke px-7 py-4">
-              <h3 className="font-medium text-black">
-                Personal Information
-              </h3>
+              <h3 className="font-medium text-black">Personal Information</h3>
             </div>
             <div className="p-7">
               <form action="#">
@@ -143,36 +213,26 @@ const Settings = () => {
         <div className="col-span-5 xl:col-span-2 bg-light">
           <div className="rounded-sm ">
             <div className="border-b border-stroke px-7 bg-white py-4">
-              <h3 className="font-medium text-black">
-                Settings
-              </h3>
+              <h3 className="font-medium text-black">Settings</h3>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black">
-                  Preference
-                </h3>
+                <h3 className="font-medium text-black">Preference</h3>
               </Link>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black">
-                  Help Center
-                </h3>
+                <h3 className="font-medium text-black">Help Center</h3>
               </Link>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black">
-                  Provide FeedBack
-                </h3>
+                <h3 className="font-medium text-black">Provide FeedBack</h3>
               </Link>
             </div>
             <div className="border-b border-stroke px-7 bg-white py-4 my-3 rounded-xl shadow shadow-lg">
               <Link href="#">
-                <h3 className="font-medium text-black">
-                  Vendor Support
-                </h3>
+                <h3 className="font-medium text-black">Vendor Support</h3>
               </Link>
             </div>
           </div>

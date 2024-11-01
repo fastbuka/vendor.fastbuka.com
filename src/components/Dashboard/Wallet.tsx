@@ -1,14 +1,37 @@
 "use client";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link"
-import ExchangeRate from "@/components/Charts/ExchargeRate"
+import Link from "next/link";
+import ExchangeRate from "@/components/Charts/ExchargeRate";
 import Deposit from "/public/deposit.png";
 import Pay from "/public/pay.png";
 import Swap from "/public/swap.png";
 import Add from "/public/plus.png";
 import Order from "/public/order.png";
+import { useRouter, useParams } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { getVendorBySlug } from "@/utils/token";
+
+interface UserProfile {
+  profile: {
+    first_name: string;
+    email: string;
+  };
+}
+
+interface Vendor {
+  id: number;
+  uuid: string;
+  name: string;
+  slug: string;
+  description: string;
+  country: string;
+  city: string;
+  // Add other fields if needed
+}
 
 const Wallet: React.FC = () => {
   const data = [
@@ -52,6 +75,55 @@ const Wallet: React.FC = () => {
     setCurrentPage(1);
   };
 
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!vendor) return null;
+
   return (
     <>
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
@@ -74,10 +146,8 @@ const Wallet: React.FC = () => {
       </div>
 
       <div>
-      <h1 className="text-xl text-black font-bold my-5">
-          Exchange Rate
-        </h1>
-        <ExchangeRate/>
+        <h1 className="text-xl text-black font-bold my-5">Exchange Rate</h1>
+        <ExchangeRate />
       </div>
 
       <div className="w-full">
