@@ -97,11 +97,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   if (!user) {
     return <div>Loading...</div>;
   }
-  if (loading) return <div>Loading vendor details...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!vendor) return <div>No vendor found</div>;
 
-  const menuGroups =  [
+  if (!vendor) return null;
+
+  const menuGroups = [
     {
       name: "MENU",
       menuItems: [
@@ -116,8 +115,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           label: "Items",
           route: "#",
           children: [
-            { label: "Items", route: "/vendor/foods" },
-            { label: "Add New Item", route: "/vendor/foods/add-food" },
+            { label: "Items", route: `/vendor/foods/${vendor.slug}` },
+            { label: "Add New Item", route: `/vendor/foods/add-food/${vendor.slug}` },
           ],
         },
 
@@ -126,10 +125,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           label: "Item Categories",
           route: "#",
           children: [
-            { label: "Item Category", route: "/vendor/category" },
+            { label: "Item Category", route: `/vendor/category/${vendor.slug}` },
             {
               label: "Add New Category",
-              route: "/vendor/category/add-category",
+              route: `/vendor/category/add-category/${vendor.slug}`,
             },
           ],
         },
@@ -137,13 +136,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {
           icon: <LiaCartArrowDownSolid />,
           label: "Orders",
-          route: "/vendor/order",
+          route: `/vendor/order/${vendor.slug}`,
         },
 
         {
           icon: <BsDiagram3 />,
           label: "Ordered Items",
-          route: "/vendor/order-item",
+          route: `/vendor/order-item/${vendor.slug}`,
         },
       ],
     },
@@ -154,19 +153,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {
           icon: <FaRegUserCircle />,
           label: "Profile",
-          route: "/vendor/profile",
+          route: `/vendor/profile/${vendor.slug}`,
         },
 
         {
           icon: <GiWallet />,
           label: "Wallet",
-          route: "/vendor/wallet",
+          route: `/vendor/wallet/${vendor.slug}`,
         },
 
         {
           icon: <TbSettingsCog />,
           label: "Account Settings",
-          route: "/vendor/settings",
+          route: `/vendor/settings/${vendor.slug}`,
         },
 
         {
@@ -178,7 +177,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {
           icon: <TbPresentationAnalytics />,
           label: "Sales Analysis",
-          route: "/vendor/sales",
+          route: `/vendor/sales/${vendor.slug}`,
         },
 
         {
@@ -199,7 +198,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       >
         {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-          <Link href={vendor.slug}>
+          <Link href={"/vendor/dashboard/" + vendor.slug}>
             <Image width={70} height={50} src={Logo} alt="Logo" priority />
           </Link>
 

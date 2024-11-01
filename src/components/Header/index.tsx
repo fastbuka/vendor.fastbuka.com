@@ -1,20 +1,88 @@
 import Link from "next/link";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DropdownUser from "@/components/Header/DropdownUser";
 import Balance from "@/components/Header/Balance";
 import Image from "next/image";
-import Logo_Dark from "/public/logo-dark.png"
-// import DarkModeSwitcher from "./DarkModeSwitcher";
-// import DropdownMessage from "./DropdownMessage";
+import Logo_Dark from "/public/logo-dark.png";
 import DropdownNotification from "./DropdownNotification";
+import { useRouter, useParams } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { getVendorBySlug } from "@/utils/token";
 
-const Header = (
-  props: {
-    sidebarOpen: string | boolean | undefined;
-    setSidebarOpen: (arg0: boolean) => void;
+interface UserProfile {
+  profile: {
+    first_name: string;
+    email: string;
+  };
+}
+
+interface Vendor {
+  id: number;
+  uuid: string;
+  name: string;
+  slug: string;
+  description: string;
+  country: string;
+  city: string;
+  // Add other fields if needed
+}
+
+const Header = (props: {
+  sidebarOpen: string | boolean | undefined;
+  setSidebarOpen: (arg0: boolean) => void;
+}) => {
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
   }
-) => {
+
+  if (!vendor) return null;
+
   return (
     <header className="sticky top-0 z-999 flex w-full bg-white drop-shadow-1">
       <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
@@ -62,18 +130,16 @@ const Header = (
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden p-2 rounded-full" href="/vendor/dashboard">
-            <Image
-              width={70}
-              height={50}
-              src={Logo_Dark}
-              alt="Logo"
-            />
+          <Link
+            className="block flex-shrink-0 lg:hidden p-2 rounded-full"
+            href={"/vendor/dashboard/"+ vendor.slug}
+          >
+            <Image width={70} height={50} src={Logo_Dark} alt="Logo" />
           </Link>
         </div>
 
         <div className="hidden sm:block md:w-2/3">
-          <Balance/>
+          <Balance />
         </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">

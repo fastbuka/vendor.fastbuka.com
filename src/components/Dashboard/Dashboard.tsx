@@ -125,9 +125,7 @@ const VendorDashboard = () => {
     return <div>Loading...</div>;
   }
 
-  if (loading) return <div>Loading vendor details...</div>;
-  if (error) return <div>Error: {error}</div>;
-  if (!vendor) return <div>No vendor found</div>;
+  if (!vendor) return null;
 
   return (
     <>
