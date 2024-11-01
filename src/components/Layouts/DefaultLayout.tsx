@@ -25,9 +25,7 @@ export default function DefaultLayout({
 
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
-            <div className=" p-4 md:p-6 2xl:p-10">
-              {children}
-            </div>
+            <div className=" p-4 md:p-6 2xl:p-10">{children}</div>
           </main>
           {/* <!-- ===== Main Content End ===== --> */}
         </div>

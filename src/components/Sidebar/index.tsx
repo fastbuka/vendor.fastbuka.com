@@ -18,104 +18,177 @@ import { TbSettingsCog } from "react-icons/tb";
 import { TbPresentationAnalytics } from "react-icons/tb";
 import { BiLogOutCircle } from "react-icons/bi";
 import { AiOutlineDashboard } from "react-icons/ai";
+import { useRouter, useParams } from "next/navigation";
+import { useLogout } from "@/queries/auth";
+import { QueryClient } from "react-query";
+import { getUser, getToken } from "@/utils/token";
+import { getVendorBySlug } from "@/utils/token";
+
+interface UserProfile {
+  profile: {
+    first_name: string;
+    email: string;
+  };
+}
+
+interface Vendor {
+  id: number;
+  uuid: string;
+  name: string;
+  slug: string;
+  description: string;
+  country: string;
+  city: string;
+  // Add other fields if needed
+}
 
 interface SidebarProps {
   sidebarOpen: boolean;
   setSidebarOpen: (arg: boolean) => void;
 }
 
-const menuGroups = [
-  {
-    name: "MENU",
-    menuItems: [
-      {
-        icon: <RxDashboard />,
-        label: "Dashboard",
-        route: "/vendor/dashboard",
-      },
-
-      {
-        icon: <MdOutlineFoodBank />,
-        label: "Items",
-        route: "#",
-        children: [
-          { label: "Items", route: "/vendor/foods" },
-          { label: "Add New Item", route: "/vendor/foods/add-food" },
-        ],
-      },
-
-      {
-        icon: <BsCollection />,
-        label: "Item Categories",
-        route: "#",
-        children: [
-          { label: "Item Category", route: "/vendor/category" },
-          {
-            label: "Add New Category",
-            route: "/vendor/category/add-category",
-          },
-        ],
-      },
-
-      {
-        icon: <LiaCartArrowDownSolid />,
-        label: "Orders",
-        route: "/vendor/order",
-      },
-
-      {
-        icon: <BsDiagram3 />,
-        label: "Ordered Items",
-        route: "/vendor/order-item",
-      },
-    ],
-  },
-
-  {
-    name: "SETTINGS",
-    menuItems: [
-      {
-        icon: <FaRegUserCircle />,
-        label: "Profile",
-        route: "/vendor/profile",
-      },
-
-      {
-        icon: <GiWallet />,
-        label: "Wallet",
-        route: "/vendor/wallet",
-      },
-
-      {
-        icon: <TbSettingsCog />,
-        label: "Account Settings",
-        route: "/vendor/settings",
-      },
-
-      {
-        icon: <AiOutlineDashboard />,
-        label: "Account Center",
-        route: "/vendor/home",
-      },
-
-      {
-        icon: <TbPresentationAnalytics />,
-        label: "Sales Analysis",
-        route: "/vendor/sales",
-      },
-
-      {
-        icon: <BiLogOutCircle />,
-        label: "Logout",
-        route: "#",
-      },
-    ],
-  },
-];
-
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useState("dashboard");
+
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
+      }
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+  if (loading) return <div>Loading vendor details...</div>;
+  if (error) return <div>Error: {error}</div>;
+  if (!vendor) return <div>No vendor found</div>;
+
+  const menuGroups =  [
+    {
+      name: "MENU",
+      menuItems: [
+        {
+          icon: <RxDashboard />,
+          label: "Dashboard",
+          route: `/vendor/dashboard/${vendor.slug}`,
+        },
+
+        {
+          icon: <MdOutlineFoodBank />,
+          label: "Items",
+          route: "#",
+          children: [
+            { label: "Items", route: "/vendor/foods" },
+            { label: "Add New Item", route: "/vendor/foods/add-food" },
+          ],
+        },
+
+        {
+          icon: <BsCollection />,
+          label: "Item Categories",
+          route: "#",
+          children: [
+            { label: "Item Category", route: "/vendor/category" },
+            {
+              label: "Add New Category",
+              route: "/vendor/category/add-category",
+            },
+          ],
+        },
+
+        {
+          icon: <LiaCartArrowDownSolid />,
+          label: "Orders",
+          route: "/vendor/order",
+        },
+
+        {
+          icon: <BsDiagram3 />,
+          label: "Ordered Items",
+          route: "/vendor/order-item",
+        },
+      ],
+    },
+
+    {
+      name: "SETTINGS",
+      menuItems: [
+        {
+          icon: <FaRegUserCircle />,
+          label: "Profile",
+          route: "/vendor/profile",
+        },
+
+        {
+          icon: <GiWallet />,
+          label: "Wallet",
+          route: "/vendor/wallet",
+        },
+
+        {
+          icon: <TbSettingsCog />,
+          label: "Account Settings",
+          route: "/vendor/settings",
+        },
+
+        {
+          icon: <AiOutlineDashboard />,
+          label: "Account Center",
+          route: "/vendor/home",
+        },
+
+        {
+          icon: <TbPresentationAnalytics />,
+          label: "Sales Analysis",
+          route: "/vendor/sales",
+        },
+
+        {
+          icon: <BiLogOutCircle />,
+          label: "Logout",
+          route: "#",
+        },
+      ],
+    },
+  ];
 
   return (
     <ClickOutside onClick={() => setSidebarOpen(false)}>
@@ -126,7 +199,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       >
         {/* <!-- SIDEBAR HEADER --> */}
         <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-          <Link href="/vendor/dashboard">
+          <Link href={vendor.slug}>
             <Image width={70} height={50} src={Logo} alt="Logo" priority />
           </Link>
 
