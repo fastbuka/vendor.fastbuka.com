@@ -85,18 +85,8 @@ const Register: React.FC = () => {
           router.push("/vendor/home");
         },
         onError: () => {
-          // setRegisterError(
-          //   "Registration failed. Please check your credentials and try again."
-          // );
-          console.log(
-            "name " + name,
-            "description " + description,
-            "country " + country,
-            "state " + state,
-            "city " + city,
-            "address " + address,
-            "opening_time " + opening_time,
-            "closing_time " + closing_time
+          setRegisterError(
+            "Registration failed. Please check your credentials and try again."
           );
         },
       }
@@ -146,15 +136,15 @@ const Register: React.FC = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="email"
+                htmlFor="description"
                 className="block mb-2 text-lg font-medium text-[#000000]"
               >
                 Description
               </label>
               <input
-                type="email"
-                id="email"
-                name="email"
+                type="text"
+                id="description"
+                name="description"
                 value={description}
                 onChange={(event) => setDescription(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
@@ -164,17 +154,17 @@ const Register: React.FC = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="city"
+                htmlFor="country"
                 className="block mb-2 text-lg font-medium text-[#000000]"
               >
                 Country
               </label>
               <select
-                id="city"
-                name="city"
+                id="country"
+                name="country"
                 value={country}
                 onChange={(event) => setCountry(event.target?.value)}
-                autoComplete="city-name"
+                autoComplete="country-name"
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-gray-500"
                 required
               >
@@ -231,15 +221,15 @@ const Register: React.FC = () => {
 
             <div className="mb-5">
               <label
-                htmlFor="email"
+                htmlFor="address"
                 className="block mb-2 text-lg font-medium text-[#000000]"
               >
                 Store Address
               </label>
               <input
-                type="email"
-                id="email"
-                name="email"
+                type="text"
+                id="address"
+                name="address"
                 value={address}
                 onChange={(event) => setAddress(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
@@ -249,15 +239,15 @@ const Register: React.FC = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="phone"
+                htmlFor="opening_time"
                 className="block mb-2 text-lg font-medium text-[#000000]"
               >
                 Opening Time
               </label>
               <input
                 type="text"
-                id="phone"
-                name="phone"
+                id="opening_time"
+                name="opening_time"
                 value={opening_time}
                 onChange={(event) => setOpeningTime(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
@@ -267,15 +257,15 @@ const Register: React.FC = () => {
             </div>
             <div className="mb-5">
               <label
-                htmlFor="phone"
+                htmlFor="closing_time"
                 className="block mb-2 text-lg font-medium text-[#000000]"
               >
                 Closing Time
               </label>
               <input
                 type="text"
-                id="phone"
-                name="phone"
+                id="closing_time"
+                name="closing_time"
                 value={closing_time}
                 onChange={(event) => setClosingTime(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
@@ -291,6 +281,13 @@ const Register: React.FC = () => {
             Register
           </button>
         </form>
+
+        <p className="text-center text-gray-600 mt-6">
+          Already have an account?{" "}
+          <a href="/login" className="text-green-600 font-semibold">
+            Login
+          </a>
+        </p>
       </div>
       <footer>
         <p className="text-center text-xl font-mono font-bold my-10">
