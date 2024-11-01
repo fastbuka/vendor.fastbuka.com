@@ -149,7 +149,7 @@ const Register: React.FC = () => {
                 htmlFor="email"
                 className="block mb-2 text-lg font-medium text-[#000000]"
               >
-                Email Address
+                Description
               </label>
               <input
                 type="email"
@@ -158,7 +158,7 @@ const Register: React.FC = () => {
                 value={description}
                 onChange={(event) => setDescription(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
-                placeholder="name@gmail.com"
+                placeholder="Description"
                 required
               />
             </div>
@@ -243,7 +243,7 @@ const Register: React.FC = () => {
                 value={address}
                 onChange={(event) => setAddress(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
-                placeholder="name@gmail.com"
+                placeholder="Store address"
                 required
               />
             </div>
@@ -255,13 +255,13 @@ const Register: React.FC = () => {
                 Opening Time
               </label>
               <input
-                type="tel"
+                type="text"
                 id="phone"
                 name="phone"
                 value={opening_time}
                 onChange={(event) => setOpeningTime(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
-                placeholder="Phone Number"
+                placeholder="Opening Time"
                 required
               />
             </div>
@@ -273,13 +273,13 @@ const Register: React.FC = () => {
                 Closing Time
               </label>
               <input
-                type="tel"
+                type="text"
                 id="phone"
                 name="phone"
                 value={closing_time}
                 onChange={(event) => setClosingTime(event.target?.value)}
                 className="bg-white border border-black text-[#000000] text-sm rounded-full block w-full p-3 placeholder-[#000000]"
-                placeholder="Phone Number"
+                placeholder="Closing Time"
                 required
               />
             </div>
