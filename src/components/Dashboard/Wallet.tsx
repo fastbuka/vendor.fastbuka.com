@@ -128,7 +128,7 @@ const Wallet: React.FC = () => {
     <>
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/vendor/withdrawal">
+          <Link href={"/vendor/withdrawal/" + vendor.slug}>
             <div className="p-3">
               <Image src={Pay} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Withdrawal</h1>
@@ -136,7 +136,7 @@ const Wallet: React.FC = () => {
           </Link>
         </div>
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href="/vendor/add-account">
+          <Link href={"/vendor/add-account/" + vendor.slug }>
             <div className="p-3">
               <Image src={Add} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
