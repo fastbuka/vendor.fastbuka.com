@@ -116,7 +116,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: "#",
           children: [
             { label: "Items", route: `/vendor/foods/${vendor.slug}` },
-            { label: "Add New Item", route: `/vendor/foods/add-food/${vendor.slug}` },
+            { label: "Add New Item", route: `/vendor/foods/${vendor.slug}/add-food` },
           ],
         },
 
@@ -128,7 +128,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             { label: "Item Category", route: `/vendor/category/${vendor.slug}` },
             {
               label: "Add New Category",
-              route: `/vendor/category/add-category/${vendor.slug}`,
+              route: `/vendor/category/${vendor.slug}/add-category`,
             },
           ],
         },
