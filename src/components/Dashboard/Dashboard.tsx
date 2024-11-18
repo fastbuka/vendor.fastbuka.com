@@ -131,9 +131,9 @@ const VendorDashboard = () => {
     <>
       <CryptoRate />
       <h1 className="font-bold text-black text-xl my-3">
-        Welcome, {getDefaultFirstName(user.profile?.first_name)}
+        Welcome, {getDefaultFirstName(vendor.name)}
       </h1>
-      <div>
+      {/* <div>
         <h1>{vendor.name}</h1>
         <p>Description: {vendor.description}</p>
         <p>
@@ -142,8 +142,7 @@ const VendorDashboard = () => {
         <p>Address: {vendor.address}</p>
         <p>Opening Time: {vendor.opening_time}</p>
         <p>Closing Time: {vendor.closing_time}</p>
-        {/* Add more fields as necessary */}
-      </div>
+      </div> */}
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href={"/vendor/withdrawal/" + vendor.slug }>
