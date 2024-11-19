@@ -19,7 +19,6 @@ import { TbPresentationAnalytics } from "react-icons/tb";
 import { BiLogOutCircle } from "react-icons/bi";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -55,12 +54,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [queryClient] = useState(() => new QueryClient());
-  const logout = useLogout(queryClient);
 
   const { slug } = useParams(); // Get the slug directly from params
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const handleLogout = () => {
+    // Clear authentication-related data from localStorage
+    localStorage.removeItem("fastbuka_auth_token");
+    localStorage.removeItem("user_data");
+
+    // Redirect the user to the login page
+    router.push("/login");
+  };
 
   // Fetch vendor data as a separate function
   const fetchVendor = async (slug: string) => {
@@ -116,22 +122,25 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: "#",
           children: [
             { label: "Items", route: `/vendor/foods/${vendor.slug}` },
-            { label: "Add New Item", route: `/vendor/foods/${vendor.slug}/add-food` },
-          ],
-        },
-
-        {
-          icon: <BsCollection />,
-          label: "Item Categories",
-          route: "#",
-          children: [
-            { label: "Item Category", route: `/vendor/category/${vendor.slug}` },
             {
-              label: "Add New Category",
-              route: `/vendor/category/${vendor.slug}/add-category`,
+              label: "Add New Item",
+              route: `/vendor/foods/${vendor.slug}/add-food`,
             },
           ],
         },
+
+        // {
+        //   icon: <BsCollection />,
+        //   label: "Item Categories",
+        //   route: "#",
+        //   children: [
+        //     { label: "Item Category", route: `/vendor/category/${vendor.slug}` },
+        //     {
+        //       label: "Add New Category",
+        //       route: `/vendor/category/${vendor.slug}/add-category`,
+        //     },
+        //   ],
+        // },
 
         {
           icon: <LiaCartArrowDownSolid />,
@@ -180,11 +189,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: `/vendor/sales/${vendor.slug}`,
         },
 
-        {
-          icon: <BiLogOutCircle />,
-          label: "Logout",
-          route: "#",
-        },
+        // {
+        //   icon: <BiLogOutCircle />,
+        //   onclick:{handleLogout},
+        //   label: "Logout",
+        //   route: "",
+        // },
       ],
     },
   ];
@@ -245,6 +255,13 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                 </ul>
               </div>
             ))}
+            <button
+              className="text-[#dc3545] flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out lg:text-base"
+              onClick={handleLogout}
+            >
+              <BiLogOutCircle />
+              Log Out
+            </button>
           </nav>
           {/* <!-- Sidebar Menu --> */}
         </div>

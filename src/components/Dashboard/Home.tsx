@@ -4,7 +4,7 @@ import Link from "next/link";
 import VendorCard from "@/components/VendorCard";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { allAccounts, useLogout } from "@/queries/auth";
+import { allAccounts } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getDefaultFirstName } from "@/utils/defaults";
@@ -30,12 +30,20 @@ interface Vendor {
 const Home: React.FC = () => {
   // Check for token to authenticate
   const [queryClient] = useState(() => new QueryClient());
-  const logout = useLogout(queryClient);
   const [vendors, setVendors] = useState<Vendor[]>([]); // Store vendors array
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null); // Store user data
   const router = useRouter();
+  
+  const handleLogout = () => {
+    // Clear authentication-related data from localStorage
+    localStorage.removeItem("fastbuka_auth_token");
+    localStorage.removeItem("user_data");
+
+    // Redirect the user to the login page
+    router.push("/login");
+  };
 
   useEffect(() => {
     const token = getToken();
@@ -61,10 +69,6 @@ const Home: React.FC = () => {
       fetchData();
     }
   }, [router]);
-
-  const handleLogout = () => {
-    logout.mutate();
-  };
 
   if (!user) {
     return <div>Testing Loading...</div>;
@@ -124,6 +128,7 @@ const Home: React.FC = () => {
           className="text-[#f61855]"
           target="_blank"
           href="https://www.fastbuka.com/"
+          onClick={handleLogout}
         >
           {" "}
           Logout{" "}

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState, useContext, useEffect } from "react";
 import Link from "next/link";
 import ClickOutside from "@/components/ClickOutside";
@@ -9,7 +9,6 @@ import { BiLogOutCircle } from "react-icons/bi";
 import { BsChevronDown } from "react-icons/bs";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -32,58 +31,65 @@ interface Vendor {
   // Add other fields if needed
 }
 
-
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
-    // vendor slug
-    const router = useRouter();
-    const [user, setUser] = useState<UserProfile | null>(null);
-    const [queryClient] = useState(() => new QueryClient());
-    const logout = useLogout(queryClient);
-  
-    const { slug } = useParams(); // Get the slug directly from params
-    const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-  
-    // Fetch vendor data as a separate function
-    const fetchVendor = async (slug: string) => {
-      try {
-        const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
-  
-        // Assuming response.data contains your expected vendor data
-        if (response?.data?.vendor) {
-          setVendor(response.data.vendor);
-        } else {
-          throw new Error("Vendor not found");
-        }
-      } catch (err) {
-        setError("Failed to fetch vendor details");
-      } finally {
-        setLoading(false);
-      }
-    };
-  
-    useEffect(() => {
-      const token = getToken();
-      const userData = getUser();
-      if (!token || !userData) {
-        router.push("/login");
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
       } else {
-        setUser(userData as UserProfile);
+        throw new Error("Vendor not found");
       }
-  
-      if (slug) {
-        fetchVendor(slug as string); // Call the fetchVendor function
-      }
-    }, [slug, router]);
-  
-    if (!user) {
-      return <div>Loading...</div>;
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
     }
-    
-    if (!vendor) return null;
+  };
+
+  const handleLogout = () => {
+    // Clear authentication-related data from localStorage
+    localStorage.removeItem("fastbuka_auth_token");
+    localStorage.removeItem("user_data");
+
+    // Redirect the user to the login page
+    router.push("/login");
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!vendor) return null;
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -126,7 +132,7 @@ const DropdownUser = () => {
                 href="/vendor/settings"
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
               >
-                <TbSettingsCog/>
+                <TbSettingsCog />
                 Account Settings
               </Link>
             </li>
@@ -140,8 +146,11 @@ const DropdownUser = () => {
               </Link>
             </li>
           </ul>
-          <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
-          <BiLogOutCircle />
+          <button
+            className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            onClick={handleLogout}
+          >
+            <BiLogOutCircle />
             Log Out
           </button>
         </div>
