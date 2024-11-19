@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/logo.png" type="image/x-icon" />
+        <link rel="icon" href="/logo.ico" type="image/x-icon" />
       </head>
       <body suppressHydrationWarning={true}>
         <div className="">
