@@ -219,6 +219,34 @@ const SidebarWithFoodItems: React.FC = () => {
     fetchCategoryImages();
   }, [slug, router]);
 
+  // Add new state for upload modal
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+
+  // Add handler for file selection
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadFile(e.target.files[0]);
+    }
+  };
+
+  // Add handler for form submission
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!uploadFile) return;
+
+    try {
+      // Add your upload logic here
+      console.log('Uploading file:', uploadFile);
+      
+      // Reset form and close modal after successful upload
+      setUploadFile(null);
+      setIsUploadModalOpen(false);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -431,10 +459,55 @@ const SidebarWithFoodItems: React.FC = () => {
               </div>
             ))}
           </div>
-          {/* Optional scroll indicators */}
-          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none" />
+          <div className="flex justify-end p-4">
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
+              className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
+            >
+              Add Image
+            </button>
+          </div>
         </div>
+
+        {/* Upload Modal */}
+        {isUploadModalOpen && (
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+              <h2 className="text-2xl font-semibold mb-4">Upload New Image</h2>
+              
+              <form onSubmit={handleUploadSubmit}>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Select Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                  />
+                </div>
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setIsUploadModalOpen(false)}
+                    className="bg-gray-500 text-red px-4 py-2 rounded-lg hover:bg-gray-600"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
+                  >
+                    Upload
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
         {error && (
           <p className="text-red-600 mt-2">
             Error loading category images: {error}
