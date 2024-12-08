@@ -61,18 +61,10 @@ const foodData = {
       description: "this is the decription of the food item",
       discount: 0.0,
     },
-    {
-      id: 3,
-      name: "Spring Rolls",
-      price: 5.99,
-      imageUrl: FoodImage,
-      description: "this is the decription of the food item",
-      discount: 0.0,
-    },
   ],
   main: [
     {
-      id: 13,
+      id: 3,
       name: "Grilled Chicken",
       price: 12.99,
       imageUrl: FoodImage,
@@ -80,17 +72,9 @@ const foodData = {
       discount: 0.0,
     },
     {
-      id: 14,
+      id: 4,
       name: "Beef Steak",
       price: 19.99,
-      imageUrl: FoodImage,
-      description: "this is the decription of the food item",
-      discount: 0.0,
-    },
-    {
-      id: 15,
-      name: "Grilled Chicken",
-      price: 12.99,
       imageUrl: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
@@ -98,7 +82,7 @@ const foodData = {
   ],
   dessert: [
     {
-      id: 25,
+      id: 5,
       name: "Chocolate Cake",
       price: 4.99,
       imageUrl: FoodImage,
@@ -106,17 +90,9 @@ const foodData = {
       discount: 0.0,
     },
     {
-      id: 26,
+      id: 6,
       name: "Ice Cream Sundae",
       price: 3.99,
-      imageUrl: FoodImage,
-      description: "this is the decription of the food item",
-      discount: 0.0,
-    },
-    {
-      id: 27,
-      name: "Chocolate Cake",
-      price: 4.99,
       imageUrl: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
@@ -124,7 +100,7 @@ const foodData = {
   ],
   drink: [
     {
-      id: 37,
+      id: 7,
       name: "Lemonade",
       price: 2.99,
       imageUrl: FoodImage,
@@ -132,17 +108,9 @@ const foodData = {
       discount: 0.0,
     },
     {
-      id: 38,
+      id: 8,
       name: "Cappuccino",
       price: 4.99,
-      imageUrl: FoodImage,
-      description: "this is the decription of the food item",
-      discount: 0.0,
-    },
-    {
-      id: 39,
-      name: "Lemonade",
-      price: 2.99,
       imageUrl: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
@@ -186,6 +154,18 @@ const SidebarWithFoodItems: React.FC = () => {
   const [categoryImageData, setCategoryImageData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Add new state for selected image UUIDs
+  const [selectedImageUuids, setSelectedImageUuids] = useState<string[]>([]);
+
+  // Add handler for image selection
+  const handleImageClick = (uuid: string) => {
+    setSelectedImageUuids(prev => 
+      prev.includes(uuid) 
+        ? prev.filter(id => id !== uuid) // Remove if already selected
+        : [...prev, uuid] // Add if not selected
+    );
+  };
 
   // Fetch vendor data as a separate function
   const fetchVendor = async (slug: string) => {
@@ -384,32 +364,76 @@ const SidebarWithFoodItems: React.FC = () => {
         )}
       </div>
 
-      {/* Category images section */}
-      <div className="mt-8 p-4 bg-gray-100 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Category Images:</h3>
-        <div className="space-y-4">
-          {categoryImageData?.data?.storage?.data?.map((image: any) => (
-            <div key={image.uuid} className="bg-white p-4 rounded border">
-              <h4 className="font-medium mb-2">Image Details:</h4>
-              <div className="pl-4">
-                <p className="text-gray-700">UUID: {image.uuid}</p>
-                <p className="text-gray-700">Slug: {image.slug}</p>
-                <p className="text-gray-700">Base URL: {image.base_url}</p>
-                {/* <p className="text-gray-700">Path: {image.path}</p>
-                <p className="text-gray-700">Size: {image.size}</p> */}
-                <Image
-                  src={`${image.base_url}/${image.path}`}
-                  alt={image.slug}
-                  width={100}
-                  height={100}
-                  unoptimized // Add this if the image is from an external URL
-                />
-                <p className="text-gray-700">Type: {image.type}</p>
-                <p className="text-gray-700">Created: {image.created_at}</p>
-                <p className="text-gray-700">Updated: {image.updated_at}</p>
+      {/* Modified Category images section */}
+      <div className="w-full max-w-[70vw] mx-auto px-4 md:px-6 lg:px-8">
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Selected Images:
+          </label>
+          <div className="flex flex-wrap gap-4">
+            {selectedImageUuids.map((uuid) => {
+              const selectedImage = categoryImageData?.data?.storage?.data?.find(
+                (img: any) => img.uuid === uuid
+              );
+              return selectedImage ? (
+                <div key={uuid} className="relative">
+                  <Image
+                    src={`${selectedImage.base_url}/${selectedImage.path}`}
+                    alt={selectedImage.slug}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover"
+                  />
+                  <button
+                    onClick={() => handleImageClick(uuid)}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                  >
+                    X
+                  </button>
+                </div>
+              ) : null;
+            })}
+          </div>
+          {/* Hidden input field for form submission */}
+          <input
+            type="hidden"
+            name="selectedImages"
+            value={selectedImageUuids.map(uuid => {
+              const image = categoryImageData?.data?.storage?.data?.find(
+                (img: any) => img.uuid === uuid
+              );
+              return image ? `${image.base_url}/${image.path}` : '';
+            }).join(',')}
+          />
+        </div>
+
+        <div className="relative overflow-x-auto bg-white rounded-lg">
+          <div className="flex space-x-6 p-4 min-w-full">
+            {categoryImageData?.data?.storage?.data?.map((image: any) => (
+              <div 
+                key={image.uuid} 
+                className="flex-shrink-0 w-[100px] cursor-pointer"
+                onClick={() => handleImageClick(image.uuid)}
+              >
+                <div className={`relative aspect-square ${
+                  selectedImageUuids.includes(image.uuid) 
+                    ? 'ring-2 ring-indigo-500' 
+                    : ''
+                }`}>
+                  <Image
+                    src={`${image.base_url}/${image.path}`}
+                    alt={image.slug}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* Optional scroll indicators */}
+          <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none" />
         </div>
         {error && (
           <p className="text-red-600 mt-2">
