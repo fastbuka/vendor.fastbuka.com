@@ -128,20 +128,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             },
           ],
         },
-
-        // {
-        //   icon: <BsCollection />,
-        //   label: "Item Categories",
-        //   route: "#",
-        //   children: [
-        //     { label: "Item Category", route: `/vendor/category/${vendor.slug}` },
-        //     {
-        //       label: "Add New Category",
-        //       route: `/vendor/category/${vendor.slug}/add-category`,
-        //     },
-        //   ],
-        // },
-
+        {
+          icon: <BsCollection />,
+          label: "Item Categories",
+          route: "#",
+          children: [
+            {
+              label: "Item Category",
+              route: `/vendor/category/${vendor.slug}`,
+            },
+          ],
+        },
         {
           icon: <LiaCartArrowDownSolid />,
           label: "Orders",
