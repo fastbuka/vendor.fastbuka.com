@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
+import { uploadCategoryImage, categoryImages, useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -10,6 +10,7 @@ import { getVendorBySlug } from "@/utils/token";
 interface UserProfile {
   profile: {
     first_name: string;
+    user_uuid: string;
     email: string;
   };
 }
@@ -48,8 +49,22 @@ const FoodForm: React.FC = () => {
 
   const { slug } = useParams(); // Get the slug directly from params
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [categoryImageData, setCategoryImageData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Add new state for selected image UUIDs
+  const [selectedImageUuids, setSelectedImageUuids] = useState<string[]>([]);
+
+  // Add handler for image selection
+  const handleImageClick = (uuid: string) => {
+    setSelectedImageUuids(
+      (prev) =>
+        prev.includes(uuid)
+          ? prev.filter((id) => id !== uuid) // Remove if already selected
+          : [...prev, uuid] // Add if not selected
+    );
+  };
 
   // Fetch vendor data as a separate function
   const fetchVendor = async (slug: string) => {
@@ -81,7 +96,76 @@ const FoodForm: React.FC = () => {
     if (slug) {
       fetchVendor(slug as string); // Call the fetchVendor function
     }
+
+    const fetchCategoryImages = async () => {
+      try {
+        const userProfile = getUser() as UserProfile;
+        if (!userProfile?.profile?.user_uuid) {
+          throw new Error("User UUID not found");
+        }
+
+        const data = await categoryImages(userProfile.profile.user_uuid);
+        setCategoryImageData(data);
+        setLoading(false);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch category images"
+        );
+        setLoading(false);
+      }
+    };
+
+    fetchCategoryImages();
   }, [slug, router]);
+  
+  // Add new state for upload modal
+  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+
+  // Add new state for upload loading and error
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Add handler for file selection
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadFile(e.target.files[0]);
+    }
+  };
+
+  // Modify the form submission handler
+  const handleUploadSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!uploadFile) {
+      setUploadError("Please select a file");
+      return;
+    }
+
+    try {
+      setUploadLoading(true);
+      setUploadError(null);
+
+      const userProfile = getUser() as UserProfile;
+      if (!userProfile?.profile?.user_uuid) {
+        throw new Error("User UUID not found");
+      }
+
+      await uploadCategoryImage(uploadFile, userProfile.profile.user_uuid);
+
+      // Refresh the category images
+      const newData = await categoryImages(userProfile.profile.user_uuid);
+      setCategoryImageData(newData);
+
+      // Reset form and close modal
+      setUploadFile(null);
+      setIsUploadModalOpen(false);
+    } catch (error) {
+      setUploadError(error instanceof Error ? error.message : "Upload failed");
+    } finally {
+      setUploadLoading(false);
+    }
+  };
+
 
   if (!user) {
     return <div>Loading...</div>;
@@ -90,7 +174,7 @@ const FoodForm: React.FC = () => {
   if (!vendor) return null;
 
   return (
-    <div className="grid md:grid-cols-2 gap-10">
+    <>
       <form className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2">
         {/* Category (Dropdown) */}
         <div className="mb-8">
@@ -233,24 +317,145 @@ const FoodForm: React.FC = () => {
         </div>
       </form>
 
-      <div className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-2 order-1">
-        {/* Image Preview */}
-        {imagePreview && (
-          <div className="mb-8">
-            <p className="mb-2 text-lg font-semibold text-gray-900">
-              Image Preview:
-            </p>
-            <Image
-              src={imagePreview || placeholderImage}
-              width={50}
-              height={50}
-              alt="Selected category"
-              className="w-auto max-h-[250px] rounded-lg shadow-md"
-            />
+      {/* Modified Category images section */}
+      <div className="w-full max-w-[70vw] mx-auto px-4 md:px-6 lg:px-8">
+        <div className="mb-4">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Selected Images:
+          </label>
+          <div className="flex flex-wrap gap-6 mt-5">
+            {selectedImageUuids.map((uuid) => {
+              const selectedImage =
+                categoryImageData?.data?.storage?.data?.find(
+                  (img: any) => img.uuid === uuid
+                );
+              return selectedImage ? (
+                <div key={uuid} className="relative ">
+                  <Image
+                    src={`${selectedImage.base_url}/${selectedImage.path}`}
+                    alt={selectedImage.slug}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
+                  />
+                  <button
+                    onClick={() => handleImageClick(uuid)}
+                    className="absolute -top-5 -right-5 bg-red-500 text-lg text-red rounded-full w-6 h-6 flex items-center justify-center"
+                  >
+                    x
+                  </button>
+                </div>
+              ) : null;
+            })}
+          </div>
+          {/* Hidden input field for form submission */}
+          <input
+            type="hidden"
+            name="selectedImages"
+            value={selectedImageUuids
+              .map((uuid) => {
+                const image = categoryImageData?.data?.storage?.data?.find(
+                  (img: any) => img.uuid === uuid
+                );
+                return image ? `${image.base_url}/${image.path}` : "";
+              })
+              .join(",")}
+          />
+        </div>
+
+        <div className="relative overflow-x-auto bg-white rounded-lg">
+          <div className="flex space-x-6 p-4 min-w-full">
+            {categoryImageData?.data?.storage?.data?.map((image: any) => (
+              <div
+                key={image.uuid}
+                className="flex-shrink-0 w-[100px] cursor-pointer"
+                onClick={() => handleImageClick(image.uuid)}
+              >
+                <div
+                  className={`relative aspect-square ${
+                    selectedImageUuids.includes(image.uuid)
+                      ? "ring-2 ring-[#3ab764]"
+                      : ""
+                  }`}
+                >
+                  <Image
+                    src={`${image.base_url}/${image.path}`}
+                    alt={image.slug}
+                    width={100}
+                    height={100}
+                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex justify-end p-4">
+          <button
+            onClick={() => setIsUploadModalOpen(true)}
+            className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
+          >
+            Add Image
+          </button>
+        </div>
+
+        {/* Upload Modal */}
+        {isUploadModalOpen && (
+          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+              <h2 className="text-2xl font-semibold mb-4">Upload New Image</h2>
+
+              <form onSubmit={handleUploadSubmit}>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Select Image
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                    required
+                    className="w-full border border-gray-300 rounded-lg p-2"
+                  />
+                </div>
+
+                {uploadError && (
+                  <p className="text-red-500 text-sm mb-4">{uploadError}</p>
+                )}
+
+                <div className="flex justify-end gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsUploadModalOpen(false);
+                      setUploadError(null);
+                      setUploadFile(null);
+                    }}
+                    className="bg-gray-500 text-red px-4 py-2 rounded-lg hover:bg-gray-600"
+                    disabled={uploadLoading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
+                    disabled={uploadLoading}
+                  >
+                    {uploadLoading ? "Uploading..." : "Upload"}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         )}
+
+        {error && (
+          <p className="text-red-600 mt-2">
+            Error loading category images: {error}
+          </p>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
