@@ -160,10 +160,11 @@ const SidebarWithFoodItems: React.FC = () => {
 
   // Add handler for image selection
   const handleImageClick = (uuid: string) => {
-    setSelectedImageUuids(prev => 
-      prev.includes(uuid) 
-        ? prev.filter(id => id !== uuid) // Remove if already selected
-        : [...prev, uuid] // Add if not selected
+    setSelectedImageUuids(
+      (prev) =>
+        prev.includes(uuid)
+          ? prev.filter((id) => id !== uuid) // Remove if already selected
+          : [...prev, uuid] // Add if not selected
     );
   };
 
@@ -238,30 +239,30 @@ const SidebarWithFoodItems: React.FC = () => {
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!uploadFile) {
-      setUploadError('Please select a file');
+      setUploadError("Please select a file");
       return;
     }
 
     try {
       setUploadLoading(true);
       setUploadError(null);
-      
+
       const userProfile = getUser() as UserProfile;
       if (!userProfile?.profile?.user_uuid) {
         throw new Error("User UUID not found");
       }
 
       await uploadCategoryImage(uploadFile, userProfile.profile.user_uuid);
-      
+
       // Refresh the category images
       const newData = await categoryImages(userProfile.profile.user_uuid);
       setCategoryImageData(newData);
-      
+
       // Reset form and close modal
       setUploadFile(null);
       setIsUploadModalOpen(false);
     } catch (error) {
-      setUploadError(error instanceof Error ? error.message : 'Upload failed');
+      setUploadError(error instanceof Error ? error.message : "Upload failed");
     } finally {
       setUploadLoading(false);
     }
@@ -418,25 +419,26 @@ const SidebarWithFoodItems: React.FC = () => {
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Selected Images:
           </label>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-6 mt-5">
             {selectedImageUuids.map((uuid) => {
-              const selectedImage = categoryImageData?.data?.storage?.data?.find(
-                (img: any) => img.uuid === uuid
-              );
+              const selectedImage =
+                categoryImageData?.data?.storage?.data?.find(
+                  (img: any) => img.uuid === uuid
+                );
               return selectedImage ? (
-                <div key={uuid} className="relative">
+                <div key={uuid} className="relative ">
                   <Image
                     src={`${selectedImage.base_url}/${selectedImage.path}`}
                     alt={selectedImage.slug}
                     width={100}
                     height={100}
-                    className="rounded-lg object-cover"
+                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
                   />
                   <button
                     onClick={() => handleImageClick(uuid)}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center"
+                    className="absolute -top-5 -right-5 bg-red-500 text-lg text-red rounded-full w-6 h-6 flex items-center justify-center"
                   >
-                    X
+                    x
                   </button>
                 </div>
               ) : null;
@@ -446,47 +448,51 @@ const SidebarWithFoodItems: React.FC = () => {
           <input
             type="hidden"
             name="selectedImages"
-            value={selectedImageUuids.map(uuid => {
-              const image = categoryImageData?.data?.storage?.data?.find(
-                (img: any) => img.uuid === uuid
-              );
-              return image ? `${image.base_url}/${image.path}` : '';
-            }).join(',')}
+            value={selectedImageUuids
+              .map((uuid) => {
+                const image = categoryImageData?.data?.storage?.data?.find(
+                  (img: any) => img.uuid === uuid
+                );
+                return image ? `${image.base_url}/${image.path}` : "";
+              })
+              .join(",")}
           />
         </div>
 
         <div className="relative overflow-x-auto bg-white rounded-lg">
           <div className="flex space-x-6 p-4 min-w-full">
             {categoryImageData?.data?.storage?.data?.map((image: any) => (
-              <div 
-                key={image.uuid} 
+              <div
+                key={image.uuid}
                 className="flex-shrink-0 w-[100px] cursor-pointer"
                 onClick={() => handleImageClick(image.uuid)}
               >
-                <div className={`relative aspect-square ${
-                  selectedImageUuids.includes(image.uuid) 
-                    ? 'ring-2 ring-indigo-500' 
-                    : ''
-                }`}>
+                <div
+                  className={`relative aspect-square ${
+                    selectedImageUuids.includes(image.uuid)
+                      ? "ring-2 ring-[#3ab764]"
+                      : ""
+                  }`}
+                >
                   <Image
                     src={`${image.base_url}/${image.path}`}
                     alt={image.slug}
                     width={100}
                     height={100}
-                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300"
+                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
                   />
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex justify-end p-4">
-            <button
-              onClick={() => setIsUploadModalOpen(true)}
-              className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
-            >
-              Add Image
-            </button>
-          </div>
+        </div>
+        <div className="flex justify-end p-4">
+          <button
+            onClick={() => setIsUploadModalOpen(true)}
+            className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
+          >
+            Add Image
+          </button>
         </div>
 
         {/* Upload Modal */}
@@ -494,7 +500,7 @@ const SidebarWithFoodItems: React.FC = () => {
           <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
               <h2 className="text-2xl font-semibold mb-4">Upload New Image</h2>
-              
+
               <form onSubmit={handleUploadSubmit}>
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -521,7 +527,7 @@ const SidebarWithFoodItems: React.FC = () => {
                       setUploadError(null);
                       setUploadFile(null);
                     }}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                    className="bg-gray-500 text-red px-4 py-2 rounded-lg hover:bg-gray-600"
                     disabled={uploadLoading}
                   >
                     Cancel
@@ -531,7 +537,7 @@ const SidebarWithFoodItems: React.FC = () => {
                     className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
                     disabled={uploadLoading}
                   >
-                    {uploadLoading ? 'Uploading...' : 'Upload'}
+                    {uploadLoading ? "Uploading..." : "Upload"}
                   </button>
                 </div>
               </form>
