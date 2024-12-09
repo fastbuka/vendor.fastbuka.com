@@ -117,7 +117,7 @@ const FoodForm: React.FC = () => {
 
     fetchCategoryImages();
   }, [slug, router]);
-  
+
   // Add new state for upload modal
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
@@ -165,7 +165,6 @@ const FoodForm: React.FC = () => {
       setUploadLoading(false);
     }
   };
-
 
   if (!user) {
     return <div>Loading...</div>;
@@ -231,24 +230,6 @@ const FoodForm: React.FC = () => {
           ></textarea>
         </div>
 
-        {/* Image (File) */}
-        <div className="mb-8">
-          <label
-            htmlFor="image"
-            className="block mb-3 text-lg font-semibold text-gray-900"
-          >
-            Image
-          </label>
-          <input
-            type="file"
-            id="image"
-            className="block w-full text-lg text-gray-900 bg-gray-50 rounded-lg border border-gray-300 cursor-pointer focus:outline-none"
-            accept="image/*"
-            onChange={handleImageChange}
-            required
-          />
-        </div>
-
         {/* Price (Number) */}
         <div className="mb-8">
           <label
@@ -306,22 +287,47 @@ const FoodForm: React.FC = () => {
           />
         </div>
 
+        {/* Modified Category images section */}
+        <div className="mb-8">
+          <label
+            htmlFor="selectedImages"
+            className="block mb-3 text-lg font-semibold text-gray-900"
+          >
+            Select Image(s)
+          </label>
+          <input
+            type="text"
+            id="selectedImages"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            placeholder="Images"
+            value={selectedImageUuids
+              .map((uuid) => {
+                const selectedImage = categoryImageData?.data?.storage?.data?.find(
+                  (img: any) => img.uuid === uuid
+                );
+                return selectedImage ? `${selectedImage.base_url}/${selectedImage.path}` : '';
+              })
+              .filter(Boolean)
+              .join(', ')}
+            readOnly
+          />
+        </div>
+
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
             type="submit"
-            className="bg-blue-600 text-white font-semibold rounded-lg text-lg px-6 py-3 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            className="bg-[#3ab764] text-white font-semibold rounded-lg text-lg px-6 py-3 focus:ring-4 focus:outline-none focus:ring-blue-300"
           >
             Submit
           </button>
         </div>
       </form>
 
-      {/* Modified Category images section */}
-      <div className="w-full max-w-[70vw] mx-auto px-4 md:px-6 lg:px-8">
+      <div className="w-full max-w-[70vw] mx-auto px-4 md:px-6 lg:px-8 mt-5">
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Selected Images:
+          <label className="block text-lg font-medium text-gray-700 mb-2">
+            Selected Image(s):
           </label>
           <div className="flex flex-wrap gap-6 mt-5">
             {selectedImageUuids.map((uuid) => {
@@ -354,10 +360,10 @@ const FoodForm: React.FC = () => {
             name="selectedImages"
             value={selectedImageUuids
               .map((uuid) => {
-                const image = categoryImageData?.data?.storage?.data?.find(
+                const selectedImage = categoryImageData?.data?.storage?.data?.find(
                   (img: any) => img.uuid === uuid
                 );
-                return image ? `${image.base_url}/${image.path}` : "";
+                return selectedImage ? `${selectedImage.base_url}/${selectedImage.path}` : "";
               })
               .join(",")}
           />
