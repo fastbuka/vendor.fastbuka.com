@@ -82,7 +82,6 @@ export async function getVendorBySlug(slug: string) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      // Add any other headers you need, e.g., Authorization
     },
   });
 

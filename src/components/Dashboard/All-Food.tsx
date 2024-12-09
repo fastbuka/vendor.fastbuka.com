@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useRouter, useParams } from "next/navigation";
-import { useLogout, categoryImages } from "@/queries/auth";
+import { useLogout, categoryImages, uploadCategoryImage } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -223,6 +223,10 @@ const SidebarWithFoodItems: React.FC = () => {
   const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
   const [uploadFile, setUploadFile] = useState<File | null>(null);
 
+  // Add new state for upload loading and error
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   // Add handler for file selection
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -230,20 +234,36 @@ const SidebarWithFoodItems: React.FC = () => {
     }
   };
 
-  // Add handler for form submission
+  // Modify the form submission handler
   const handleUploadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!uploadFile) return;
+    if (!uploadFile) {
+      setUploadError('Please select a file');
+      return;
+    }
 
     try {
-      // Add your upload logic here
-      console.log('Uploading file:', uploadFile);
+      setUploadLoading(true);
+      setUploadError(null);
       
-      // Reset form and close modal after successful upload
+      const userProfile = getUser() as UserProfile;
+      if (!userProfile?.profile?.user_uuid) {
+        throw new Error("User UUID not found");
+      }
+
+      await uploadCategoryImage(uploadFile, userProfile.profile.user_uuid);
+      
+      // Refresh the category images
+      const newData = await categoryImages(userProfile.profile.user_uuid);
+      setCategoryImageData(newData);
+      
+      // Reset form and close modal
       setUploadFile(null);
       setIsUploadModalOpen(false);
     } catch (error) {
-      console.error('Upload failed:', error);
+      setUploadError(error instanceof Error ? error.message : 'Upload failed');
+    } finally {
+      setUploadLoading(false);
     }
   };
 
@@ -484,23 +504,34 @@ const SidebarWithFoodItems: React.FC = () => {
                     type="file"
                     accept="image/*"
                     onChange={handleFileChange}
+                    required
                     className="w-full border border-gray-300 rounded-lg p-2"
                   />
                 </div>
 
+                {uploadError && (
+                  <p className="text-red-500 text-sm mb-4">{uploadError}</p>
+                )}
+
                 <div className="flex justify-end gap-2">
                   <button
                     type="button"
-                    onClick={() => setIsUploadModalOpen(false)}
-                    className="bg-gray-500 text-red px-4 py-2 rounded-lg hover:bg-gray-600"
+                    onClick={() => {
+                      setIsUploadModalOpen(false);
+                      setUploadError(null);
+                      setUploadFile(null);
+                    }}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                    disabled={uploadLoading}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
+                    className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
+                    disabled={uploadLoading}
                   >
-                    Upload
+                    {uploadLoading ? 'Uploading...' : 'Upload'}
                   </button>
                 </div>
               </form>
