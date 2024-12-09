@@ -6,6 +6,7 @@ import { uploadCategoryImage, categoryImages, useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
+import { getAllCategory } from "@/queries/categoryImages";
 
 interface UserProfile {
   profile: {
@@ -166,6 +167,29 @@ const FoodForm: React.FC = () => {
     }
   };
 
+  const [categories, setCategories] = useState<any[]>([]); // State to store categories
+  const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getAllCategory();
+        if (response?.data?.categories) {
+          setCategories(response.data.categories);
+        } else {
+          throw new Error("Failed to fetch categories");
+        }
+      } catch (err) {
+        setCategoriesError(err instanceof Error ? err.message : "Error fetching categories");
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -189,10 +213,11 @@ const FoodForm: React.FC = () => {
             required
           >
             <option value="">Select a category</option>
-            <option value="appetizer">Appetizer</option>
-            <option value="main">Main Course</option>
-            <option value="dessert">Dessert</option>
-            <option value="drink">Drink</option>
+            {categories.map((category) => (
+              <option key={category.uuid} value={category.uuid}>
+                {category.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -461,6 +486,8 @@ const FoodForm: React.FC = () => {
           </p>
         )}
       </div>
+
+      
     </>
   );
 };

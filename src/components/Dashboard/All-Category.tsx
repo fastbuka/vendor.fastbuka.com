@@ -12,6 +12,7 @@ import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
+import { getAllCategory } from "@/queries/categoryImages";
 
 interface UserProfile {
   profile: {
@@ -99,6 +100,31 @@ const Category: React.FC = () => {
     }
   }, [slug, router]);
 
+  const [categories, setCategories] = useState<any[]>([]); // State to store categories
+  const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getAllCategory();
+        if (response?.data?.categories) {
+          setCategories(response.data.categories);
+        } else {
+          throw new Error("Failed to fetch categories");
+        }
+      } catch (err) {
+        setCategoriesError(
+          err instanceof Error ? err.message : "Error fetching categories"
+        );
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -106,7 +132,7 @@ const Category: React.FC = () => {
   if (!vendor) return null;
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
+      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
         {FoodCategory.map((food, index) => (
           <CardDataStats
             key={index}
@@ -123,6 +149,50 @@ const Category: React.FC = () => {
             />
           </CardDataStats>
         ))}
+      </div> */}
+
+      <div className="">
+        <h1>All Category</h1>
+        {/* Get all categories */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
+          {categoriesLoading && <p>Loading categories...</p>}
+          {categoriesError && (
+            <p className="text-red-600">Error: {categoriesError}</p>
+          )}
+
+          {categories.map((category: any) => (
+            <div
+              key={category.uuid}
+              className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-200"
+            >
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-800">
+                  {category.name}
+                </h2>
+              </div>
+              <p className="text-gray-600 mb-4">{category.description}</p>
+              {category.image && (
+                <div className="relative h-48 w-full mb-4">
+                  <Image
+                    // src={category.image}
+                    src={
+                      "https://storage.fastbuka.com/storage/development/images/94jIcSjYmG49MNgj8wudRHXSOQYolid4Ktu4r4in.jpg"
+                    }
+                    alt={category.name}
+                    fill
+                    className="rounded-lg object-cover"
+                  />
+                </div>
+              )}
+              <div className="flex justify-between items-center text-sm text-gray-500">
+                <span>
+                  Created: {new Date(category.created_at).toLocaleDateString()}
+                </span>
+                <span>Status: {category.status}</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

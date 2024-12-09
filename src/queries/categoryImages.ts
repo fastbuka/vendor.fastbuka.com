@@ -1,5 +1,5 @@
 "use client"
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { useRouter } from "next/navigation";
 import { API_ENDPOINTS } from "@/constants";
 import { request } from "@/utils/request";
@@ -33,6 +33,27 @@ function getTokenFromLocalStorage() {
   return null;
 }
 
+export async function getAllCategory() {
+  try {
+    const response = await fetch(API_ENDPOINTS.ALL_CATEGORY, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch category images");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+    throw error;
+  }
+}
+
 export function addFood(token: string, vendor_uuid: string) {
   return useMutation<AuthResponse, Error, foodData>(
     (data) => {
@@ -49,7 +70,7 @@ export function addFood(token: string, vendor_uuid: string) {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-          "vendor-uuid": vendor_uuid 
+          "vendor-uuid": vendor_uuid
         },
         body: JSON.stringify(data),
       });
