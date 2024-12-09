@@ -311,6 +311,24 @@ const FoodForm: React.FC = () => {
             required
           />
         </div>
+        {/* Ready Made Selection */}
+        <div className="mb-8">
+          <label
+            htmlFor="readyMade"
+            className="block mb-3 text-lg font-semibold text-gray-900"
+          >
+            Ready Made
+          </label>
+          <select
+            id="readyMade"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            required
+          >
+            <option value="">Select an option</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
 
         {/* Modified Category images section */}
         <div className="mb-8">

@@ -154,7 +154,7 @@ const Category: React.FC = () => {
       <div className="">
         <h1>All Category</h1>
         {/* Get all categories */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-5">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mt-5">
           {categoriesLoading && <p>Loading categories...</p>}
           {categoriesError && (
             <p className="text-red-600">Error: {categoriesError}</p>
