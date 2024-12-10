@@ -8,6 +8,7 @@ import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
+import Bridge from "@ngnc/bridge"
 
 interface UserProfile {
   profile: {
@@ -46,6 +47,32 @@ const CurrencyForm = () => {
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Add state for amount and wallet address
+  const [amount, setAmount] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+
+  // Function to handle Bridge widget
+  const handleBridgeWidget = () => {
+    const widget = new Bridge({
+      key: "ngnc_p_tk_cf25d94968d9df41daa9a966e0927bd2d3df3dbb2dc5df589bef7df2a7e27f19", // Use environment variable
+      type: "WITHDRAWAL",
+      currency: "ngn",
+      onSuccess: (response: { reference: string; status: string }) => {
+        console.log("Transaction successful:", response);
+        // Handle success (e.g., show success message, redirect, etc.)
+      },
+      onClose: () => {
+        console.log("Widget closed");
+      },
+      onLoad: () => {
+        console.log("Bridge widget loaded successfully");
+      }
+    });
+    
+    widget.setup();
+    widget.open();
+  };
 
   // Fetch vendor data as a separate function
   const fetchVendor = async (slug: string) => {
@@ -108,8 +135,8 @@ const CurrencyForm = () => {
                 className="rounded-xl"
               />
               <div>
-                <span className="font-bold">Nigeria Naira</span> <br />
-                <span>NGN</span>
+                <span className="font-bold">Local Nigeria Bank</span> <br />
+                <span>via LINKIO</span>
               </div>
             </span>
           </label>
@@ -147,81 +174,12 @@ const CurrencyForm = () => {
       <div className="mt-6">
         {selectedCurrency === "NGN" && (
           <div className="p-4 bg-white shadow rounded-lg">
-            {/* Nigeria Naira form content */}
-            <h3 className="text-lg font-bold">Nigeria Naira Payment Form</h3>
-            <form className="">
-              <div className="mb-3">
-                <label
-                  htmlFor="bank_account"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Select Bank Account:
-                </label>
-                <select
-                  id="bank_account"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  name="bank_account"
-                >
-                  <option selected>Choose a bank</option>
-                  <option value="US">Access Bank</option>
-                  <option value="CA">Opay</option>
-                  <option value="FR">UBA</option>
-                  <option value="DE">Palmpay</option>
-                </select>
-              </div>
-              <div className="mb-3">
-                <label
-                  htmlFor="account_number"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Account Number:
-                </label>
-                <input
-                  type="number"
-                  min="5000"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  id="account_number"
-                  name="account_number"
-                />
-              </div>
-              <div className="mb-3">
-                <label
-                  htmlFor="account_name"
-                  className="block mb-2 text-sm font-medium text-gray-900"
-                >
-                  Account Name:
-                </label>
-                <input
-                  type="number"
-                  min="5000"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  id="account_name"
-                  name="account_name"
-                  readOnly
-                />
-              </div>
-              <div className="mb-3">
-                <label
-                  htmlFor="amount"
-                  className="block mb-2 text-sm font-medium text-gray-900 "
-                >
-                  Amount:
-                </label>
-                <input
-                  type="number"
-                  min="5000"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                  id="amount"
-                  name="amount"
-                />
-              </div>
-              <button
-                type="submit"
-                className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl mt-5"
-              >
-                Next
-              </button>{" "}
-            </form>
+            <button
+              onClick={handleBridgeWidget}
+              className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl mt-5"
+            >
+              Open Withdrawal Widget
+            </button>
           </div>
         )}
 

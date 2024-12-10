@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import { uploadCategoryImage, categoryImages, useLogout } from "@/queries/auth";
+import { addFood } from "@/queries/categoryImages";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
 import { getAllCategory } from "@/queries/categoryImages";
+import { useMutation } from 'react-query';
 
 interface UserProfile {
   profile: {
@@ -190,6 +192,78 @@ const FoodForm: React.FC = () => {
     fetchCategories();
   }, []);
 
+  // Add form state
+  const [formData, setFormData] = useState({
+    category_uuid: '',
+    name: '',
+    description: '',
+    price: '',
+    discount: '',
+    preparation_time: '',
+    ready_made: '',
+  });
+
+  // Add form handler
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value
+    });
+  };
+
+  // First, add the mutation hook at the top of your component
+  const addFoodMutation = addFood(vendor?.slug || '');
+
+  // Then modify the handleSubmit function
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      if (!vendor?.uuid) {
+        throw new Error('Vendor UUID not found');
+      }
+
+      // Create the food data object
+      const foodData = {
+        category_uuid: formData.category_uuid,
+        name: formData.name,
+        description: formData.description,
+        image: '',
+        imageUrl: selectedImageUuids
+          .map((uuid) => {
+            const selectedImage = categoryImageData?.data?.storage?.data?.find(
+              (img: any) => img.uuid === uuid
+            );
+            return selectedImage ? `${selectedImage.base_url}/${selectedImage.path}` : '';
+          })
+          .filter(Boolean)
+          .join(','),
+        price: Number(formData.price),
+        discount: Number(formData.discount || '0'),
+        processing_time: formData.preparation_time,
+        ready_made: formData.ready_made === 'yes' ? 'true' : 'false'
+      };
+
+      console.log('Sending food data:', foodData);
+      console.log('Vendor UUID:', vendor.uuid);
+
+      // Call the mutation and wait for response
+      const response = await addFoodMutation.mutateAsync(foodData);
+      
+      // Check if response exists and has status code 200/201
+      if (response) {
+        console.log('Food added successfully:', response);
+        router.push(`/vendor/foods/${slug}`);
+      } else {
+        throw new Error('Failed to add food');
+      }
+    } catch (error) {
+      console.error('Error adding food:', error);
+      // Show error message to user
+      alert(error instanceof Error ? error.message : 'Failed to add food');
+    }
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -198,7 +272,7 @@ const FoodForm: React.FC = () => {
 
   return (
     <>
-      <form className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2">
+      <form onSubmit={handleSubmit} className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2">
         {/* Category (Dropdown) */}
         <div className="mb-8">
           <label
@@ -208,7 +282,9 @@ const FoodForm: React.FC = () => {
             Category
           </label>
           <select
-            id="category"
+            id="category_uuid"
+            value={formData.category_uuid}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             required
           >
@@ -231,7 +307,9 @@ const FoodForm: React.FC = () => {
           </label>
           <input
             type="text"
-            id="foodName"
+            id="name"
+            value={formData.name}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             placeholder="Enter the food name"
             required
@@ -248,6 +326,8 @@ const FoodForm: React.FC = () => {
           </label>
           <textarea
             id="description"
+            value={formData.description}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             placeholder="Describe the food"
             rows={5}
@@ -266,6 +346,8 @@ const FoodForm: React.FC = () => {
           <input
             type="number"
             id="price"
+            value={formData.price}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             placeholder="Enter price"
             min={0}
@@ -285,6 +367,8 @@ const FoodForm: React.FC = () => {
           <input
             type="number"
             id="discount"
+            value={formData.discount}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             placeholder="Enter discount"
             min={0}
@@ -303,7 +387,9 @@ const FoodForm: React.FC = () => {
           </label>
           <input
             type="number"
-            id="prepTime"
+            id="preparation_time"
+            value={formData.preparation_time}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             placeholder="Enter preparation time"
             min={0}
@@ -311,6 +397,7 @@ const FoodForm: React.FC = () => {
             required
           />
         </div>
+        
         {/* Ready Made Selection */}
         <div className="mb-8">
           <label
@@ -320,7 +407,9 @@ const FoodForm: React.FC = () => {
             Ready Made
           </label>
           <select
-            id="readyMade"
+            id="ready_made"
+            value={formData.ready_made}
+            onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             required
           >
@@ -361,8 +450,9 @@ const FoodForm: React.FC = () => {
           <button
             type="submit"
             className="bg-[#3ab764] text-white font-semibold rounded-lg text-lg px-6 py-3 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            disabled={addFoodMutation.isLoading}
           >
-            Submit
+            {addFoodMutation.isLoading ? "Adding..." : "Submit"}
           </button>
         </div>
       </form>

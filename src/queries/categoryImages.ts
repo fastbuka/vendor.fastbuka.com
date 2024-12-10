@@ -7,14 +7,13 @@ import { setToken, getToken, clearToken, setUser } from "@/utils/token";
 import { useAuth } from "@/context/AuthContext";
 
 export interface foodData {
-  vendor_uuid: string;
   category_uuid: string;
   name: string;
   description: string;
   image: string;
   imageUrl: string;
-  price: string;
-  discount: string;
+  price: number;
+  discount: number;
   processing_time: string;
   ready_made: string;
 }
@@ -54,26 +53,42 @@ export async function getAllCategory() {
   }
 }
 
-export function addFood(token: string, vendor_uuid: string) {
+export function addFood(vendor_slug: string) {
   return useMutation<AuthResponse, Error, foodData>(
-    (data) => {
-      if (!token) {
-        throw new Error("No token provided");
+    async (data) => {
+      // Fetch the "fastbuka_auth_token" from localStorage
+      const token = getTokenFromLocalStorage();
+
+      // Separate image handling (assumes image is a file)
+      const formData = new FormData();
+      formData.append('category_uuid', data.category_uuid);
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+      formData.append('price', data.price.toString());
+      formData.append('discount', data.discount.toString());
+      formData.append('processing_time', data.processing_time);
+      formData.append('ready_made', data.ready_made);
+      // Check if the image is a File object or URL string
+      if (typeof data.image === 'object' && data.image !== null) {
+        formData.append('image', data.image);
+      } else {
+        formData.append('imageUrl', data.imageUrl || "");
       }
 
-      if (!vendor_uuid) {
-        throw new Error("No vendor UUID provided");
-      }
-
-      return request(API_ENDPOINTS.ADD_FOOD, {
+      const response = await fetch(`${API_ENDPOINTS.ADD_FOOD}/${vendor_slug}`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-          "vendor-uuid": vendor_uuid
+          token: `${token || ""}`, // Add token header
+          vendor_slug: vendor_slug, // Add vendor_slug header
         },
-        body: JSON.stringify(data),
+        body: formData, // Use formData for multipart requests
       });
+
+      if (!response.ok) {
+        throw new Error("Failed to add food");
+      }
+
+      return response.json();
     },
     {
       onError: (error: any) => {
@@ -89,5 +104,5 @@ export function addFood(token: string, vendor_uuid: string) {
         }
       },
     }
-  )
+  );
 }
