@@ -52,26 +52,46 @@ const CurrencyForm = () => {
   const [amount, setAmount] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
 
-  // Function to handle Bridge widget
+  // Add loading state for widget
+  const [isWidgetLoading, setIsWidgetLoading] = useState(false);
+  const [widgetError, setWidgetError] = useState<string | null>(null);
+
+  // Updated Bridge widget handler with loading and error handling
   const handleBridgeWidget = () => {
-    const widget = new Bridge({
-      key: "ngnc_p_tk_cf25d94968d9df41daa9a966e0927bd2d3df3dbb2dc5df589bef7df2a7e27f19", // Use environment variable
-      type: "WITHDRAWAL",
-      currency: "ngn",
-      onSuccess: (response: { reference: string; status: string }) => {
-        console.log("Transaction successful:", response);
-        // Handle success (e.g., show success message, redirect, etc.)
-      },
-      onClose: () => {
-        console.log("Widget closed");
-      },
-      onLoad: () => {
-        console.log("Bridge widget loaded successfully");
-      }
-    });
+    setIsWidgetLoading(true);
+    setWidgetError(null);
     
-    widget.setup();
-    widget.open();
+    try {
+      const widget = new Bridge({
+        key: "ngnc_p_tk_cf25d94968d9df41daa9a966e0927bd2d3df3dbb2dc5df589bef7df2a7e27f19",
+        type: "WITHDRAWAL",
+        currency: "ngn",
+        onSuccess: (response: { reference: string; status: string }) => {
+          console.log("Transaction successful:", response);
+          setIsWidgetLoading(false);
+        },
+        onClose: () => {
+          console.log("Widget closed");
+          setIsWidgetLoading(false);
+        },
+        onLoad: () => {
+          console.log("Bridge widget loaded successfully");
+          setIsWidgetLoading(false);
+        }
+      });
+      
+      widget.setup();
+      widget.open();
+
+      // Clean up widget when component unmounts
+      return () => {
+        setIsWidgetLoading(false);  
+      };
+    } catch (error) {
+      console.error("Widget initialization error:", error);
+      setWidgetError("Failed to initialize payment widget");
+      setIsWidgetLoading(false);
+    }
   };
 
   // Fetch vendor data as a separate function
@@ -174,11 +194,15 @@ const CurrencyForm = () => {
       <div className="mt-6">
         {selectedCurrency === "NGN" && (
           <div className="p-4 bg-white shadow rounded-lg">
+            {widgetError && (
+              <div className="text-red-500 mb-3">{widgetError}</div>
+            )}
             <button
               onClick={handleBridgeWidget}
-              className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl mt-5"
+              disabled={isWidgetLoading}
+              className={`text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-9 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl mt-5 ${isWidgetLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              Open Withdrawal Widget
+              {isWidgetLoading ? 'Loading...' : 'Open Withdrawal Widget'}
             </button>
           </div>
         )}

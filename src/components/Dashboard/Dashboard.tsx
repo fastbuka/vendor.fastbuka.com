@@ -135,6 +135,7 @@ const VendorDashboard = () => {
       </h1> */}
       <h1 className="font-bold text-black text-xl my-3">
         Welcome, {getDefaultFirstName(vendor.name)}
+        Welcome, {getDefaultFirstName(vendor.uuid)}
       </h1>
       {/* <div>
         <h1>{vendor.name}</h1>

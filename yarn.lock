@@ -182,6 +182,11 @@
   resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.2.4.tgz"
   integrity sha512-tkLrjBzqFTP8DVrAAQmZelEahfR9OxWpFR++vAI9FBhCiIxtwHwBHC23SBHCTURBtwB4kc/x44imVOnkKGNVGg==
 
+"@ngnc/bridge@^1.4.1":
+  version "1.4.1"
+  resolved "https://registry.npmjs.org/@ngnc/bridge/-/bridge-1.4.1.tgz"
+  integrity sha512-7rbWhDq4EWKoazlcVqs8V3hEF0ItbwylshSYdhQZGVKg5Ovod+PUx6EweBBdcCNta5OybfGZWU4fzL62L9v+8w==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.npmjs.org/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz"
