@@ -225,6 +225,7 @@ const FoodForm: React.FC = () => {
 
       // Create the food data object
       const foodData = {
+        vendor_uuid: vendor.uuid,
         category_uuid: formData.category_uuid,
         name: formData.name,
         description: formData.description,
@@ -241,7 +242,7 @@ const FoodForm: React.FC = () => {
         price: Number(formData.price),
         discount: Number(formData.discount || '0'),
         processing_time: formData.preparation_time,
-        ready_made: formData.ready_made === 'yes' ? 'true' : 'false'
+        ready_made: formData.ready_made === 'yes'
       };
 
       console.log('Sending food data:', foodData);

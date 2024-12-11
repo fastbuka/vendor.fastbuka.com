@@ -7,6 +7,7 @@ import { setToken, getToken, clearToken, setUser } from "@/utils/token";
 import { useAuth } from "@/context/AuthContext";
 
 export interface foodData {
+  vendor_uuid: string;
   category_uuid: string;
   name: string;
   description: string;
@@ -15,7 +16,7 @@ export interface foodData {
   price: number;
   discount: number;
   processing_time: string;
-  ready_made: string;
+  ready_made: boolean;
 }
 
 interface AuthResponse {
@@ -56,53 +57,38 @@ export async function getAllCategory() {
 export function addFood(vendor_slug: string) {
   return useMutation<AuthResponse, Error, foodData>(
     async (data) => {
-      // Fetch the "fastbuka_auth_token" from localStorage
       const token = getTokenFromLocalStorage();
 
-      // Separate image handling (assumes image is a file)
-      const formData = new FormData();
-      formData.append('category_uuid', data.category_uuid);
-      formData.append('name', data.name);
-      formData.append('description', data.description);
-      formData.append('price', data.price.toString());
-      formData.append('discount', data.discount.toString());
-      formData.append('processing_time', data.processing_time);
-      formData.append('ready_made', data.ready_made);
-      // Check if the image is a File object or URL string
-      if (typeof data.image === 'object' && data.image !== null) {
-        formData.append('image', data.image);
-      } else {
-        formData.append('imageUrl', data.imageUrl || "");
-      }
+      // Construct JSON payload
+      const payload = {
+        vendor_uuid: data.vendor_uuid,
+        category_uuid: data.category_uuid,
+        name: data.name,
+        description: data.description,
+        price: data.price, // Keep as number
+        discount: data.discount, // Keep as number
+        processing_time: data.processing_time,
+        ready_made: data.ready_made, // Keep as boolean
+        image: data.image || null, // If needed, handle image as URL or blob
+      };
 
       const response = await fetch(`${API_ENDPOINTS.ADD_FOOD}/${vendor_slug}`, {
         method: "POST",
         headers: {
-          token: `${token || ""}`, // Add token header
-          vendor_slug: vendor_slug, // Add vendor_slug header
+          "Content-Type": "application/json",
+          token: `${token || ""}`,
+          slug: vendor_slug,
         },
-        body: formData, // Use formData for multipart requests
+        body: JSON.stringify(payload), // Send JSON payload
       });
 
       if (!response.ok) {
-        throw new Error("Failed to add food");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to add food");
       }
 
       return response.json();
-    },
-    {
-      onError: (error: any) => {
-        console.error("Failed to add food", error);
-        if (error.response) {
-          console.error(error.response.data);
-          console.error(error.response.status);
-          console.error(error.response.headers);
-        } else if (error.request) {
-          console.error(error.request);
-        } else {
-          console.error("Error", error.message);
-        }
-      },
     }
   );
 }
+
