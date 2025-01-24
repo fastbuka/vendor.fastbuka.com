@@ -91,4 +91,3 @@ export function addFood(vendor_slug: string) {
     }
   );
 }
-

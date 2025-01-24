@@ -3,12 +3,8 @@ import React, { useState, useEffect } from "react";
 import Turkey from "/public/turkey.jpg";
 import JellofRice from "/public/jollof1.jpg";
 import Drinks from "/public/drinks.jpg";
-import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-import CardDataStats from "@/components/CardDataStats";
 import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -61,7 +57,6 @@ const Category: React.FC = () => {
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [queryClient] = useState(() => new QueryClient());
-  const logout = useLogout(queryClient);
 
   const { slug } = useParams(); // Get the slug directly from params
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
@@ -132,25 +127,6 @@ const Category: React.FC = () => {
   if (!vendor) return null;
   return (
     <>
-      {/* <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
-        {FoodCategory.map((food, index) => (
-          <CardDataStats
-            key={index}
-            name={food.name}
-            total={"Total Item " + food.total}
-            id={food.id}
-          >
-            <Image
-              src={food.imageSrc}
-              alt={food.alt}
-              className="img-fluid rounded-full object-cover h-10 w-30"
-              width={40} // Adjust the width as needed
-              height={40} // Adjust the height as needed
-            />
-          </CardDataStats>
-        ))}
-      </div> */}
-
       <div className="">
         <h1>All Category</h1>
         {/* Get all categories */}
