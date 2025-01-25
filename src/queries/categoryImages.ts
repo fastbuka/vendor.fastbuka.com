@@ -11,7 +11,6 @@ export interface foodData {
   category_uuid: string;
   name: string;
   description: string;
-  image: string;
   imageUrl: string;
   price: number;
   discount: number;
@@ -69,14 +68,14 @@ export function addFood(vendor_slug: string) {
         discount: data.discount, // Keep as number
         processing_time: data.processing_time,
         ready_made: data.ready_made, // Keep as boolean
-        image: data.image || null, // If needed, handle image as URL or blob
+        imageUrl: data.imageUrl || null, // If needed, handle image as URL or blob
       };
 
       const response = await fetch(`${API_ENDPOINTS.ADD_FOOD}/${vendor_slug}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          token: `${token || ""}`,
+          Authorization: `Bearer ${token || ""}`,
           slug: vendor_slug,
         },
         body: JSON.stringify(payload), // Send JSON payload
