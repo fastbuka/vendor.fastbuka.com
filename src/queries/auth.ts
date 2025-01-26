@@ -174,14 +174,57 @@ export async function allAccounts(token: string) {
       },
     });
 
-//     if (!response.ok) {
-//       throw new Error("Failed to fetch vendors");
-//     }
+    //     if (!response.ok) {
+    //       throw new Error("Failed to fetch vendors");
+    //     }
 
     const data = await response.json();
     return data.data.vendors; // Access the vendors array from the response
   } catch (error) {
     console.error("Error fetching vendors:", error);
+    throw error;
+  }
+}
+
+export async function categoryImages(user_uuid: string) {
+  try {
+    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${user_uuid}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch category images");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching vendors:", error);
+    throw error;
+  }
+}
+
+export async function uploadCategoryImage(file: File, user_uuid: string) {
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${user_uuid}`, {
+      method: "POST",
+      body: formData
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to upload category image");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error uploading image:", error);
     throw error;
   }
 }

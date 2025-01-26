@@ -5,7 +5,12 @@ export const API_ENDPOINTS = {
   VERIFY_TOKEN: "https://api.fastbuka.com/api/v1/auth/verify-token",
   LOGOUT: "https://api.fastbuka.com/api/v1/auth/logout",
   ALL_ACCOUNTS: "https://api.fastbuka.com/api/v1/vendor",
-  // Add other endpoints as needed
+
+  // Food and Category
+  ADD_FOOD: "https://api.fastbuka.com/api/v1/food",
+  CATEGORY_IMAGE: "https://storage.fastbuka.com/api/v1/storage",
+  ALL_CATEGORY: "https://api.fastbuka.com/api/v1/category",
+  ALL_FOOD: "https://api.fastbuka.com/api/v1/food",
 };
 
 export const TOKEN_PRICING = {

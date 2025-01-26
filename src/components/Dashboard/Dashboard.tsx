@@ -18,6 +18,7 @@ import CryptoRate from "@/components/Charts/CryptoRate";
 interface UserProfile {
   profile: {
     first_name: string;
+    user_uuid: string;
     email: string;
   };
 }
@@ -30,7 +31,6 @@ interface Vendor {
   description: string;
   country: string;
   city: string;
-  // Add other fields if needed
 }
 // /app/vendors/[slug]/page.tsx
 
@@ -130,8 +130,12 @@ const VendorDashboard = () => {
   return (
     <>
       <CryptoRate />
+      {/* <h1 className="font-bold text-black text-xl my-3 text-center">
+        Welcome, {getDefaultFirstName(user.profile?.user_uuid)}
+      </h1> */}
       <h1 className="font-bold text-black text-xl my-3">
         Welcome, {getDefaultFirstName(vendor.name)}
+        Welcome, {getDefaultFirstName(vendor.uuid)}
       </h1>
       {/* <div>
         <h1>{vendor.name}</h1>
