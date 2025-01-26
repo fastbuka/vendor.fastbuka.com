@@ -1,10 +1,6 @@
 "use client"
 import { useMutation, useQuery } from "react-query";
-import { useRouter } from "next/navigation";
 import { API_ENDPOINTS } from "@/constants";
-import { request } from "@/utils/request";
-import { setToken, getToken, clearToken, setUser } from "@/utils/token";
-import { useAuth } from "@/context/AuthContext";
 
 export interface foodData {
   vendor_uuid: string;
@@ -89,4 +85,25 @@ export function addFood(vendor_slug: string) {
       return response.json();
     }
   );
+}
+
+export async function allFood(vendor_slug: string) {
+  try {
+    const response = await fetch(`${API_ENDPOINTS.ALL_FOOD}/${vendor_slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        slug: vendor_slug,
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch category images");
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    throw error;
+  }
 }

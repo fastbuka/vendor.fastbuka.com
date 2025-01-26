@@ -11,6 +11,7 @@ import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
 import { getAllCategory } from "@/queries/categoryImages";
+import { allFood } from "@/queries/categoryImages";
 
 interface UserProfile {
   profile: {
@@ -32,13 +33,14 @@ interface Vendor {
 }
 
 // Define the type for the category keys
-type FoodCategory = "appetizer" | "main" | "dessert" | "drink";
+type FoodCategory = "Select food category";
 
 type FoodItem = {
   id: number;
   name: string;
+  category_uuid: string;
   price: number;
-  imageUrl: string | StaticImport;
+  image: string | StaticImport;
   description: string;
   discount: number;
 };
@@ -50,7 +52,7 @@ const foodData = {
       id: 1,
       name: "Spring Rolls",
       price: 5.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -58,7 +60,7 @@ const foodData = {
       id: 2,
       name: "Bruschetta",
       price: 7.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -68,7 +70,7 @@ const foodData = {
       id: 3,
       name: "Grilled Chicken",
       price: 12.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -76,7 +78,7 @@ const foodData = {
       id: 4,
       name: "Beef Steak",
       price: 19.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -86,7 +88,7 @@ const foodData = {
       id: 5,
       name: "Chocolate Cake",
       price: 4.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -94,7 +96,7 @@ const foodData = {
       id: 6,
       name: "Ice Cream Sundae",
       price: 3.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -104,7 +106,7 @@ const foodData = {
       id: 7,
       name: "Lemonade",
       price: 2.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -112,7 +114,7 @@ const foodData = {
       id: 8,
       name: "Cappuccino",
       price: 4.99,
-      imageUrl: FoodImage,
+      image: FoodImage,
       description: "this is the decription of the food item",
       discount: 0.0,
     },
@@ -120,8 +122,9 @@ const foodData = {
 };
 
 const SidebarWithFoodItems: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] =
-    useState<FoodCategory>("appetizer");
+  const [selectedCategory, setSelectedCategory] = useState<FoodCategory>(
+    "Select food category"
+  );
 
   // State for modal visibility and selected food item
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -208,20 +211,56 @@ const SidebarWithFoodItems: React.FC = () => {
     fetchCategoryImages();
   }, [slug, router]);
 
-  // Add new state for upload modal
-  const [isUploadModalOpen, setIsUploadModalOpen] = useState(false);
-  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [categories, setCategories] = useState<any[]>([]); // State to store categories
+  const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
+  const [categoriesError, setCategoriesError] = useState<string | null>(null);
 
-  // Add new state for upload loading and error
-  const [uploadLoading, setUploadLoading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getAllCategory();
+        if (response?.data?.categories) {
+          setCategories(response.data.categories);
+        } else {
+          throw new Error("Failed to fetch categories");
+        }
+      } catch (err) {
+        setCategoriesError(
+          err instanceof Error ? err.message : "Error fetching categories"
+        );
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
 
-  // Add handler for file selection
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setUploadFile(e.target.files[0]);
+    fetchCategories();
+  }, []);
+
+  const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
+
+  useEffect(() => {
+    if (vendor && vendor.slug) {
+      const fetchFoodItems = async () => {
+        try {
+          const foodData = await allFood(vendor.slug); // Use vendor.slug here
+
+          if (Array.isArray(foodData?.data?.foods)) {
+            setFoodItems(foodData.data.foods); // Set the foods array
+          } else {
+            throw new Error("Invalid food data structure");
+          }
+        } catch (err) {
+          setError(
+            err instanceof Error ? err.message : "Failed to fetch food data"
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchFoodItems();
     }
-  };
+  }, [vendor]); // This will run only when the `vendor` changes
 
   if (!user) {
     return <div>Loading...</div>;
@@ -239,7 +278,7 @@ const SidebarWithFoodItems: React.FC = () => {
               Food Categories
             </h2>
             <ul className="text-black text-md">
-              {(Object.keys(foodData) as Array<FoodCategory>) // Cast the keys to FoodCategory[]
+              {/* {(Object.keys(foodData) as Array<FoodCategory>) // Cast the keys to FoodCategory[]
                 .map((category) => (
                   <li key={category}>
                     <button
@@ -252,6 +291,30 @@ const SidebarWithFoodItems: React.FC = () => {
                     </button>
                   </li>
                 ))}
+                 */}
+              {categories.map((category) => {
+                // If category is an object, extract the name field
+                const categoryName =
+                  typeof category === "string" ? category : category.name;
+                const categoryID =
+                  typeof category === "string" ? category : category.uuid;
+
+                return (
+                  <li key={categoryName}>
+                    <button
+                      onClick={() => handleCategoryClick(categoryName)}
+                      className={`block w-full text-left p-4 my-2 rounded-lg hover:bg-gray-700 ${
+                        selectedCategory === categoryName ? "bg-gray-700" : ""
+                      }`}
+                    >
+                      {categoryName.charAt(0).toUpperCase() +
+                        categoryName.slice(1)}{" "}
+                      <br />
+                      {/* {categoryID} */}
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
@@ -264,31 +327,27 @@ const SidebarWithFoodItems: React.FC = () => {
           </h2>
 
           {/* Food Items */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-8">
             {foodData[selectedCategory]?.length > 0 ? (
               foodData[selectedCategory].map((foodItem) => (
                 <div
                   key={foodItem.id}
                   className="bg-white p-6 rounded-lg shadow-lg"
                 >
-                  {/* Image */}
                   <Image
-                    src={foodItem.imageUrl}
+                    src={foodItem.image}
                     alt={foodItem.name}
                     className="w-auto h-[100px] object-cover rounded-lg mb-4"
                   />
 
-                  {/* Food Name */}
                   <h3 className="text-xl font-semibold mb-2">
                     {foodItem.name}
                   </h3>
 
-                  {/* Price */}
                   <p className="text-lg text-gray-700 mb-4">
                     ${foodItem.price.toFixed(2)}
                   </p>
 
-                  {/* Action Icons: View, Edit, Delete */}
                   <div className="flex justify-between">
                     <button
                       className="text-blue-600"
@@ -312,7 +371,7 @@ const SidebarWithFoodItems: React.FC = () => {
                 No items available in this category.
               </p>
             )}
-          </div>
+          </div> */}
         </div>
 
         {/* Modal for viewing food details */}
@@ -329,7 +388,7 @@ const SidebarWithFoodItems: React.FC = () => {
 
               {/* Food Image */}
               <Image
-                src={selectedFood.imageUrl}
+                src={selectedFood.image}
                 alt={selectedFood.name}
                 className="w-auto h-[100px] object-cover rounded-lg mb-4"
               />
@@ -366,6 +425,35 @@ const SidebarWithFoodItems: React.FC = () => {
             </div>
           </div>
         )}
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
+        {foodItems.map((food) => (
+          <div
+            key={food.id}
+            className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow"
+          >
+            {/* <img
+              src={typeof food.image === "string" ? food.image : food.image.src}
+              alt={food.name}
+              className="w-full h-40 object-cover rounded-lg"
+            /> */}
+
+            <h3 className="text-lg font-bold mt-2">{food.category_uuid}</h3>
+            <h3 className="text-lg font-bold mt-2">{food.name}</h3>
+            <p className="text-gray-600">{food.description}</p>
+            <div className="flex justify-between items-center mt-4">
+              <span className="text-xl font-bold text-green-600">
+                ${food.price.toFixed(2)}
+              </span>
+              {food.discount > 0 && (
+                <span className="text-sm text-red-500">
+                  {food.discount}% off
+                </span>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

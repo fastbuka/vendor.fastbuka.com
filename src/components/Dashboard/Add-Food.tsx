@@ -245,15 +245,11 @@ const FoodForm: React.FC = () => {
         ready_made: formData.ready_made === 'yes'
       };
 
-      console.log('Sending food data:', foodData);
-      console.log('Vendor UUID:', vendor.uuid);
-
       // Call the mutation and wait for response
       const response = await addFoodMutation.mutateAsync(foodData);
       
       // Check if response exists and has status code 200/201
       if (response) {
-        console.log('Food added successfully:', response);
         router.push(`/vendor/foods/${slug}`);
       } else {
         throw new Error('Failed to add food');
