@@ -11,6 +11,7 @@ export const API_ENDPOINTS = {
   CATEGORY_IMAGE: "https://storage.fastbuka.com/api/v1/storage",
   ALL_CATEGORY: "https://api.fastbuka.com/api/v1/category",
   ALL_FOOD: "https://api.fastbuka.com/api/v1/food",
+  ORDERS: "https://api.fastbuka.com/api/"
 };
 
 export const TOKEN_PRICING = {
