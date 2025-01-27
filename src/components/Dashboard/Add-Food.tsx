@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import { uploadCategoryImage, categoryImages, useLogout } from "@/queries/auth";
-import { addFood } from "@/queries/categoryImages";
+import { useAddFood } from "@/queries/categoryImages";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -212,7 +212,7 @@ const FoodForm: React.FC = () => {
   };
 
   // First, add the mutation hook at the top of your component
-  const addFoodMutation = addFood(vendor?.slug || '');
+  const useAddFoodMutation = useAddFood(vendor?.slug || '');
 
   // Then modify the handleSubmit function
   const handleSubmit = async (e: React.FormEvent) => {
@@ -246,7 +246,7 @@ const FoodForm: React.FC = () => {
       };
 
       // Call the mutation and wait for response
-      const response = await addFoodMutation.mutateAsync(foodData);
+      const response = await useAddFoodMutation.mutateAsync(foodData);
       
       // Check if response exists and has status code 200/201
       if (response) {
@@ -447,9 +447,9 @@ const FoodForm: React.FC = () => {
           <button
             type="submit"
             className="bg-[#3ab764] text-white font-semibold rounded-lg text-lg px-6 py-3 focus:ring-4 focus:outline-none focus:ring-blue-300"
-            disabled={addFoodMutation.isLoading}
+            disabled={useAddFoodMutation.isLoading}
           >
-            {addFoodMutation.isLoading ? "Adding..." : "Submit"}
+            {useAddFoodMutation.isLoading ? "Adding..." : "Submit"}
           </button>
         </div>
       </form>

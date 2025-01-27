@@ -49,7 +49,7 @@ export async function getAllCategory() {
   }
 }
 
-export function addFood(vendor_slug: string) {
+export function useAddFood(vendor_slug: string) {
   return useMutation<AuthResponse, Error, foodData>(
     async (data) => {
       const token = getTokenFromLocalStorage();
