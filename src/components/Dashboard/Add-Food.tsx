@@ -8,7 +8,6 @@ import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
 import { getAllCategory } from "@/queries/categoryImages";
-import { useMutation } from 'react-query';
 
 interface UserProfile {
   profile: {
@@ -26,7 +25,6 @@ interface Vendor {
   description: string;
   country: string;
   city: string;
-  // Add other fields if needed
 }
 
 const FoodForm: React.FC = () => {
@@ -153,7 +151,7 @@ const FoodForm: React.FC = () => {
         throw new Error("User UUID not found");
       }
 
-      await uploadCategoryImage(uploadFile, userProfile.profile.user_uuid);
+      await uploadCategoryImage(uploadFile);
 
       // Refresh the category images
       const newData = await categoryImages(userProfile.profile.user_uuid);
@@ -183,7 +181,9 @@ const FoodForm: React.FC = () => {
           throw new Error("Failed to fetch categories");
         }
       } catch (err) {
-        setCategoriesError(err instanceof Error ? err.message : "Error fetching categories");
+        setCategoriesError(
+          err instanceof Error ? err.message : "Error fetching categories"
+        );
       } finally {
         setCategoriesLoading(false);
       }
@@ -194,33 +194,37 @@ const FoodForm: React.FC = () => {
 
   // Add form state
   const [formData, setFormData] = useState({
-    category_uuid: '',
-    name: '',
-    description: '',
-    price: '',
-    discount: '',
-    preparation_time: '',
-    ready_made: '',
+    category_uuid: "",
+    name: "",
+    description: "",
+    price: "",
+    discount: "",
+    preparation_time: "",
+    ready_made: "",
   });
 
   // Add form handler
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
+      [e.target.id]: e.target.value,
     });
   };
 
   // First, add the mutation hook at the top of your component
-  const useAddFoodMutation = useAddFood(vendor?.slug || '');
+  const useAddFoodMutation = useAddFood(vendor?.slug || "");
 
   // Then modify the handleSubmit function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (!vendor?.uuid) {
-        throw new Error('Vendor UUID not found');
+        throw new Error("Vendor UUID not found");
       }
 
       // Create the food data object
@@ -229,35 +233,37 @@ const FoodForm: React.FC = () => {
         category_uuid: formData.category_uuid,
         name: formData.name,
         description: formData.description,
-        image: '',
+        image: "",
         imageUrl: selectedImageUuids
           .map((uuid) => {
             const selectedImage = categoryImageData?.data?.storage?.data?.find(
               (img: any) => img.uuid === uuid
             );
-            return selectedImage ? `${selectedImage.base_url}/${selectedImage.path}` : '';
+            return selectedImage
+              ? `${selectedImage.base_url}/${selectedImage.path}`
+              : "";
           })
           .filter(Boolean)
-          .join(','),
+          .join(","),
         price: Number(formData.price),
-        discount: Number(formData.discount || '0'),
+        discount: Number(formData.discount || "0"),
         processing_time: formData.preparation_time,
-        ready_made: formData.ready_made === 'yes'
+        ready_made: formData.ready_made === "yes",
       };
 
       // Call the mutation and wait for response
       const response = await useAddFoodMutation.mutateAsync(foodData);
-      
+
       // Check if response exists and has status code 200/201
       if (response) {
         router.push(`/vendor/foods/${slug}`);
       } else {
-        throw new Error('Failed to add food');
+        throw new Error("Failed to add food");
       }
     } catch (error) {
-      console.error('Error adding food:', error);
+      console.error("Error adding food:", error);
       // Show error message to user
-      alert(error instanceof Error ? error.message : 'Failed to add food');
+      alert(error instanceof Error ? error.message : "Failed to add food");
     }
   };
 
@@ -269,7 +275,10 @@ const FoodForm: React.FC = () => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2"
+      >
         {/* Category (Dropdown) */}
         <div className="mb-8">
           <label
@@ -394,7 +403,7 @@ const FoodForm: React.FC = () => {
             required
           />
         </div>
-        
+
         {/* Ready Made Selection */}
         <div className="mb-8">
           <label
@@ -431,13 +440,16 @@ const FoodForm: React.FC = () => {
             placeholder="Images"
             value={selectedImageUuids
               .map((uuid) => {
-                const selectedImage = categoryImageData?.data?.storage?.data?.find(
-                  (img: any) => img.uuid === uuid
-                );
-                return selectedImage ? `${selectedImage.base_url}/${selectedImage.path}` : '';
+                const selectedImage =
+                  categoryImageData?.data?.storage?.data?.find(
+                    (img: any) => img.uuid === uuid
+                  );
+                return selectedImage
+                  ? `${selectedImage.base_url}/${selectedImage.path}`
+                  : "";
               })
               .filter(Boolean)
-              .join(', ')}
+              .join(", ")}
             readOnly
           />
         </div>
@@ -490,10 +502,13 @@ const FoodForm: React.FC = () => {
             name="selectedImages"
             value={selectedImageUuids
               .map((uuid) => {
-                const selectedImage = categoryImageData?.data?.storage?.data?.find(
-                  (img: any) => img.uuid === uuid
-                );
-                return selectedImage ? `${selectedImage.base_url}/${selectedImage.path}` : "";
+                const selectedImage =
+                  categoryImageData?.data?.storage?.data?.find(
+                    (img: any) => img.uuid === uuid
+                  );
+                return selectedImage
+                  ? `${selectedImage.base_url}/${selectedImage.path}`
+                  : "";
               })
               .join(",")}
           />
@@ -591,8 +606,6 @@ const FoodForm: React.FC = () => {
           </p>
         )}
       </div>
-
-      
     </>
   );
 };

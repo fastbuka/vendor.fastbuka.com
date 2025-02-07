@@ -192,6 +192,7 @@ export async function categoryImages(user_uuid: string) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -207,13 +208,16 @@ export async function categoryImages(user_uuid: string) {
   }
 }
 
-export async function uploadCategoryImage(file: File, user_uuid: string) {
+export async function uploadCategoryImage(file: File) {
   try {
     const formData = new FormData();
     formData.append('file', file);
 
-    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${user_uuid}`, {
+    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
       body: formData
     });
 

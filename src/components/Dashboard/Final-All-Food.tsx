@@ -165,7 +165,7 @@ const SidebarWithFoodItems: React.FC = () => {
       const fetchFoodItems = async () => {
         try {
           const foodData = await allFood(vendor.slug); // Use vendor.slug here
-          console.log(foodData);
+          console.log(foodData)
 
           if (Array.isArray(foodData?.data?.foods)) {
             setFoodItems(foodData.data.foods); // Set the foods array
@@ -204,14 +204,14 @@ const SidebarWithFoodItems: React.FC = () => {
     <>
       <div className="flex gap-3">
         {/* Sidebar */}
-        {/* <div className="bg-gray-800 text-white md:p-6">
+        <div className="bg-gray-800 text-white md:p-6">
           <h2 className="text-lg font-semibold mb-6 text-black">
             Food Categories
           </h2>
-        </div> */}
+        </div>
 
         {/* Main content area */}
-        {/* <div className="flex-1 bg-gray-100">
+        <div className="flex-1 bg-gray-100">
           <div className="text-black text-md flex justify-end">
             <select
               value={selectedCategory}
@@ -237,7 +237,7 @@ const SidebarWithFoodItems: React.FC = () => {
               })}
             </select>
           </div>
-        </div> */}
+        </div>
 
         {/* Modal for viewing food details */}
         {isModalOpen && selectedFood && (
@@ -252,15 +252,11 @@ const SidebarWithFoodItems: React.FC = () => {
               </button>
 
               {/* Food Image */}
-              {typeof selectedFood.image === "string" && (
-                <div className="flex justify-center">
-                  <img
-                    src={selectedFood.image}
-                    alt={selectedFood.name}
-                    className="w-auto h-[200px] object-cover rounded-lg mb-4"
-                  />
-                </div>
-              )}
+              {/* <img
+                src={selectedFood.image}
+                alt={selectedFood.name}
+                className="w-auto h-[100px] object-cover rounded-lg mb-4"
+              /> */}
 
               {/* Food Name */}
               <h2 className="text-2xl font-semibold mb-2">
@@ -298,26 +294,18 @@ const SidebarWithFoodItems: React.FC = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
         {foodItems
-          // .filter(
-          //   (food) =>
-          //     selectedCategory === "All" ||
-          //     food.category_uuid === selectedCategory
-          // )
+          .filter(
+            (food) =>
+              selectedCategory === "All" ||
+              food.category_uuid === selectedCategory
+          )
           .map((food) => (
             <div
               key={food.id}
               className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow"
             >
-              {typeof food.image === "string" && (
-                <div className="flex justify-center">
-                  <img
-                    src={food.image}
-                    alt={food.name}
-                    className="w-auto h-[200px] object-cover rounded-lg mb-4"
-                  />
-                </div>
-              )}
               <h3 className="text-lg font-bold mt-2">{food.name}</h3>
+              <h3 className="text-lg font-bold mt-2">{food.category_uuid}</h3>
               <p className="text-gray-600">{food.description}</p>
               <div className="flex justify-between items-center mt-4">
                 <span className="text-xl font-bold text-green-600">

@@ -130,12 +130,8 @@ const VendorDashboard = () => {
   return (
     <>
       <CryptoRate />
-      {/* <h1 className="font-bold text-black text-xl my-3 text-center">
-        Welcome, {getDefaultFirstName(user.profile?.user_uuid)}
-      </h1> */}
       <h1 className="font-bold text-black text-xl my-3">
         Welcome, {getDefaultFirstName(vendor.name)}
-        Welcome, {getDefaultFirstName(vendor.uuid)}
       </h1>
       {/* <div>
         <h1>{vendor.name}</h1>
