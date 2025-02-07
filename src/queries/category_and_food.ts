@@ -93,17 +93,38 @@ export async function allFood(vendor_slug: string) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        slug: vendor_slug,
-      }
+      },
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch category images");
+      throw new Error("Failed to fetch food items"); // Corrected error message
     }
 
-    const data = await response.json();
-    return data;
+    return await response.json(); // Directly return parsed JSON
   } catch (error) {
-    throw error;
+    throw new Error(error instanceof Error ? error.message : "Unknown error occurred");
+  }
+}
+
+export async function deleteFood(vendor_slug: string, food_uuid: string) {
+  try {
+    const response = await fetch(
+      `${API_ENDPOINTS.ALL_FOOD}/${vendor_slug}/${food_uuid}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${getTokenFromLocalStorage() || ""}`,
+        },
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to delete food item");
+    }
+
+    return { success: true };
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : "Unknown error occurred");
   }
 }
