@@ -290,12 +290,12 @@ const SidebarWithFoodItems: React.FC = () => {
 
               {/* Price */}
               <p className="text-md font-bold text-gray-900">
-                Price: ${selectedFood.price.toFixed(2)}
+                Price: &#8358; {selectedFood.price.toFixed(2)}
               </p>
 
               {/* Discount */}
               <p className="text-md font-bold text-gray-900">
-                Discount: ${selectedFood.discount.toFixed(2)}
+                Discount: &#8358; {selectedFood.discount.toFixed(2)}
               </p>
 
               {/* Close button */}
@@ -331,7 +331,7 @@ const SidebarWithFoodItems: React.FC = () => {
             <p className="text-gray-600">{food.description}</p>
             <div className="flex justify-between items-center mt-4">
               <span className="text-xl font-bold text-green-600">
-                ${food.price.toFixed(2)}
+              &#8358;{food.price.toFixed(2)}
               </span>
               {food.discount > 0 && (
                 <span className="text-sm text-red-500">
