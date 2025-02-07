@@ -8,7 +8,7 @@ import { useRouter, useParams } from "next/navigation";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
-import { getAllCategory } from "@/queries/categoryImages";
+import { getAllCategory } from "@/queries/category_and_food";
 
 interface UserProfile {
   profile: {

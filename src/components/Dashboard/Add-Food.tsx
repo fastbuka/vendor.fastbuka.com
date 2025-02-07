@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
 import { uploadCategoryImage, categoryImages, useLogout } from "@/queries/auth";
-import { useAddFood } from "@/queries/categoryImages";
+import { useAddFood } from "@/queries/category_and_food";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
-import { getAllCategory } from "@/queries/categoryImages";
+import { getAllCategory } from "@/queries/category_and_food";
 
 interface UserProfile {
   profile: {
