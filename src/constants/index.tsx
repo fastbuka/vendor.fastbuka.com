@@ -1,17 +1,17 @@
 export const APP_NAME = "Fast Buka";
 export const API_ENDPOINTS = {
-  LOGIN: "https://api.fastbuka.com/api/v1/auth/login",
-  REGISTER: "https://api.fastbuka.com/api/v1/vendor",
-  VERIFY_TOKEN: "https://api.fastbuka.com/api/v1/auth/verify-token",
-  LOGOUT: "https://api.fastbuka.com/api/v1/auth/logout",
-  ALL_ACCOUNTS: "https://api.fastbuka.com/api/v1/vendor",
+  LOGIN: "https://dev.fastbuka.com/api/v1/auth/login",
+  REGISTER: "https://dev.fastbuka.com/api/v1/vendor",
+  VERIFY_TOKEN: "https://dev.fastbuka.com/api/v1/auth/verify-token",
+  LOGOUT: "https://dev.fastbuka.com/api/v1/auth/logout",
+  ALL_ACCOUNTS: "https://dev.fastbuka.com/api/v1/vendor",
 
   // Food and Category
-  ADD_FOOD: "https://api.fastbuka.com/api/v1/food",
+  ADD_FOOD: "https://dev.fastbuka.com/api/v1/food",
   CATEGORY_IMAGE: "https://storage.fastbuka.com/api/v1/storage",
-  ALL_CATEGORY: "https://api.fastbuka.com/api/v1/category",
-  ALL_FOOD: "https://api.fastbuka.com/api/v1/food",
-  ORDERS: "https://api.fastbuka.com/api/"
+  ALL_CATEGORY: "https://dev.fastbuka.com/api/v1/category",
+  ALL_FOOD: "https://dev.fastbuka.com/api/v1/food",
+  ORDERS: "https://dev.fastbuka.com/api/"
 };
 
 export const TOKEN_PRICING = {

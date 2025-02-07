@@ -74,7 +74,7 @@ export const clearUser = (): void => {
 // /utils/api.ts
 
 export const API_ENDPOINTS = {
-  VENDOR_BY_SLUG: (slug: string) => `https://api.fastbuka.com/api/v1/vendor/${slug}`, // Adjust this based on your actual API structure
+  VENDOR_BY_SLUG: (slug: string) => `https://dev.fastbuka.com/api/v1/vendor/${slug}`, // Adjust this based on your actual API structure
 };
 
 export async function getVendorBySlug(slug: string) {

@@ -128,17 +128,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             },
           ],
         },
-        {
-          icon: <BsCollection />,
-          label: "Item Categories",
-          route: "#",
-          children: [
-            {
-              label: "Item Category",
-              route: `/vendor/category/${vendor.slug}`,
-            },
-          ],
-        },
+        // {
+        //   icon: <BsCollection />,
+        //   label: "Item Categories",
+        //   route: "#",
+        //   children: [
+        //     {
+        //       label: "Item Category",
+        //       route: `/vendor/category/${vendor.slug}`,
+        //     },
+        //   ],
+        // },
         {
           icon: <LiaCartArrowDownSolid />,
           label: "Orders",
