@@ -205,7 +205,7 @@ const Order = () => {
             <table className="min-w-full md:w-full bg-white rounded-lg">
               <thead className="bg-gray-50">
                 <tr className="text-left text-gray-600 text-sm font-semibold">
-                  <th className="py-4 px-6">Customer Name</th>
+                  <th className="py-4 px-6">Customer Email</th>
                   <th className="py-4 px-6">Order Number</th>
                   <th className="py-4 px-6">Items</th>
                   <th className="py-4 px-6">Price</th>
