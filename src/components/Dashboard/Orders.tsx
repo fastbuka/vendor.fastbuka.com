@@ -47,13 +47,13 @@ type Orders = {
       price: string;
       discount: 0;
       processing_time: string;
-    }
-  }
+    };
+  };
   user: {
     email: string;
     contact: string;
     username: string;
-  }
+  };
 };
 
 const Order = () => {
@@ -136,31 +136,31 @@ const Order = () => {
     }
   }, [slug, router]);
 
-    const [orders, setOrders] = useState<Orders[]>([]);
+  const [orders, setOrders] = useState<Orders[]>([]);
 
-    useEffect(() => {
-      if (!vendor?.slug) return;
-  
-      const fetchOrderItems = async () => {
-        try {
-          const orderFoods = await fetchOrders(vendor.uuid);
-  
-          if (orderFoods?.data?.orders && Array.isArray(orderFoods.data.orders)) {
-            setOrders(orderFoods.data.orders);
-          } else {
-            throw new Error("Invalid Order data structure");
-          }
-        } catch (err) {
-          setError(
-            err instanceof Error ? err.message : "Failed to fetch Order data"
-          );
-        } finally {
-          setLoading(false);
+  useEffect(() => {
+    if (!vendor?.slug) return;
+
+    const fetchOrderItems = async () => {
+      try {
+        const orderFoods = await fetchOrders(vendor.uuid);
+
+        if (orderFoods?.data?.orders && Array.isArray(orderFoods.data.orders)) {
+          setOrders(orderFoods.data.orders);
+        } else {
+          throw new Error("Invalid Order data structure");
         }
-      };
-  
-      fetchOrderItems();
-    }, [vendor?.slug]);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch Order data"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrderItems();
+  }, [vendor?.slug]);
 
   if (!user) {
     return <div>Loading...</div>;
@@ -201,43 +201,54 @@ const Order = () => {
 
         {/* Data Table */}
         <div className="grid">
-  <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
-    <table className="min-w-full md:w-full bg-white rounded-lg">
-      <thead className="bg-gray-50">
-        <tr className="text-left text-gray-600 text-sm font-semibold">
-          <th className="py-4 px-6">Customer Name</th>
-          <th className="py-4 px-6">Order Number</th>
-          <th className="py-4 px-6">Items</th>
-          <th className="py-4 px-6">Price</th>
-          <th className="py-4 px-6">Quantity</th>
-        </tr>
-      </thead>
-      <tbody>
-        {orders.map((order, index) => (
-          <tr
-            key={order.id}
-            className={`border-b ${
-              index % 2 === 0 ? "bg-gray-50" : "bg-white"
-            } hover:bg-gray-100`}
-          >
-            <td className="py-4 px-6">{order.user.email}</td>
-            <td className="py-4 px-6">{order.order_number}</td>
-            <td className="py-4 px-6">
-                {order?.orderItems?.map((item: { food: { name: string } }) => item.food.name).join(", ")}
-            </td>
-            <td className="py-4 px-6">
-              {order?.orderItems?.map((item) => item.price.toFixed(2)).join(", ")}
-            </td>
-            <td className="py-4 px-6">
-              {order.orderItems.map((item) => item.quantity).join(", ")}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-</div>
-
+          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
+            <table className="min-w-full md:w-full bg-white rounded-lg">
+              <thead className="bg-gray-50">
+                <tr className="text-left text-gray-600 text-sm font-semibold">
+                  <th className="py-4 px-6">Customer Name</th>
+                  <th className="py-4 px-6">Order Number</th>
+                  <th className="py-4 px-6">Items</th>
+                  <th className="py-4 px-6">Price</th>
+                  <th className="py-4 px-6">Quantity</th>
+                </tr>
+              </thead>
+              <tbody>
+                {orders.map((order, index) => (
+                  <tr
+                    key={order.id}
+                    className={`border-b ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
+                  >
+                    <td className="py-4 px-6">{order.user?.email ?? "N/A"}</td>
+                    <td className="py-4 px-6">{order.order_number}</td>
+                    <td className="py-4 px-6">
+                      {Array.isArray(order.orderItems)
+                        ? order.orderItems
+                            .map((item) => item.food.name)
+                            .join(", ")
+                        : "N/A"}
+                    </td>
+                    <td className="py-4 px-6">
+                      {Array.isArray(order.orderItems)
+                        ? order.orderItems
+                            .map((item) => Number(item.price).toFixed(2))
+                            .join(", ")
+                        : "N/A"}
+                    </td>
+                    <td className="py-4 px-6">
+                      {Array.isArray(order.orderItems)
+                        ? order.orderItems
+                            .map((item) => item.quantity)
+                            .join(", ")
+                        : "N/A"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
         <div className="flex gap-5 items-center md:justify-between">
           {/* Showing Entries Info */}
