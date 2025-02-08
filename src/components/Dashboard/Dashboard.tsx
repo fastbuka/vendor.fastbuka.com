@@ -143,7 +143,7 @@ const VendorDashboard = () => {
         <p>Opening Time: {vendor.opening_time}</p>
         <p>Closing Time: {vendor.closing_time}</p>
       </div> */}
-      <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-3 md:gap-6 xl:grid-cols-3 2xl:gap-7.5">
+      <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href={"/vendor/withdrawal/" + vendor.slug }>
             <div className="p-3">
@@ -152,14 +152,14 @@ const VendorDashboard = () => {
             </div>
           </Link>
         </div>
-        <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
+        {/* <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href={"/vendor/add-account/" + vendor.slug }>
             <div className="p-3">
               <Image src={Add} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
             </div>
           </Link>
-        </div>
+        </div> */}
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
           <Link href={"/vendor/order/"+ vendor.slug}>
             <div className="p-3">

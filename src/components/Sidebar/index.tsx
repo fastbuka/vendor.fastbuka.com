@@ -145,11 +145,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: `/vendor/order/${vendor.slug}`,
         },
 
-        {
-          icon: <BsDiagram3 />,
-          label: "Ordered Items",
-          route: `/vendor/order-item/${vendor.slug}`,
-        },
+        // {
+        //   icon: <BsDiagram3 />,
+        //   label: "Ordered Items",
+        //   route: `/vendor/order-item/${vendor.slug}`,
+        // },
       ],
     },
 
@@ -162,17 +162,17 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: `/vendor/profile/${vendor.slug}`,
         },
 
-        {
-          icon: <GiWallet />,
-          label: "Wallet",
-          route: `/vendor/wallet/${vendor.slug}`,
-        },
+        // {
+        //   icon: <GiWallet />,
+        //   label: "Wallet",
+        //   route: `/vendor/wallet/${vendor.slug}`,
+        // },
 
-        {
-          icon: <TbSettingsCog />,
-          label: "Account Settings",
-          route: `/vendor/settings/${vendor.slug}`,
-        },
+        // {
+        //   icon: <TbSettingsCog />,
+        //   label: "Account Settings",
+        //   route: `/vendor/settings/${vendor.slug}`,
+        // },
 
         {
           icon: <AiOutlineDashboard />,
@@ -180,11 +180,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: "/vendor/home",
         },
 
-        {
-          icon: <TbPresentationAnalytics />,
-          label: "Sales Analysis",
-          route: `/vendor/sales/${vendor.slug}`,
-        },
+        // {
+        //   icon: <TbPresentationAnalytics />,
+        //   label: "Sales Analysis",
+        //   route: `/vendor/sales/${vendor.slug}`,
+        // },
 
         // {
         //   icon: <BiLogOutCircle />,

@@ -127,7 +127,7 @@ const DropdownUser = () => {
                 My Profile
               </Link>
             </li>
-            <li>
+            {/* <li>
               <Link
                 href={"/vendor/settings/" + vendor.slug}
                 className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
@@ -135,7 +135,7 @@ const DropdownUser = () => {
                 <TbSettingsCog />
                 Account Settings
               </Link>
-            </li>
+            </li> */}
             <li>
               <Link
                 href="/vendor/home"

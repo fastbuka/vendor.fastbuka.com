@@ -24,6 +24,7 @@ interface Vendor {
   description: string;
   country: string;
   city: string;
+  balance: string;
   // Add other fields if needed
 }
 
@@ -33,54 +34,54 @@ const Balance = () => {
     setBalance(!balance);
   };
 
-      // vendor slug
-      const router = useRouter();
-      const [user, setUser] = useState<UserProfile | null>(null);
-      const [queryClient] = useState(() => new QueryClient());
-      const logout = useLogout(queryClient);
-    
-      const { slug } = useParams(); // Get the slug directly from params
-      const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
-      const [loading, setLoading] = useState<boolean>(true);
-      const [error, setError] = useState<string | null>(null);
-    
-      // Fetch vendor data as a separate function
-      const fetchVendor = async (slug: string) => {
-        try {
-          const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
-    
-          // Assuming response.data contains your expected vendor data
-          if (response?.data?.vendor) {
-            setVendor(response.data.vendor);
-          } else {
-            throw new Error("Vendor not found");
-          }
-        } catch (err) {
-          setError("Failed to fetch vendor details");
-        } finally {
-          setLoading(false);
-        }
-      };
-    
-      useEffect(() => {
-        const token = getToken();
-        const userData = getUser();
-        if (!token || !userData) {
-          router.push("/login");
-        } else {
-          setUser(userData as UserProfile);
-        }
-    
-        if (slug) {
-          fetchVendor(slug as string); // Call the fetchVendor function
-        }
-      }, [slug, router]);
-    
-      if (!user) {
-        return <div>Loading...</div>;
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<Vendor | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
       }
-      
-      if (!vendor) return null;
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!vendor) return null;
 
   return (
     <>
@@ -90,20 +91,25 @@ const Balance = () => {
         </button>
         <div className="grid grid-cols-3 gap-10">
           <div className="flex items-center justify-center ">
-            <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">Total: </h1>
+            <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">
+              Total:{" "}
+            </h1>
             <input
               type={balance ? "password" : "text"}
               id="password"
               name="password"
-              value="3,800,000"
+              // value="3,800,000"
+              value={vendor?.balance}
               className="font-mono font-black text-sm 2xl:text-xl ms-2 block w-1/2 bg-white"
               placeholder="Password"
               required
               disabled
             />
           </div>
-          <div className="flex items-center justify-center border-l-2 border-[#3ab764] ">
-            <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">NGN: </h1>
+          {/* <div className="flex items-center justify-center border-l-2 border-[#3ab764] ">
+            <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">
+              NGN:{" "}
+            </h1>
             <input
               type={balance ? "password" : "text"}
               id="password"
@@ -116,7 +122,9 @@ const Balance = () => {
             />
           </div>
           <div className="flex items-center justify-center border-l-2 border-[#3ab764] mx-auto">
-          <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">NGNC: </h1>
+            <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">
+              NGNC:{" "}
+            </h1>
             <input
               type={balance ? "password" : "text"}
               id="password"
@@ -127,7 +135,7 @@ const Balance = () => {
               required
               disabled
             />
-          </div>
+          </div> */}
         </div>
       </div>
     </>
