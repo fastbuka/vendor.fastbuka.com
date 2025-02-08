@@ -1,10 +1,6 @@
 "use client";
 import Image from "next/image";
-import Link from "next/link";
 import Logo from "/public/logo-dark.png";
-import { Metadata } from "next";
-import { FaRegUserCircle } from "react-icons/fa";
-import { BsEnvelopeAt } from "react-icons/bs";
 import { useRouter, useParams } from "next/navigation";
 import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
@@ -225,7 +221,7 @@ const Profile = () => {
                     className="mb-3 block text-sm font-medium text-black"
                     htmlFor="status"
                   >
-                    Status:
+                    Account Status:
                   </label>
                   <input
                     type="text"
