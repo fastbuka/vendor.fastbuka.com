@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "/public/logo-dark.png";
@@ -26,169 +26,236 @@ interface Vendor {
   slug: string;
   description: string;
   country: string;
+  state: string;
   city: string;
+  address: string;
+  status: string;
+  opening_time: string;
+  closing_time: string;
+  balance: string;
   // Add other fields if needed
 }
 
 const Profile = () => {
-      // vendor slug
-      const router = useRouter();
-      const [user, setUser] = useState<UserProfile | null>(null);
-      const [queryClient] = useState(() => new QueryClient());
-      const logout = useLogout(queryClient);
-    
-      const { slug } = useParams(); // Get the slug directly from params
-      const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
-      const [loading, setLoading] = useState<boolean>(true);
-      const [error, setError] = useState<string | null>(null);
-    
-      // Fetch vendor data as a separate function
-      const fetchVendor = async (slug: string) => {
-        try {
-          const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
-    
-          // Assuming response.data contains your expected vendor data
-          if (response?.data?.vendor) {
-            setVendor(response.data.vendor);
-          } else {
-            throw new Error("Vendor not found");
-          }
-        } catch (err) {
-          setError("Failed to fetch vendor details");
-        } finally {
-          setLoading(false);
-        }
-      };
-    
-      useEffect(() => {
-        const token = getToken();
-        const userData = getUser();
-        if (!token || !userData) {
-          router.push("/login");
-        } else {
-          setUser(userData as UserProfile);
-        }
-    
-        if (slug) {
-          fetchVendor(slug as string); // Call the fetchVendor function
-        }
-      }, [slug, router]);
-    
-      if (!user) {
-        return <div>Loading...</div>;
+  // vendor slug
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+
+  const { slug } = useParams(); // Get the slug directly from params
+  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch vendor data as a separate function
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
+
+      // Assuming response.data contains your expected vendor data
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error("Vendor not found");
       }
-      
-      if (!vendor) return null;
+    } catch (err) {
+      setError("Failed to fetch vendor details");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push("/login");
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug as string); // Call the fetchVendor function
+    }
+  }, [slug, router]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
+  if (!vendor) return null;
   return (
     <>
       <div className="flex justify-center">
         <Image src={Logo} alt="Profile" className="rounded-full" />
       </div>
-      <h1 className="text-2xl font-bold text-center mt-3">Rodinia Kitchen</h1>
+      {/* <h1 className="text-2xl font-bold text-center mt-3">{vendor.name}</h1> */}
 
       <div className="mt-5">
         <div className="col-span-5 xl:col-span-3">
           <div className="rounded-sm border border-stroke bg-white shadow-default">
             <div className="border-b border-stroke px-7 py-4">
-              <h3 className="font-medium text-black">
-                Personal Information
-              </h3>
+              <h3 className="font-medium text-black">Vendor Information</h3>
             </div>
             <div className="p-7">
-              <form action="#">
-                <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
-                  <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black"
-                      htmlFor="fullName"
-                    >
-                      Full Name
-                    </label>
-                    <div className="relative">
-                      <span className="absolute left-4.5 top-4">
-                        <FaRegUserCircle />
-                      </span>
-                      <input
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none "
-                        type="text"
-                        name="fullName"
-                        id="fullName"
-                        placeholder="Devid Jhon"
-                        defaultValue="Devid Jhon"
-                        disabled
-                      />
-                    </div>
-                  </div>
-
-                  <div className="w-full sm:w-1/2">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black"
-                      htmlFor="phoneNumber"
-                    >
-                      Phone Number
-                    </label>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none"
-                      type="text"
-                      name="phoneNumber"
-                      id="phoneNumber"
-                      placeholder="+990 3343 7865"
-                      defaultValue="+990 3343 7865"
-                      disabled
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-5.5">
+              <form className="form-container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="form-group my-3">
                   <label
                     className="mb-3 block text-sm font-medium text-black"
-                    htmlFor="emailAddress"
+                    htmlFor="name"
                   >
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-4.5 top-4">
-                      <BsEnvelopeAt />
-                    </span>
-                    <input
-                      className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none"
-                      type="email"
-                      name="emailAddress"
-                      id="emailAddress"
-                      placeholder="devidjond45@gmail.com"
-                      defaultValue="devidjond45@gmail.com"
-                      disabled
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-5.5">
-                  <label
-                    className="mb-3 block text-sm font-medium text-black"
-                    htmlFor="Username"
-                  >
-                    Username
+                    Name:
                   </label>
                   <input
-                    className="w-full rounded border border-stroke bg-gray px-4.5 py-3 text-black focus:border-primary focus-visible:outline-none"
                     type="text"
-                    name="Username"
-                    id="Username"
-                    placeholder="devidjhon24"
-                    defaultValue="devidjhon24"
-                    disabled
+                    id="name"
+                    name="name"
+                    value={vendor.name}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
                   />
                 </div>
-
-                <div className="flex justify-end gap-4.5">
-                  <button
-                    className="flex justify-center rounded bg-primary px-6 py-2 font-medium text-gray hover:bg-opacity-90"
-                    type="submit"
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="description"
                   >
-                    Edit Profile
-                  </button>
+                    Description:
+                  </label>
+                  <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    value={vendor.description}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="country"
+                  >
+                    Country:
+                  </label>
+                  <input
+                    type="text"
+                    id="country"
+                    name="country"
+                    value={vendor.country}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="state"
+                  >
+                    State:
+                  </label>
+                  <input
+                    type="text"
+                    id="state"
+                    name="state"
+                    value={vendor.state}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="city"
+                  >
+                    City:
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={vendor.city}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="address"
+                  >
+                    Address:
+                  </label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value={vendor.address}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="opening_time"
+                  >
+                    Opening Time:
+                  </label>
+                  <input
+                    type="text"
+                    id="opening_time"
+                    name="opening_time"
+                    value={vendor.opening_time}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="closing_time"
+                  >
+                    Closing Time:
+                  </label>
+                  <input
+                    type="text"
+                    id="closing_time"
+                    name="closing_time"
+                    value={vendor.closing_time}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="status"
+                  >
+                    Status:
+                  </label>
+                  <input
+                    type="text"
+                    id="status"
+                    name="status"
+                    value={vendor.status}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
+                </div>
+                <div className="form-group my-3">
+                  <label
+                    className="mb-3 block text-sm font-medium text-black"
+                    htmlFor="balance"
+                  >
+                    Balance:
+                  </label>
+                  <input
+                    type="number"
+                    id="balance"
+                    name="balance"
+                    value={vendor.balance}
+                    className="w-full rounded border border-stroke bg-gray p-5 text-black focus:border-primary focus-visible:outline-none "
+                  />
                 </div>
               </form>
+              <div className="flex justify-end">
+                <button type="submit" className="btn btn-primary bg-indigo-400 text-white p-2 rounded-2xl">
+                  Edit Profile
+                </button>
+              </div>
             </div>
           </div>
         </div>
