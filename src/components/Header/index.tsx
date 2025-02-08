@@ -132,7 +132,7 @@ const Header = (props: {
 
           <Link
             className="block flex-shrink-0 lg:hidden p-2 rounded-full"
-            href={"/vendor/dashboard/"+ vendor.slug}
+            href={"/vendor/dashboard/" + vendor.slug}
           >
             <Image width={70} height={50} src={Logo_Dark} alt="Logo" />
           </Link>
@@ -149,7 +149,7 @@ const Header = (props: {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
+            {/* <DropdownNotification /> */}
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
