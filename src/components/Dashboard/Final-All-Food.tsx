@@ -9,7 +9,7 @@ import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
 import { getAllCategory } from "@/queries/category_and_food";
-import { allFood } from "@/queries/category_and_food";
+import { allFood, deleteFood } from "@/queries/category_and_food";
 
 interface UserProfile {
   profile: {
@@ -35,6 +35,7 @@ type FoodCategory = "Select food category" | "All";
 
 type FoodItem = {
   id: number;
+  uuid: string;
   name: string;
   category_uuid: string;
   price: number;
@@ -161,29 +162,44 @@ const SidebarWithFoodItems: React.FC = () => {
   const [foodItems, setFoodItems] = useState<FoodItem[]>([]);
 
   useEffect(() => {
-    if (vendor && vendor.slug) {
-      const fetchFoodItems = async () => {
-        try {
-          const foodData = await allFood(vendor.slug); // Use vendor.slug here
-          console.log(foodData)
+    if (!vendor?.slug) return;
 
-          if (Array.isArray(foodData?.data?.foods)) {
-            setFoodItems(foodData.data.foods); // Set the foods array
-          } else {
-            throw new Error("Invalid food data structure");
-          }
-        } catch (err) {
-          setError(
-            err instanceof Error ? err.message : "Failed to fetch food data"
-          );
-        } finally {
-          setLoading(false);
+    const fetchFoodItems = async () => {
+      try {
+        const foodData = await allFood(vendor.slug);
+        console.log(foodData);
+
+        if (foodData?.data?.foods && Array.isArray(foodData.data.foods)) {
+          setFoodItems(foodData.data.foods);
+        } else {
+          throw new Error("Invalid food data structure");
         }
-      };
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to fetch food data"
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      fetchFoodItems();
+    fetchFoodItems();
+  }, [vendor?.slug]);
+
+  const handleDeleteFood = async (food_uuid: string) => {
+    if (!vendor?.slug) return;
+
+    try {
+      await deleteFood(vendor.slug, food_uuid);
+      setFoodItems((prevItems) =>
+        prevItems.filter((item) => item.uuid !== food_uuid)
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "Failed to delete food item"
+      );
     }
-  }, [vendor]); // This will run only when the `vendor` changes
+  };
 
   const handleCategoryChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -204,14 +220,14 @@ const SidebarWithFoodItems: React.FC = () => {
     <>
       <div className="flex gap-3">
         {/* Sidebar */}
-        <div className="bg-gray-800 text-white md:p-6">
+        {/* <div className="bg-gray-800 text-white md:p-6">
           <h2 className="text-lg font-semibold mb-6 text-black">
             Food Categories
           </h2>
-        </div>
+        </div> */}
 
         {/* Main content area */}
-        <div className="flex-1 bg-gray-100">
+        {/* <div className="flex-1 bg-gray-100">
           <div className="text-black text-md flex justify-end">
             <select
               value={selectedCategory}
@@ -237,7 +253,7 @@ const SidebarWithFoodItems: React.FC = () => {
               })}
             </select>
           </div>
-        </div>
+        </div> */}
 
         {/* Modal for viewing food details */}
         {isModalOpen && selectedFood && (
@@ -252,11 +268,15 @@ const SidebarWithFoodItems: React.FC = () => {
               </button>
 
               {/* Food Image */}
-              {/* <img
-                src={selectedFood.image}
-                alt={selectedFood.name}
-                className="w-auto h-[100px] object-cover rounded-lg mb-4"
-              /> */}
+              {typeof selectedFood.image === "string" && (
+                <div className="flex justify-center">
+                  <img
+                    src={selectedFood.image}
+                    alt={selectedFood.name}
+                    className="w-auto h-[200px] object-cover rounded-lg mb-4"
+                  />
+                </div>
+              )}
 
               {/* Food Name */}
               <h2 className="text-2xl font-semibold mb-2">
@@ -270,12 +290,12 @@ const SidebarWithFoodItems: React.FC = () => {
 
               {/* Price */}
               <p className="text-md font-bold text-gray-900">
-                Price: ${selectedFood.price.toFixed(2)}
+                Price: &#8358; {selectedFood.price.toFixed(2)}
               </p>
 
               {/* Discount */}
               <p className="text-md font-bold text-gray-900">
-                Discount: ${selectedFood.discount.toFixed(2)}
+                Discount: &#8358; {selectedFood.discount.toFixed(2)}
               </p>
 
               {/* Close button */}
@@ -293,48 +313,53 @@ const SidebarWithFoodItems: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-4">
-        {foodItems
-          .filter(
-            (food) =>
-              selectedCategory === "All" ||
-              food.category_uuid === selectedCategory
-          )
-          .map((food) => (
-            <div
-              key={food.id}
-              className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow"
-            >
-              <h3 className="text-lg font-bold mt-2">{food.name}</h3>
-              <h3 className="text-lg font-bold mt-2">{food.category_uuid}</h3>
-              <p className="text-gray-600">{food.description}</p>
-              <div className="flex justify-between items-center mt-4">
-                <span className="text-xl font-bold text-green-600">
-                  ${food.price.toFixed(2)}
+        {foodItems.map((food) => (
+          <div
+            key={food.uuid}
+            className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow"
+          >
+            {typeof food.image === "string" && (
+              <div className="flex justify-center">
+                <img
+                  src={food.image}
+                  alt={food.name}
+                  className="w-auto h-[200px] object-cover rounded-lg mb-4"
+                />
+              </div>
+            )}
+            <h3 className="text-lg font-bold mt-2">{food.name}</h3>
+            <p className="text-gray-600">{food.description}</p>
+            <div className="flex justify-between items-center mt-4">
+              <span className="text-xl font-bold text-green-600">
+                &#8358;{food.price.toFixed(2)}
+              </span>
+              {food.discount > 0 && (
+                <span className="text-sm text-red-500">
+                  {food.discount}% off
                 </span>
-                {food.discount > 0 && (
-                  <span className="text-sm text-red-500">
-                    {food.discount}% off
-                  </span>
-                )}
-              </div>
-              <div className="flex justify-around mt-5">
-                <button
-                  className="text-blue-600"
-                  onClick={() => handleViewDetails(food)}
-                >
-                  <FaEye size={20} />
-                </button>
-                <Link href={`/vendor/foods/${food.id}`}>
-                  <button className="text-green-600">
-                    <FaEdit size={20} />
-                  </button>
-                </Link>
-                <button className="text-[#dc2626]">
-                  <FaTrash size={20} />
-                </button>
-              </div>
+              )}
             </div>
-          ))}
+            <div className="flex justify-around mt-5">
+              <button
+                className="text-blue-600"
+                onClick={() => handleViewDetails(food)}
+              >
+                <FaEye size={20} />
+              </button>
+              <Link href={`/vendor/foods/${food.id}`}>
+                <button className="text-green-600">
+                  <FaEdit size={20} />
+                </button>
+              </Link>
+              <button
+                className="text-[#dc2626]"
+                onClick={() => handleDeleteFood(food.uuid)}
+              >
+                <FaTrash size={20} />
+              </button>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   );

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import Link from "next/link";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useRouter, useParams } from "next/navigation";
 import { useLogout, categoryImages, uploadCategoryImage } from "@/queries/auth";
@@ -331,7 +330,7 @@ const SidebarWithFoodItems: React.FC = () => {
             <p className="text-gray-600">{food.description}</p>
             <div className="flex justify-between items-center mt-4">
               <span className="text-xl font-bold text-green-600">
-              &#8358;{food.price.toFixed(2)}
+                &#8358;{food.price.toFixed(2)}
               </span>
               {food.discount > 0 && (
                 <span className="text-sm text-red-500">
@@ -346,11 +345,9 @@ const SidebarWithFoodItems: React.FC = () => {
               >
                 <FaEye size={20} />
               </button>
-              <Link href={`/vendor/foods/${food.id}`}>
-                <button className="text-green-600">
-                  <FaEdit size={20} />
-                </button>
-              </Link>
+              <button className="text-green-600">
+                <FaEdit size={20} />
+              </button>
               <button
                 className="text-[#dc2626]"
                 onClick={() => handleDeleteFood(food.uuid)}
