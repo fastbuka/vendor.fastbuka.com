@@ -188,7 +188,7 @@ export async function allAccounts(token: string) {
 
 export async function categoryImages(user_uuid: string) {
   try {
-    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${user_uuid}`, {
+    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -217,6 +217,7 @@ export async function uploadCategoryImage(file: File) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: formData
     });
