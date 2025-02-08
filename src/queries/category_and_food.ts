@@ -89,10 +89,12 @@ export function useAddFood(vendor_slug: string) {
 
 export async function allFood(vendor_slug: string) {
   try {
+    const token = getTokenFromLocalStorage();
     const response = await fetch(`${API_ENDPOINTS.ALL_FOOD}/${vendor_slug}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token || ""}`,
       },
     });
 
@@ -124,6 +126,27 @@ export async function deleteFood(vendor_slug: string, food_uuid: string) {
     }
 
     return { success: true };
+  } catch (error) {
+    throw new Error(error instanceof Error ? error.message : "Unknown error occurred");
+  }
+}
+
+export async function fetchOrders(vendor_slug: string) {
+  try {
+    const token = getTokenFromLocalStorage();
+    const response = await fetch(`${API_ENDPOINTS.ALL_ORDERS}/${vendor_slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token || ""}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch food items"); // Corrected error message
+    }
+
+    return await response.json(); // Directly return parsed JSON
   } catch (error) {
     throw new Error(error instanceof Error ? error.message : "Unknown error occurred");
   }
