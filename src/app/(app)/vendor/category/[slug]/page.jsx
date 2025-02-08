@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        <CryptoRate />
+        {/* <CryptoRate /> */}
         <Breadcrumb pageName="Items Categories" />
         <AllCategory></AllCategory>
       </DefaultLayout>

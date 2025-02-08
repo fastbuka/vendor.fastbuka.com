@@ -129,7 +129,7 @@ const VendorDashboard = () => {
 
   return (
     <>
-      <CryptoRate />
+      {/* <CryptoRate /> */}
       <h1 className="font-bold text-black text-xl my-3">
         Welcome, {getDefaultFirstName(vendor.name)}
       </h1>

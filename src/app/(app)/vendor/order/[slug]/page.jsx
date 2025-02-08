@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        <CryptoRate />
+        {/* <CryptoRate /> */}
         <Breadcrumb pageName="Orders" />
         <Orders></Orders>
       </DefaultLayout>

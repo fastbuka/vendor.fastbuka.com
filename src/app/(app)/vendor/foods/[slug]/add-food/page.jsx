@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <>
       <DefaultLayout>
-        <CryptoRate />
+        {/* <CryptoRate /> */}
         <Breadcrumb pageName="Add New Item" />
         <AddFood />
       </DefaultLayout>

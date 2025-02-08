@@ -9,7 +9,7 @@ export default function Account() {
   return (
     <>
     <DefaultLayout>
-        <CryptoRate />
+        {/* <CryptoRate /> */}
         <Breadcrumb pageName="Add Account" />
         <AddAccount></AddAccount>
       </DefaultLayout>

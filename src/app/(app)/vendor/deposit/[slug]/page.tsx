@@ -9,7 +9,7 @@ export default function Deposit() {
   return (
     <>
     <DefaultLayout>
-        <CryptoRate />
+        {/* <CryptoRate /> */}
         <Breadcrumb pageName="Deposit" />
         <Deposits></Deposits>
       </DefaultLayout>

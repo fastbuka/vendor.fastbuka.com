@@ -98,7 +98,6 @@ const Balance = () => {
               type={balance ? "password" : "text"}
               id="password"
               name="password"
-              // value="3,800,000"
               value={vendor?.balance}
               className="font-mono font-black text-sm 2xl:text-xl ms-2 block w-1/2 bg-white"
               placeholder="Password"

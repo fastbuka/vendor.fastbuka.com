@@ -18,7 +18,7 @@ export default function DashboardPage({ params }: Props) {
   return (
     <>
       <DefaultLayout>
-        <CryptoRate />
+        {/* <CryptoRate /> */}
         <Breadcrumb pageName="Edit Food" />
         <EditFood />
       </DefaultLayout>

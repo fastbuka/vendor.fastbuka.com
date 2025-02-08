@@ -162,11 +162,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           route: `/vendor/profile/${vendor.slug}`,
         },
 
-        // {
-        //   icon: <GiWallet />,
-        //   label: "Wallet",
-        //   route: `/vendor/wallet/${vendor.slug}`,
-        // },
+        {
+          icon: <GiWallet />,
+          label: "Wallet",
+          route: `/vendor/wallet/${vendor.slug}`,
+        },
 
         // {
         //   icon: <TbSettingsCog />,
