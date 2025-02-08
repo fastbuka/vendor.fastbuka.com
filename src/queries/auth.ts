@@ -5,10 +5,23 @@ import { API_ENDPOINTS } from "@/constants";
 import { request } from "@/utils/request";
 import { setToken, getToken, clearToken, setUser } from "@/utils/token";
 import { useAuth } from "@/context/AuthContext";
+import axios from "axios";
 
 interface LoginData {
   email: string;
   password: string;
+}
+
+interface UpdateProfileData {
+  uuid: string;
+  name: string;
+  description: string;
+  country: string;
+  state: string;
+  city: string;
+  address: string;
+  opening_time: string;
+  closing_time: string;
 }
 
 export interface RegisterData {
@@ -233,3 +246,22 @@ export async function uploadCategoryImage(file: File) {
     throw error;
   }
 }
+
+const updateVendorProfile = async (data: UpdateProfileData) => {
+  const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
+  const response = await axios.patch(
+    `https://api.fastbuka.com/api/v1/vendor/${data.uuid}`,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.data;
+};
+
+export const useUpdateProfile = () => {
+  return useMutation(updateVendorProfile);
+};

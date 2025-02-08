@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import Image from "next/image";
 import Logo from "/public/logo-dark.png";
 import { useRouter, useParams } from "next/navigation";
@@ -248,9 +249,14 @@ const Profile = () => {
                 </div>
               </form>
               <div className="flex justify-end">
-                <button type="submit" className="btn btn-primary bg-indigo-400 text-white p-2 rounded-2xl">
-                  Edit Profile
-                </button>
+                <Link href={`/vendor/edit-profile/${vendor.slug}`}>
+                  <button
+                    type="submit"
+                    className="btn btn-primary bg-indigo-400 text-white p-2 rounded-2xl"
+                  >
+                    Edit Profile
+                  </button>
+                </Link>
               </div>
             </div>
           </div>

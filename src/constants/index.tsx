@@ -2,6 +2,7 @@ export const APP_NAME = "Fast Buka";
 export const API_ENDPOINTS = {
   LOGIN: "https://dev.fastbuka.com/api/v1/auth/login",
   REGISTER: "https://dev.fastbuka.com/api/v1/vendor",
+  UPDATE_PROFILE: "https://dev.fastbuka.com/api/v1/vendor",
   VERIFY_TOKEN: "https://dev.fastbuka.com/api/v1/auth/verify-token",
   LOGOUT: "https://dev.fastbuka.com/api/v1/auth/logout",
   ALL_ACCOUNTS: "https://dev.fastbuka.com/api/v1/vendor",
