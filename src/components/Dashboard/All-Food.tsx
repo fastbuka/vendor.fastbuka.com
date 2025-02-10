@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { StaticImport } from "next/dist/shared/lib/get-img-props";
 import { useRouter, useParams } from "next/navigation";
-import { useLogout, categoryImages, uploadCategoryImage } from "@/queries/auth";
+import { useLogout, categoryImages } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";

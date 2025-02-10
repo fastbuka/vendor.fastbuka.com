@@ -6,10 +6,16 @@ import { request } from "@/utils/request";
 import { setToken, getToken, clearToken, setUser } from "@/utils/token";
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import { foodData } from "./category_and_food";
 
 interface LoginData {
   email: string;
   password: string;
+}
+
+interface categoryImage {
+  imageUrl: File;
+
 }
 
 interface UpdateProfileData {
@@ -222,30 +228,55 @@ export async function categoryImages() {
   }
 }
 
-export async function uploadCategoryImage(file: File) {
-  try {
-    const formData = new FormData();
-    formData.append('file', file);
+// export async function uploadCategoryImage() {
+//   try {
+//     const formData = new FormData();
 
-    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData
-    });
+//     const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
+//       method: "POST",
+//       headers: {
+//         Accept: 'application/json',
+//         'Content-Type': 'application/json',
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: formData
+//     });
 
-    if (!response.ok) {
-      throw new Error("Failed to upload category image");
+//     if (!response.ok) {
+//       throw new Error("Failed to upload category image");
+//     }
+
+//     const data = await response.json();
+//     return data;
+//   } catch (error) {
+//     console.error("Error uploading image:", error);
+//     throw error;
+//   }
+// }
+
+export function useUploadCategoryImage() {
+  return useMutation<AuthResponse, Error, categoryImage>(
+    async (data) => {
+      const token = getTokenFromLocalStorage();
+
+      const formData = new FormData();
+      formData.append("file", data.imageUrl);
+
+      const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload category image");
+      }
+
+      return response.json();
     }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error uploading image:", error);
-    throw error;
-  }
+  )
 }
 
 const updateVendorProfile = async (data: UpdateProfileData) => {

@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter, useParams } from "next/navigation";
-import { uploadCategoryImage, categoryImages, useLogout } from "@/queries/auth";
+import {
+  useUploadCategoryImage,
+  categoryImages,
+  useLogout,
+} from "@/queries/auth";
 import { useAddFood } from "@/queries/category_and_food";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
@@ -126,48 +130,38 @@ const FoodForm: React.FC = () => {
 
   // Add new state for upload loading and error
   const [uploadLoading, setUploadLoading] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const uploadCategoryImage = useUploadCategoryImage();
 
-  // Add handler for file selection
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setUploadFile(e.target.files[0]);
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setFile(event.target.files[0]);
     }
   };
 
-  // Modify the form submission handler
-  const handleUploadSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!uploadFile) {
-      setUploadError("Please select a file");
+  const handleUploadSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (!file) {
+      setUploadError("Please select an image.");
       return;
     }
 
-    try {
-      setUploadLoading(true);
-      setUploadError(null);
-
-      const userProfile = getUser() as UserProfile;
-      if (!userProfile?.profile?.user_uuid) {
-        throw new Error("User UUID not found");
+    uploadCategoryImage.mutate(
+      { imageUrl: file },
+      {
+        onSuccess: () => {
+          alert("Image uploaded successfully!");
+          setIsUploadModalOpen(false);
+        },
+        onError: (error) => {
+          console.error("Upload failed:", error);
+          setUploadError("Failed to upload image. Please try again.");
+        },
       }
-
-      await uploadCategoryImage(uploadFile);
-
-      // Refresh the category images
-      const newData = await categoryImages();
-      setCategoryImageData(newData);
-
-      // Reset form and close modal
-      setUploadFile(null);
-      setIsUploadModalOpen(false);
-    } catch (error) {
-      setUploadError(error instanceof Error ? error.message : "Upload failed");
-    } finally {
-      setUploadLoading(false);
-    }
+    );
   };
-
   const [categories, setCategories] = useState<any[]>([]); // State to store categories
   const [categoriesLoading, setCategoriesLoading] = useState<boolean>(true);
   const [categoriesError, setCategoriesError] = useState<string | null>(null);
@@ -583,7 +577,10 @@ const FoodForm: React.FC = () => {
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
               <h2 className="text-2xl font-semibold mb-4">Upload New Image</h2>
 
-              <form onSubmit={handleUploadSubmit}>
+              <form
+                onSubmit={handleUploadSubmit}
+                className="p-4 bg-white rounded-lg shadow-md"
+              >
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Select Image
@@ -604,22 +601,18 @@ const FoodForm: React.FC = () => {
                 <div className="flex justify-end gap-2">
                   <button
                     type="button"
-                    onClick={() => {
-                      setIsUploadModalOpen(false);
-                      setUploadError(null);
-                      setUploadFile(null);
-                    }}
-                    className="bg-gray-500 text-red px-4 py-2 rounded-lg hover:bg-gray-600"
-                    disabled={uploadLoading}
+                    onClick={() => setIsUploadModalOpen(false)}
+                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                    disabled={uploadCategoryImage.isLoading}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
                     className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
-                    disabled={uploadLoading}
+                    disabled={uploadCategoryImage.isLoading}
                   >
-                    {uploadLoading ? "Uploading..." : "Upload"}
+                    {uploadCategoryImage.isLoading ? "Uploading..." : "Upload"}
                   </button>
                 </div>
               </form>
