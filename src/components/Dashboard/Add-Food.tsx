@@ -383,25 +383,6 @@ const FoodForm: React.FC = () => {
             step="1"
           />
         </div>
-        <div className="mb-8">
-          <label
-            htmlFor="imageUrl"
-            className="block mb-3 text-lg font-semibold text-gray-900"
-          >
-            imageUrl
-          </label>
-          <input
-            type="file"
-            id="imageUrl"
-            value={formData.imageUrl}
-            onChange={handleInputChange}
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
-            placeholder="Enter imageUrl"
-            min={0}
-            max={100}
-            step="1"
-          />
-        </div>
 
         {/* Preparation Time (Number) */}
         <div className="mb-8">
@@ -445,35 +426,25 @@ const FoodForm: React.FC = () => {
           </select>
         </div>
 
-        {/* Modified Category images section */}
-        {/* <div className="mb-8">
+        <div className="mb-8">
           <label
             htmlFor="imageUrl"
             className="block mb-3 text-lg font-semibold text-gray-900"
           >
-            Select Image(s)
+            imageUrl
           </label>
           <input
-            type="text"
+            type="file"
             id="imageUrl"
-            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
-            placeholder="Images"
             value={formData.imageUrl}
-            // value={selectedImageUuids
-            //   .map((uuid) => {
-            //     const selectedImage =
-            //       categoryImageData?.data?.storage?.data?.find(
-            //         (img: any) => img.uuid === uuid
-            //       );
-            //     return selectedImage
-            //       ? `${selectedImage.base_url}/${selectedImage.path}`
-            //       : "";
-            //   })
-            //   .filter(Boolean)
-            //   .join(", ")}
-            // readOnly
+            onChange={handleInputChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            placeholder="Enter imageUrl"
+            min={0}
+            max={100}
+            step="1"
           />
-        </div> */}
+        </div>
 
         {/* Submit Button */}
         <div className="flex justify-end">
