@@ -199,9 +199,10 @@ export async function allAccounts(token: string) {
   }
 }
 
-export async function categoryImages(user_uuid: string) {
+export async function categoryImages() {
+  const token = getTokenFromLocalStorage();
   try {
-    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}`, {
+    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

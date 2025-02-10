@@ -105,7 +105,8 @@ const FoodForm: React.FC = () => {
           throw new Error("User UUID not found");
         }
 
-        const data = await categoryImages(userProfile.profile.user_uuid);
+        const data = await categoryImages();
+        console.log(data);
         setCategoryImageData(data);
         setLoading(false);
       } catch (err) {
@@ -154,7 +155,7 @@ const FoodForm: React.FC = () => {
       await uploadCategoryImage(uploadFile);
 
       // Refresh the category images
-      const newData = await categoryImages(userProfile.profile.user_uuid);
+      const newData = await categoryImages();
       setCategoryImageData(newData);
 
       // Reset form and close modal
