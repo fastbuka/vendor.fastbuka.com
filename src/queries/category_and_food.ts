@@ -7,7 +7,7 @@ export interface foodData {
   category_uuid: string;
   name: string;
   description: string;
-  imageUrl: string;
+  image: string;
   price: number;
   discount: number;
   processing_time: string;
@@ -64,7 +64,7 @@ export function useAddFood(vendor_slug: string) {
         discount: data.discount, // Keep as number
         processing_time: data.processing_time,
         ready_made: data.ready_made, // Keep as boolean
-        imageUrl: data.imageUrl || null, // If needed, handle image as URL or blob
+        image: data.image || null, // If needed, handle image as URL or blob
       };
 
       const response = await fetch(`${API_ENDPOINTS.ADD_FOOD}/${vendor_slug}`, {

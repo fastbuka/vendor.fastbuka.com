@@ -196,7 +196,7 @@ const FoodForm: React.FC = () => {
     discount: "",
     preparation_time: "",
     ready_made: "",
-    imageUrl: "",
+    image: "",
   });
 
   // Add form handler
@@ -229,27 +229,22 @@ const FoodForm: React.FC = () => {
         category_uuid: formData.category_uuid,
         name: formData.name,
         description: formData.description,
-        image: "",
-        imageUrl: formData.imageUrl,
+        // image: "",
         price: Number(formData.price),
         discount: Number(formData.discount || "0"),
         processing_time: formData.preparation_time,
         ready_made: formData.ready_made === "yes",
-        // imageUrl: selectedImageUuids
-        //   .map((uuid) => {
-        //     const selectedImage = categoryImageData?.data?.storage?.data?.find(
-        //       (img: any) => img.uuid === uuid
-        //     );
-        //     return selectedImage
-        //       ? `${selectedImage.base_url}/${selectedImage.path}`
-        //       : "";
-        //   })
-        //   .filter(Boolean)
-        //   .join(","),
-        // price: Number(formData.price),
-        // discount: Number(formData.discount || "0"),
-        // processing_time: formData.preparation_time,
-        // ready_made: formData.ready_made === "yes",
+        image: selectedImageUuids
+          .map((uuid) => {
+            const selectedImage = categoryImageData?.data?.storage?.data?.find(
+              (img: any) => img.uuid === uuid
+            );
+            return selectedImage
+              ? `${selectedImage.base_url}/${selectedImage.path}`
+              : "";
+          })
+          .filter(Boolean)
+          .join(","),
       };
 
       // Call the mutation and wait for response
@@ -261,6 +256,7 @@ const FoodForm: React.FC = () => {
       } else {
         throw new Error("Failed to add food");
       }
+      // console.log(foodData);
     } catch (error) {
       console.error("Error adding food:", error);
       // Show error message to user
@@ -434,15 +430,14 @@ const FoodForm: React.FC = () => {
             imageUrl
           </label>
           <input
-            type="file"
+            type="text"
             id="imageUrl"
-            value={formData.imageUrl}
+            value={formData.image}
             onChange={handleInputChange}
             className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
             placeholder="Enter imageUrl"
-            min={0}
-            max={100}
-            step="1"
+            required
+            readOnly
           />
         </div>
 
