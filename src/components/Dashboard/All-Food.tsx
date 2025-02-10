@@ -334,7 +334,7 @@ const SidebarWithFoodItems: React.FC = () => {
               </span>
               {food.discount > 0 && (
                 <span className="text-sm text-red-500">
-                  {food.discount}% off
+                  &#8358;{food.discount} off
                 </span>
               )}
             </div>
@@ -348,12 +348,16 @@ const SidebarWithFoodItems: React.FC = () => {
               <button className="text-green-600">
                 <FaEdit size={20} />
               </button>
-              <button
+                <button
                 className="text-[#dc2626]"
-                onClick={() => handleDeleteFood(food.uuid)}
-              >
+                onClick={() => {
+                  if (confirm("Are you sure you want to delete this food item?")) {
+                  handleDeleteFood(food.uuid);
+                  }
+                }}
+                >
                 <FaTrash size={20} />
-              </button>
+                </button>
             </div>
           </div>
         ))}
