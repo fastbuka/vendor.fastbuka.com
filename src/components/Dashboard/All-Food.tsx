@@ -119,7 +119,7 @@ const SidebarWithFoodItems: React.FC = () => {
           throw new Error("User UUID not found");
         }
 
-        const data = await categoryImages(userProfile.profile.user_uuid);
+        const data = await categoryImages();
         setCategoryImageData(data);
         setLoading(false);
       } catch (err) {
