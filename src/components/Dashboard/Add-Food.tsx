@@ -438,6 +438,7 @@ const FoodForm: React.FC = () => {
             placeholder="Enter imageUrl"
             required
             readOnly
+            hidden
           />
         </div>
 

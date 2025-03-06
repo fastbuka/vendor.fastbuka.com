@@ -218,42 +218,6 @@ const SidebarWithFoodItems: React.FC = () => {
   return (
     <>
       <div className="flex gap-3">
-        {/* Sidebar */}
-        {/* <div className="bg-gray-800 text-white md:p-6">
-          <h2 className="text-lg font-semibold mb-6 text-black">
-            Food Categories
-          </h2>
-        </div> */}
-
-        {/* Main content area */}
-        {/* <div className="flex-1 bg-gray-100">
-          <div className="text-black text-md flex justify-end">
-            <select
-              value={selectedCategory}
-              onChange={handleCategoryChange}
-              className="block w-fit text-left p-4 my-2 rounded-lg hover:bg-gray-700"
-            >
-              <option>All</option>
-              {categories.map((category) => {
-                const categoryName =
-                  typeof category === "string" ? category : category.name;
-
-                const categoryUUID =
-                  typeof category === "string" ? category : category.uuid;
-
-                return (
-                  <option key={categoryName} value={categoryName}>
-                    {categoryName.charAt(0).toUpperCase() +
-                      categoryName.slice(1)}{" "}
-                    <br />
-                    {categoryUUID}
-                  </option>
-                );
-              })}
-            </select>
-          </div>
-        </div> */}
-
         {/* Modal for viewing food details */}
         {isModalOpen && selectedFood && (
           <div className="fixed top-10 md:top-24 inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
