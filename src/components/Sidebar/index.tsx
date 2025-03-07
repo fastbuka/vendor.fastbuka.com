@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
 import ClickOutside from "@/components/ClickOutside";
-import Logo from "/public/logo.png";
+import Logo from "/public/logo-dark.png";
 import { RxDashboard } from "react-icons/rx";
 import { MdOutlineFoodBank } from "react-icons/md";
 import { BsCollection } from "react-icons/bs";
@@ -253,8 +253,9 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </div>
             ))}
             <button
-              className="text-[#dc3545] flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out lg:text-base"
+              className="flex items-center gap-3.5 px-6 py-4 text-lg font-large duration-300 ease-in-out lg:text-dark"
               onClick={handleLogout}
+              style={{ color: 'black' }}
             >
               <BiLogOutCircle />
               Log Out
