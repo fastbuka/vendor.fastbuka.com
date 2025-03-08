@@ -31,6 +31,11 @@ interface Vendor {
   city: string;
 }
 
+// Add near other interfaces
+type Params = {
+  slug: string;
+}
+
 const FoodForm: React.FC = () => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -52,7 +57,8 @@ const FoodForm: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
-  const { slug } = useParams(); // Get the slug directly from params
+  const params = useParams() as Params;  // Type assertion
+  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [categoryImageData, setCategoryImageData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);

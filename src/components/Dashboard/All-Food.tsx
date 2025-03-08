@@ -9,6 +9,7 @@ import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
 import { getAllCategory } from "@/queries/category_and_food";
 import { allFood, deleteFood } from "@/queries/category_and_food";
+import Image from "next/image";
 
 interface UserProfile {
   profile: {
@@ -43,6 +44,11 @@ type FoodItem = {
   discount: number;
 };
 
+// Add type near other interfaces
+type Params = {
+  slug: string;
+}
+
 const SidebarWithFoodItems: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory>(
     "Select food category"
@@ -75,7 +81,8 @@ const SidebarWithFoodItems: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
-  const { slug } = useParams(); // Get the slug directly from params
+  const params = useParams() as Params;  // Type assertion for params
+  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [categoryImageData, setCategoryImageData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -231,9 +238,11 @@ const SidebarWithFoodItems: React.FC = () => {
               {/* Food Image */}
               {typeof selectedFood.image === "string" && (
                 <div className="flex justify-center">
-                  <img
+                  <Image
                     src={selectedFood.image}
                     alt={selectedFood.name}
+                    width={100}
+                    height={100}
                     className="w-auto h-[200px] object-cover rounded-lg mb-4"
                   />
                 </div>
@@ -281,9 +290,11 @@ const SidebarWithFoodItems: React.FC = () => {
           >
             {typeof food.image === "string" && (
               <div className="flex justify-center">
-                <img
+                <Image
                   src={food.image}
                   alt={food.name}
+                  width={100}
+                  height={100}
                   className="w-auto h-[200px] object-cover rounded-lg mb-4"
                 />
               </div>

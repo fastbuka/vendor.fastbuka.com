@@ -7,6 +7,7 @@ import { useLogout } from "@/queries/auth";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
+import { Params } from '@/types/params';
 
 interface UserProfile {
   profile: {
@@ -43,7 +44,8 @@ const EditCategory: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
-  const { slug } = useParams(); // Get the slug directly from params
+  const params = useParams() as Params;
+  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -1,129 +1,49 @@
 import { backend } from '@/lib/axios';
 
-export const useOrder = () => {
+export function useOrder() {
   /**
-   * Create
+   * Orders
    * @param param0
    * @returns
    */
-  const create = async ({
-    delivery_name,
-    delivery_email,
-    delivery_contact,
-    delivery_address,
-    cartItems,
-  }: {
-    delivery_name: string;
-    delivery_email: string;
-    delivery_contact: string;
-    delivery_address: string;
-    cartItems: any;
-  }) => {
+  const orders = async (
+  ) => {
+    const order_status = 'paid';
     try {
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        return {
-          success: false,
-          message: 'Not authenticated',
-        };
-      }
+      const token = localStorage.getItem('fastbuka_auth_token');
+    //   console.log("Get Token:", token);
+      const vendor_uuid = localStorage.getItem('VendorUuid')?.replace(/"/g, '');
+    //   console.log("Get Vendor:", vendor_uuid);
+      let response;
 
-      const response = await backend.post(
-        '/api/v1/order',
-        JSON.stringify({
-          delivery_name,
-          delivery_email,
-          delivery_contact,
-          delivery_address,
-          newOrder: true,
-          cartItems,
-        }),
+      response = await backend.get(
+        `/api/v1/order/vendor/${vendor_uuid}?order_status=${order_status}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
+      console.log("Fetch response", response);
 
       if (response.data.success) {
-        const order = response.data.data?.order;
-        
-        if (!order) {
-          console.error('Order data missing in response:', response.data);
-          return {
-            success: false,
-            message: response.data.message || 'Order items are out of stock',
-          };
-        }
-
         return {
           success: true,
           message: response.data.message || 'Success',
-          data: {
-            order: order
-          }
+          data: response.data.data,
         };
       } else {
         return {
           success: false,
-          message: response.data.message || 'Failed to create order',
+          message: response,
         };
       }
     } catch (error: any) {
-      console.error('Order creation error:', error);
       return {
         success: false,
-        message: error.message || 'Failed to create order',
+        message: error.message,
       };
     }
-  };
-
-  /**
-   * Orders
-   * @param param0
-   * @returns
-   */
-  const orders = async ({ order_status }: { order_status: string | null }) => {
-    // try {
-    //   const token = localStorage.getItem('token');
-    //   console.log("Token:", token);
-    //   let response;
-
-    //   if (order_status) {
-    //     response = await backend.get(
-    //       `/api/v1/order/?order_status=${order_status}`,
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${token}`,
-    //         },
-    //       }
-    //     );
-    //   } else {
-    //     response = await backend.get(`/api/v1/order`, {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     });
-    //   }
-    //   if (response.data.success) {
-    //     return {
-    //       success: true,
-    //       message: response.data.message || 'Success',
-    //       data: response.data.data,
-    //     };
-    //   } else {
-    //     return {
-    //       success: false,
-    //       message: response.data.message || 'Failed to load menu',
-    //     };
-    //   }
-    // } catch (error: any) {
-    //   return {
-    //     success: false,
-    //     message: error.message || 'Failed to load menu',
-    //   };
-    // }
   };
 
   /**
@@ -173,4 +93,4 @@ export const useOrder = () => {
     orders,
     order,
   };
-};
+}
