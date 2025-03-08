@@ -91,7 +91,7 @@ const Balance = () => {
         </button>
         <div className="grid grid-cols-3 gap-10">
           <div className="flex items-center justify-center ">
-            <h1 className="font-mono font-black text-sm 2xl:text-xl ms-2">
+            <h1 className="font-mono font-black text-sm 2xl:text-lg ms-2">
               Total Balance:{" "}
             </h1>
             <input
@@ -100,8 +100,6 @@ const Balance = () => {
               name="password"
               value={vendor?.balance}
               className="font-mono font-black text-sm 2xl:text-xl ms-2 block w-1/2 bg-white"
-              placeholder="Password"
-              required
               disabled
             />
           </div>
