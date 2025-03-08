@@ -13,6 +13,7 @@ import { RefreshCw } from 'lucide-react';
 import { useOrder } from '@/hooks/order';
 import Link from 'next/link';
 import { Loader2, MoreVertical } from 'lucide-react';
+import { useAcceptOrder } from "@/hooks/acceptOrder";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -53,17 +54,15 @@ function formatDate(dateString) {
   return date.toLocaleDateString(undefined, options);
 }
 
-const handleOrderClick = (uuid) => {
-  // Implement your logic here, e.g., mark the order as ready or fetch order details
-  console.log(`Order ready clicked: ${uuid}`);
-};
-
 export default function Page() {
   const [loading, setLoading] = useState(true);
   const [orderFetch, setOrderFetch] = useState(false);
   const { orders } = useOrder();
+  const { acceptOrder } = useAcceptOrder();
   const [orderStatus, setOrderStatus] = useState('All');
   const [orderDetails, setOrderDetails] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedOrderUuid, setSelectedOrderUuid] = useState(null);
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -90,6 +89,35 @@ export default function Page() {
       fetchOrders();
     }
   }, [fetchOrders, orderFetch]);
+
+  const handleOrderClick = async (uuid) => {
+    setLoading(true);
+    try {
+      const response = await acceptOrder(uuid);
+      console.log("Order update", response);
+      if (response.success === true) {
+        toast.success(response.message);
+      } else if(response.success === false){
+        toast.error(response.message);
+      }
+      
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error('Error updating order:', error);
+      setIsModalOpen(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openModal = (uuid) => {
+    setSelectedOrderUuid(uuid);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   if (loading) {
     return (
@@ -165,7 +193,7 @@ export default function Page() {
                   <div className='flex gap-3'>
                   <div className='text-right space-y-2'>
                     <p className='text-lg font-bold'>
-                      ₦{order.total_amount.toFixed(2)}
+                      ₦{order.orderItems[0]?.price}
                     </p>
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-semibold ${getStatusColor(
@@ -183,14 +211,13 @@ export default function Page() {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='bg-white'>
                       <DropdownMenuItem>
-                      <Button
-                    onClick={() => handleOrderClick(order.uuid)} // Trigger function on click
-                   
-                    size='sm'
-                    className='bg-gray-200 hover:bg-gray-300 transition-colors'
-                  >
-                    Order Ready
-                  </Button>
+                        <Button
+                          onClick={() => openModal(order.uuid)}
+                          size='sm'
+                          className='bg-gray-200 hover:bg-gray-300 transition-colors'
+                        >
+                          Order Ready
+                        </Button>
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -206,6 +233,25 @@ export default function Page() {
         )}
 
       </motion.div>
+
+      {/* Modal for confirmation */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded shadow-md">
+            <h2 className="text-lg font-semibold">Update Order</h2>
+            <p>Order ready for pick up?</p>
+            <div className="flex justify-end space-x-4 mt-4">
+              <Button onClick={closeModal} variant="outline">No</Button>
+              <Button
+                onClick={() => handleOrderClick(selectedOrderUuid)}
+                variant="outline"
+              >
+                Yes
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
         </CardContent>
       </DefaultLayout>
     </>
