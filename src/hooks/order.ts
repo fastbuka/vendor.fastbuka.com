@@ -17,7 +17,7 @@ export function useOrder() {
       let response;
 
       response = await backend.get(
-        `/api/v1/order/vendor/${vendor_uuid}?order_status=${order_status}`,
+        `/v1/order/vendor/${vendor_uuid}?order_status=${order_status}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
