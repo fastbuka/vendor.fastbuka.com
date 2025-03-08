@@ -423,14 +423,8 @@ const FoodForm: React.FC = () => {
         </div>
 
         <div className="mb-8">
-          <label
-            htmlFor="imageUrl"
-            className="block mb-3 text-lg font-semibold text-gray-900"
-          >
-            imageUrl
-          </label>
           <input
-            type="text"
+            type="hidden"
             id="imageUrl"
             value={formData.image}
             onChange={handleInputChange}
