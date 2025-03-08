@@ -291,6 +291,7 @@ const updateVendorProfile = async (data: UpdateProfileData) => {
       },
     }
   );
+  // console.log("Vendor", response.data);
   return response.data;
 };
 
