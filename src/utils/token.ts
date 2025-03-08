@@ -80,7 +80,7 @@ export async function getVendorBySlug(slug: string) {
     console.log("Vendor response", response);
     if (response.data.success) {
       // console.log("Vendor uuid", response?.data?.data?.vendor?.uuid);
-      localStorage.setItem("VendorUuid", JSON.stringify(response?.data?.data?.vendor?.uuid));
+      localStorage.setItem("VendorUuid", response?.data?.data?.vendor?.uuid);
       return {
           success: true,
           message: response.data.message || 'Vendor fetched successfully',
