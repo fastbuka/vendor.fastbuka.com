@@ -110,7 +110,6 @@ const FoodForm: React.FC = () => {
         }
 
         const data = await categoryImages();
-        console.log(data);
         setCategoryImageData(data);
         setLoading(false);
       } catch (err) {
@@ -256,7 +255,6 @@ const FoodForm: React.FC = () => {
       } else {
         throw new Error("Failed to add food");
       }
-      // console.log(foodData);
     } catch (error) {
       console.error("Error adding food:", error);
       // Show error message to user

@@ -167,7 +167,6 @@
 //     const fetchFoodItems = async () => {
 //       try {
 //         const foodData = await allFood(vendor.slug);
-//         console.log(foodData);
 
 //         if (foodData?.data?.foods && Array.isArray(foodData.data.foods)) {
 //           setFoodItems(foodData.data.foods);
@@ -207,7 +206,6 @@
 //     const selectedCategory = event.target.value as FoodCategory;
 //     setSelectedCategory(selectedCategory);
 //     handleCategoryClick(selectedCategory);
-//     console.log(selectedCategory);
 //   };
 
 //   if (!user) {
