@@ -28,7 +28,7 @@ const cardVariants = {
   visible: { opacity: 1, y: 0 },
 };
 
-const getStatusColor = (status) => {
+function getStatusColor(status) {
   switch (status.toLowerCase()) {
     case 'paid':
       return 'bg-blue-100 text-blue-800';
@@ -41,9 +41,9 @@ const getStatusColor = (status) => {
     default:
       return 'bg-gray-100 text-gray-800';
   }
-};
+}
 
-const formatDate = (dateString) => {
+function formatDate(dateString) {
   if (!dateString) return 'Invalid date';
   const date = new Date(dateString.trim());
   if (isNaN(date.getTime())) {
@@ -51,22 +51,19 @@ const formatDate = (dateString) => {
   }
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   return date.toLocaleDateString(undefined, options);
-};
+}
 
 const handleOrderClick = (uuid) => {
   // Implement your logic here, e.g., mark the order as ready or fetch order details
   console.log(`Order ready clicked: ${uuid}`);
 };
 
-export default function Home() {
-
-
+export default function Page() {
+  const [loading, setLoading] = useState(true);
+  const [orderFetch, setOrderFetch] = useState(false);
   const { orders } = useOrder();
   const [orderStatus, setOrderStatus] = useState('All');
   const [orderDetails, setOrderDetails] = useState([]);
-  const [orderFetch, setOrderFetch] = useState(false);
-
-
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -85,7 +82,7 @@ export default function Home() {
       setLoading(false);
       setOrderFetch(true);
     }
-  }, [orderStatus, orders]);
+  }, [orders]);
 
 
   useEffect(() => {
@@ -93,9 +90,6 @@ export default function Home() {
       fetchOrders();
     }
   }, [fetchOrders, orderFetch]);
-
-  const [loading, setLoading] = useState(true);
-  
 
   if (loading) {
     return (
@@ -153,6 +147,7 @@ export default function Home() {
             {orderDetails.map((order) => (
              
                 <motion.div
+                  key={order.uuid}
                   variants={cardVariants}
                   className='bg-white rounded-lg shadow-md p-6 flex justify-between items-center'
                 >

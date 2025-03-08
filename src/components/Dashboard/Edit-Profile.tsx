@@ -7,10 +7,12 @@ import { getUser, getToken, getVendorBySlug } from "@/utils/token";
 import { useEffect, useState, FormEvent } from "react";
 import { NIGERIA_STATE_WITH_CITY } from "@/constants";
 import { useUpdateProfile } from "@/queries/auth";
+import { Params } from '@/types/params';
 
 const Profile = () => {
   const router = useRouter();
-  const { slug } = useParams();
+  const params = useParams() as Params;
+  const { slug } = params;
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 

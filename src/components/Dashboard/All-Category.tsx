@@ -52,13 +52,18 @@ const FoodCategory = [
   },
 ];
 
+type Params = {
+  slug: string;
+}
+
 const Category: React.FC = () => {
   // vendor slug
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [queryClient] = useState(() => new QueryClient());
 
-  const { slug } = useParams(); // Get the slug directly from params
+  const params = useParams() as Params;  // Type assertion
+  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);

@@ -27,6 +27,10 @@ interface Vendor {
   // Add other fields if needed
 }
 
+// Add near other interfaces
+type Params = {
+  slug: string;
+}
 
 const AddAccount = () => {
   // State to track selected currency
@@ -43,7 +47,8 @@ const AddAccount = () => {
       const [queryClient] = useState(() => new QueryClient());
       const logout = useLogout(queryClient);
     
-      const { slug } = useParams(); // Get the slug directly from params
+      const params = useParams() as Params;  // Type assertion
+      const { slug } = params;
       const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
       const [loading, setLoading] = useState<boolean>(true);
       const [error, setError] = useState<string | null>(null);

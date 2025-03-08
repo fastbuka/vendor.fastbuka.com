@@ -1,6 +1,6 @@
 import { backend } from '@/lib/axios';
 
-export const useOrder = () => {
+export function useOrder() {
   /**
    * Orders
    * @param param0
@@ -93,4 +93,4 @@ export const useOrder = () => {
     orders,
     order,
   };
-};
+}
