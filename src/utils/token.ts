@@ -76,7 +76,7 @@ export const clearUser = (): void => {
 
 export async function getVendorBySlug(slug: string) {
   try {
-    const response = await backend.get(`/api/v1/vendor/${slug}`)
+    const response = await backend.get(`/v1/vendor/${slug}`)
     console.log("Vendor response", response);
     if (response.data.success) {
       // console.log("Vendor uuid", response?.data?.data?.vendor?.uuid);
