@@ -20,9 +20,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useToast } from "@/hooks/use-toast";
 
 
-const orderStatuses = ['All', 'paid', 'PickedUp', 'Delivered'];
+const orderStatuses = ['paid', 'ReadyForPickup', 'PickedUp', 'Delivered'];
 
 const cardVariants = {
   hidden: { opacity: 0, y: 20 },
@@ -30,7 +31,7 @@ const cardVariants = {
 };
 
 function getStatusColor(status) {
-  switch (status.toLowerCase()) {
+  switch (status) {
     case 'paid':
       return 'bg-blue-100 text-blue-800';
     case 'ReadyForPickup':
@@ -59,16 +60,18 @@ export default function Page() {
   const [orderFetch, setOrderFetch] = useState(false);
   const { orders } = useOrder();
   const { acceptOrder } = useAcceptOrder();
-  const [orderStatus, setOrderStatus] = useState('All');
+  const [orderStatus, setOrderStatus] = useState('paid');
   const [orderDetails, setOrderDetails] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrderUuid, setSelectedOrderUuid] = useState(null);
+  const { toast } = useToast();
+
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
     setOrderFetch(false);
     try {
-      const response = await orders();
+      const response = await orders({ order_status: orderStatus });
       console.log("Orders fetched", response);
       if (response.success) {
         setOrderDetails(response.data.orders);
@@ -81,7 +84,7 @@ export default function Page() {
       setLoading(false);
       setOrderFetch(true);
     }
-  }, [orders]);
+  }, [orders, orderStatus]);
 
 
   useEffect(() => {
@@ -91,14 +94,24 @@ export default function Page() {
   }, [fetchOrders, orderFetch]);
 
   const handleOrderClick = async (uuid) => {
+    console.log("Order uuid", uuid);
     setLoading(true);
     try {
-      const response = await acceptOrder(uuid);
+      const response = await acceptOrder({ order_uuid: uuid });
       console.log("Order update", response);
       if (response.success === true) {
-        toast.success(response.message);
+        toast({
+          variant: response.variant,
+          title: response.message,
+          description: response.data,
+        });
+        await fetchOrders();
       } else if(response.success === false){
-        toast.error(response.message);
+       toast({
+        variant: response.variant,
+        title: response.message,
+        description: response.data,
+       })
       }
       
       setIsModalOpen(false);
@@ -205,22 +218,26 @@ export default function Page() {
                    
                   </div>
 
-                  <DropdownMenu>
-                    <DropdownMenuTrigger>
-                      <MoreVertical className='cursor-pointer' />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className='bg-white'>
-                      <DropdownMenuItem>
-                        <Button
-                          onClick={() => openModal(order.uuid)}
-                          size='sm'
-                          className='bg-gray-200 hover:bg-gray-300 transition-colors'
-                        >
-                          Order Ready
-                        </Button>
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  {order.order_status !== 'ReadyForPickup' && 
+                   order.order_status !== 'PickedUp' && 
+                   order.order_status !== 'Delivered' && (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        <MoreVertical className='cursor-pointer' />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent className='bg-white'>
+                        <DropdownMenuItem>
+                          <Button
+                            onClick={() => openModal(order.uuid)}
+                            size='sm'
+                            className='bg-gray-200 hover:bg-gray-300 transition-colors'
+                          >
+                            Order Ready
+                          </Button>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
                   </div>
                 </motion.div>
              
