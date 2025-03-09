@@ -37,6 +37,8 @@ const PasswordReset: React.FC = () => {
   };
 
   useEffect(() => {
+    if (!searchParams) return; // Early return if null
+    
     const emailParam = searchParams.get('email');
     if (emailParam) {
       setEmail(emailParam);

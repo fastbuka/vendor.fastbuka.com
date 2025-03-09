@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SidebarItem from "@/components/Sidebar/SidebarItem";
@@ -18,7 +18,6 @@ import { TbSettingsCog } from "react-icons/tb";
 import { TbPresentationAnalytics } from "react-icons/tb";
 import { BiLogOutCircle } from "react-icons/bi";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { useRouter, useParams } from "next/navigation";
 import { QueryClient } from "react-query";
 import { getUser, getToken } from "@/utils/token";
 import { getVendorBySlug } from "@/utils/token";
@@ -46,6 +45,11 @@ interface SidebarProps {
   setSidebarOpen: (arg: boolean) => void;
 }
 
+// Add type for params
+type Params = {
+  slug: string;
+}
+
 const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const pathname = usePathname();
   const [pageName, setPageName] = useState("dashboard");
@@ -55,7 +59,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [queryClient] = useState(() => new QueryClient());
 
-  const { slug } = useParams(); // Get the slug directly from params
+  const params = useParams() as Params;  // Type assertion
+  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -269,3 +274,4 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
 };
 
 export default Sidebar;
+

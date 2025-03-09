@@ -56,6 +56,11 @@ type Orders = {
   };
 };
 
+// Add type for params
+type Params = {
+  slug: string;
+}
+
 const Order = () => {
   const data = [
     { id: 1, name: "Burger", category: "Food", price: 10.99 },
@@ -99,7 +104,8 @@ const Order = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
-  const { slug } = useParams(); // Get the slug directly from params
+  const params = useParams() as Params;  // Type assertion for params
+  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -160,7 +166,7 @@ const Order = () => {
     };
 
     fetchOrderItems();
-  }, [vendor?.slug]);
+  }, [vendor?.slug, vendor.uuid]);
 
   if (!user) {
     return <div>Loading...</div>;

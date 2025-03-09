@@ -12,7 +12,7 @@ interface NotifyProps {
 }
 
 const Notify: React.FC<NotifyProps> = ({ status = {}, className = '' }) => {
-  const notify = () => {
+  const notify = React.useCallback(() => {
     if (status.message) {
       if (status.success === 'load') {
         const toastId = toast.loading(status.message);
@@ -27,13 +27,13 @@ const Notify: React.FC<NotifyProps> = ({ status = {}, className = '' }) => {
         toast(status.message);
       }
     }
-  };
+  }, [status]);
 
   useEffect(() => {
     if (status && status.message) {
       notify();
     }
-  }, [status]);
+  }, [status, notify]);
 
   return (
     <>

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { inter } from './fonts'
 import Providers from "@/Providers";
 import "@/css/satoshi.css";
 import "@/css/style.css";
+import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "FastBuka",
@@ -17,13 +18,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="icon" href="/logo.ico" type="image/x-icon" />
-      </head>
-      <body className={inter.className}>
+    <html lang="en" className={inter.className}>
+      <body>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
+      
     </html>
   );
 }
