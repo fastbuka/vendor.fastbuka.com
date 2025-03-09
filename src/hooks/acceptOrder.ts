@@ -9,12 +9,12 @@ export function useAcceptOrder() {
   const acceptOrder = async ({order_uuid}: {order_uuid: string}
   ) => {
     try {
+      const url = `/vendor/update_order/${order_uuid}`;
+      console.log("Request URL:", url);
 
       let response;
 
-      response = await backend.get(
-        `/v1/order/vendor/${order_uuid}`
-      );
+      response = await backend.post(url);
       console.log("Fetch response", response);
 
       if (response.data.success) {

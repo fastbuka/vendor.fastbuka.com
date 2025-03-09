@@ -6,9 +6,9 @@ export function useOrder() {
    * @param param0
    * @returns
    */
-  const orders = async (
+  const orders = async ({order_status}: {order_status: string}
   ) => {
-    const order_status = 'paid';
+    // const order_status = 'paid';
     try {
       const token = localStorage.getItem('fastbuka_auth_token');
     //   console.log("Get Token:", token);

@@ -3,6 +3,9 @@ import { inter } from './fonts'
 import Providers from "@/Providers";
 import "@/css/satoshi.css";
 import "@/css/style.css";
+import { Toaster } from "@/components/ui/toaster";
+
+
 
 export const metadata: Metadata = {
   title: "FastBuka",
@@ -18,7 +21,9 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <body>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
+      
     </html>
   );
 }
