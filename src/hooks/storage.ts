@@ -1,6 +1,7 @@
 import { storage } from '@/lib/axios';
 const env = 'dev';
 
+
 export const useStorage = () => {
   /**
    * All
@@ -39,7 +40,7 @@ export const useStorage = () => {
    */
   const store = async ({ file }: { file: File }) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('fastbuka_auth_token');
       const formData = new FormData();
       formData.append('file', file);
 

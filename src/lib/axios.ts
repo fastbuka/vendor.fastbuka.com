@@ -9,6 +9,7 @@ const backend = Axios.create({
   },
 });
 
+
 const storage = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_STORAGE_URL,
   maxBodyLength: Infinity,
@@ -17,5 +18,4 @@ const storage = Axios.create({
     'Content-Type': 'application/json',
   },
 });
-
 export { backend, storage };

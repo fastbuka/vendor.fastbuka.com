@@ -13,6 +13,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
+import { AvatarUploadModal } from "@/components/AvatarUploadModal";
 
 interface UserProfile {
   profile: {
@@ -67,6 +68,7 @@ const Profile = () => {
       // Assuming response.data contains your expected vendor data
       if (response?.data?.vendor) {
         setVendor(response.data.vendor);
+        console.log("Vendor Profile: ", response.data.vendor.profile);
       } else {
         throw new Error("Vendor not found");
       }
@@ -109,7 +111,7 @@ const Profile = () => {
             <div className="flex items-center space-x-4 mb-6 ">
               <div className="relative w-40 h-40 border-2 border-[#E5E7EB] rounded-[100px] overflow-hidden">
                 <Image
-                  src={avatar || "/pics.png"}
+                  src={vendor.profile || "/pics.png"}
                   alt="Profile"
                   className="rounded-full"
                   fill
@@ -306,6 +308,12 @@ const Profile = () => {
           </CardContent>
         </Card>
       </motion.div>
+      <AvatarUploadModal
+        isOpen={isAvatarModalOpen}
+        onClose={() => setIsAvatarModalOpen(false)}
+        avatar={avatar}
+        setAvatar={setAvatar}
+      />
     </>
   );
 };

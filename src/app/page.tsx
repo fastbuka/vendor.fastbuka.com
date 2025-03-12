@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     login(
       { email, password },
       {
-        onSuccess: () => {
+        onSuccess: (response) => {
           router.push("/vendor/home");
         },
         onError: () => {
