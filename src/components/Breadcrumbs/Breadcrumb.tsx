@@ -52,7 +52,7 @@ const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
   const fetchVendor = async (slug: string) => {
     try {
       const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
-
+      localStorage.setItem("VendorUuid", response.data.vendor.uuid);
       // Assuming response.data contains your expected vendor data
       if (response?.data?.vendor) {
         setVendor(response.data.vendor);
