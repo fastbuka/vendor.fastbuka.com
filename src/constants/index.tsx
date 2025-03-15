@@ -9,10 +9,12 @@ export const API_ENDPOINTS = {
 
   // Food and Category
   ADD_FOOD: "https://dev.fastbuka.com/api/v1/food",
+  GET_FOOD: "https://dev.fastbuka.com/api/v1/food",
   CATEGORY_IMAGE: "https://storage.fastbuka.com/api/v1/storage",
   ALL_CATEGORY: "https://dev.fastbuka.com/api/v1/category",
   ALL_FOOD: "https://dev.fastbuka.com/api/v1/food",
   DELETE_FOOD: "https://dev.fastbuka.com/api/v1/food",
+  UPDATE_FOOD: "https://dev.fastbuka.com/api/v1/food",
 
   // Orders
   ALL_ORDERS: "https://dev.fastbuka.com/api/v1/order/vendor",
