@@ -1,15 +1,16 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import { StaticImport } from "next/dist/shared/lib/get-img-props";
-import { useRouter, useParams } from "next/navigation";
-import { useLogout, categoryImages } from "@/queries/auth";
-import { QueryClient } from "react-query";
-import { getUser, getToken } from "@/utils/token";
-import { getVendorBySlug } from "@/utils/token";
-import { getAllCategory } from "@/queries/category_and_food";
-import { allFood, deleteFood } from "@/queries/category_and_food";
-import Image from "next/image";
+'use client';
+import React, { useState, useEffect } from 'react';
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
+import { useRouter, useParams } from 'next/navigation';
+import { useLogout, categoryImages } from '@/queries/auth';
+import { QueryClient } from 'react-query';
+import { getUser, getToken } from '@/utils/token';
+import { getVendorBySlug } from '@/utils/token';
+import { getAllCategory } from '@/queries/category_and_food';
+import { allFood, deleteFood } from '@/queries/category_and_food';
+import Image from 'next/image';
+import Link from 'next/link';
 
 interface UserProfile {
   profile: {
@@ -31,7 +32,7 @@ interface Vendor {
 }
 
 // Define the type for the category keys
-type FoodCategory = "Select food category" | "All";
+type FoodCategory = 'Select food category' | 'All';
 
 type FoodItem = {
   id: number;
@@ -47,11 +48,11 @@ type FoodItem = {
 // Add type near other interfaces
 type Params = {
   slug: string;
-}
+};
 
 const SidebarWithFoodItems: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<FoodCategory>(
-    "Select food category"
+    'Select food category'
   );
 
   // State for modal visibility and selected food item
@@ -81,7 +82,7 @@ const SidebarWithFoodItems: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
-  const params = useParams() as Params;  // Type assertion for params
+  const params = useParams() as Params; // Type assertion for params
   const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [categoryImageData, setCategoryImageData] = useState<any>(null);
@@ -97,10 +98,10 @@ const SidebarWithFoodItems: React.FC = () => {
       if (response?.data?.vendor) {
         setVendor(response.data.vendor);
       } else {
-        throw new Error("Vendor not found");
+        throw new Error('Vendor not found');
       }
     } catch (err) {
-      setError("Failed to fetch vendor details");
+      setError('Failed to fetch vendor details');
     } finally {
       setLoading(false);
     }
@@ -110,7 +111,7 @@ const SidebarWithFoodItems: React.FC = () => {
     const token = getToken();
     const userData = getUser();
     if (!token || !userData) {
-      router.push("/login");
+      router.push('/login');
     } else {
       setUser(userData as UserProfile);
     }
@@ -123,7 +124,7 @@ const SidebarWithFoodItems: React.FC = () => {
       try {
         const userProfile = getUser() as UserProfile;
         if (!userProfile?.profile?.user_uuid) {
-          throw new Error("User UUID not found");
+          throw new Error('User UUID not found');
         }
 
         const data = await categoryImages();
@@ -131,7 +132,7 @@ const SidebarWithFoodItems: React.FC = () => {
         setLoading(false);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch category images"
+          err instanceof Error ? err.message : 'Failed to fetch category images'
         );
         setLoading(false);
       }
@@ -151,11 +152,11 @@ const SidebarWithFoodItems: React.FC = () => {
         if (response?.data?.categories) {
           setCategories(response.data.categories);
         } else {
-          throw new Error("Failed to fetch categories");
+          throw new Error('Failed to fetch categories');
         }
       } catch (err) {
         setCategoriesError(
-          err instanceof Error ? err.message : "Error fetching categories"
+          err instanceof Error ? err.message : 'Error fetching categories'
         );
       } finally {
         setCategoriesLoading(false);
@@ -177,11 +178,11 @@ const SidebarWithFoodItems: React.FC = () => {
         if (foodData?.data?.foods && Array.isArray(foodData.data.foods)) {
           setFoodItems(foodData.data.foods);
         } else {
-          throw new Error("Invalid food data structure");
+          throw new Error('Invalid food data structure');
         }
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch food data"
+          err instanceof Error ? err.message : 'Failed to fetch food data'
         );
       } finally {
         setLoading(false);
@@ -194,6 +195,8 @@ const SidebarWithFoodItems: React.FC = () => {
   const handleDeleteFood = async (food_uuid: string) => {
     if (!vendor?.slug) return;
 
+    console.log('vendor', vendor.slug);
+
     try {
       await deleteFood(vendor.slug, food_uuid);
       setFoodItems((prevItems) =>
@@ -201,7 +204,7 @@ const SidebarWithFoodItems: React.FC = () => {
       );
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to delete food item"
+        err instanceof Error ? err.message : 'Failed to delete food item'
       );
     }
   };
@@ -236,7 +239,7 @@ const SidebarWithFoodItems: React.FC = () => {
               </button>
 
               {/* Food Image */}
-              {typeof selectedFood.image === "string" && (
+              {typeof selectedFood.image === 'string' && (
                 <div className="flex justify-center">
                   <Image
                     src={selectedFood.image}
@@ -286,10 +289,10 @@ const SidebarWithFoodItems: React.FC = () => {
         {foodItems.map((food) => (
           <div
             key={food.uuid}
-            className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow"
+            className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow scale-90"
           >
-            {typeof food.image === "string" && (
-              <div className="flex justify-center">
+            {typeof food.image === 'string' && (
+              <div className="flex justify-center w-full">
                 <Image
                   src={food.image}
                   alt={food.name}
@@ -318,19 +321,24 @@ const SidebarWithFoodItems: React.FC = () => {
               >
                 <FaEye size={20} />
               </button>
-              <button className="text-green-600">
+              <Link
+                href={`/vendor/foods/${slug}/edit-food/${food.uuid}`}
+                className="text-green-600"
+              >
                 <FaEdit size={20} />
-              </button>
-                <button
+              </Link>
+              <button
                 className="text-[#dc2626]"
                 onClick={() => {
-                  if (confirm("Are you sure you want to delete this food item?")) {
-                  handleDeleteFood(food.uuid);
+                  if (
+                    confirm('Are you sure you want to delete this food item?')
+                  ) {
+                    handleDeleteFood(food.uuid);
                   }
                 }}
-                >
+              >
                 <FaTrash size={20} />
-                </button>
+              </button>
             </div>
           </div>
         ))}

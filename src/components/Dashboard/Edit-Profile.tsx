@@ -1,13 +1,29 @@
-"use client";
+'use client';
 
-import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
-import { QueryClient } from "react-query";
-import { getUser, getToken, getVendorBySlug } from "@/utils/token";
-import { useEffect, useState, FormEvent } from "react";
-import { NIGERIA_STATE_WITH_CITY } from "@/constants";
-import { useUpdateProfile } from "@/queries/auth";
+import { useRouter, useParams } from 'next/navigation';
+import { useLogout } from '@/queries/auth';
+import { QueryClient } from 'react-query';
+import { getUser, getToken, getVendorBySlug } from '@/utils/token';
+import { useEffect, useState, FormEvent } from 'react';
+import { NIGERIA_STATE_WITH_CITY } from '@/constants';
+import { useUpdateProfile } from '@/queries/auth';
 import { Params } from '@/types/params';
+import { useToast } from '@/hooks/use-toast';
+
+const convertTo24HourFormat = (time: string) => {
+  const [timePart, modifier] = time.split(' ');
+  let [hours, minutes] = timePart.split(':');
+
+  let hoursNum = parseInt(hours, 10);
+
+  if (modifier === 'PM' && hoursNum !== 12) {
+    hoursNum += 12;
+  } else if (modifier === 'AM' && hoursNum === 12) {
+    hoursNum = 0;
+  }
+
+  return `${hoursNum.toString().padStart(2, '0')}:${minutes}`;
+};
 
 const Profile = () => {
   const router = useRouter();
@@ -19,24 +35,25 @@ const Profile = () => {
   const [vendor, setVendor] = useState<any | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [uuid, setUuid] = useState<string>("");
+  const [uuid, setUuid] = useState<string>('');
 
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [opening_time, setOpeningTime] = useState<string>("");
-  const [closing_time, setClosingTime] = useState<string>("");
-  const [state, setState] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [country, setCountry] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [opening_time, setOpeningTime] = useState<string>('');
+  const [closing_time, setClosingTime] = useState<string>('');
+  const [state, setState] = useState<string>('');
+  const [city, setCity] = useState<string>('');
   const { mutate: updateProfile } = useUpdateProfile();
   const [updateError, setUpdateError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const token = getToken();
     const userData = getUser();
     if (!token || !userData) {
-      router.push("/login");
+      router.push('/login');
     }
     if (slug) {
       fetchVendor(slug as string);
@@ -55,13 +72,17 @@ const Profile = () => {
         setState(response.data.vendor.state);
         setCity(response.data.vendor.city);
         setAddress(response.data.vendor.address);
-        setOpeningTime(response.data.vendor.opening_time);
-        setClosingTime(response.data.vendor.closing_time);
+        setOpeningTime(
+          convertTo24HourFormat(response.data.vendor.opening_time)
+        );
+        setClosingTime(
+          convertTo24HourFormat(response.data.vendor.closing_time)
+        );
       } else {
-        throw new Error("Vendor not found");
+        throw new Error('Vendor not found');
       }
     } catch (err) {
-      setError("Failed to fetch vendor details");
+      setError('Failed to fetch vendor details');
     } finally {
       setLoading(false);
     }
@@ -82,11 +103,15 @@ const Profile = () => {
         closing_time,
       },
       {
-        onSuccess: () => {
-          router.push("/vendor/home");
+        onSuccess: (response) => {
+          toast({
+            variant: 'success',
+            title: 'Profile updated successfully',
+            description: response.data,
+          });
         },
         onError: () => {
-          setUpdateError("Update failed. Please try again.");
+          setUpdateError('Update failed. Please try again.');
         },
       }
     );
@@ -96,7 +121,9 @@ const Profile = () => {
     <form onSubmit={submitForm} className="md:container mx-auto md:w-3/4 px-5">
       <div className="grid md:grid-cols-2 grid-cols-1 gap-x-5 mt-5">
         <div className="mb-5">
-          <label className="block mb-2 text-lg font-medium text-black">Restaurant Name:</label>
+          <label className="block mb-2 text-lg font-medium text-black">
+            Restaurant Name:
+          </label>
           <input
             type="text"
             value={name}
@@ -108,7 +135,9 @@ const Profile = () => {
         </div>
 
         <div className="mb-5">
-          <label className="block mb-2 text-lg font-medium text-black">Description:</label>
+          <label className="block mb-2 text-lg font-medium text-black">
+            Description:
+          </label>
           <input
             type="text"
             value={description}
@@ -120,7 +149,9 @@ const Profile = () => {
         </div>
 
         <div className="mb-5">
-          <label className="block mb-2 text-lg font-medium text-black">Country:</label>
+          <label className="block mb-2 text-lg font-medium text-black">
+            Country:
+          </label>
           <select
             value={country}
             onChange={(event) => setCountry(event.target.value)}
@@ -133,7 +164,9 @@ const Profile = () => {
         </div>
 
         <div className="mb-5">
-          <label className="block mb-2 text-lg font-medium text-black">Address:</label>
+          <label className="block mb-2 text-lg font-medium text-black">
+            Address:
+          </label>
           <input
             type="text"
             value={address}
@@ -145,7 +178,9 @@ const Profile = () => {
         </div>
 
         <div className="mb-5">
-          <label className="block mb-2 text-lg font-medium text-black">Opening Time:</label>
+          <label className="block mb-2 text-lg font-medium text-black">
+            Opening Time:
+          </label>
           <input
             type="time"
             value={opening_time}
@@ -156,7 +191,9 @@ const Profile = () => {
         </div>
 
         <div className="mb-5">
-          <label className="block mb-2 text-lg font-medium text-black">Closing Time:</label>
+          <label className="block mb-2 text-lg font-medium text-black">
+            Closing Time:
+          </label>
           <input
             type="time"
             value={closing_time}
@@ -167,7 +204,10 @@ const Profile = () => {
         </div>
       </div>
 
-      <button type="submit" className="text-white bg-green-600 border border-green-600 font-semibold rounded-full text-sm px-10 py-3 transition hover:bg-white hover:text-green-600">
+      <button
+        type="submit"
+        className="text-white bg-green-600 border border-green-600 font-semibold rounded-full text-sm px-10 py-3 transition hover:bg-white hover:text-green-600"
+      >
         Update Vendor
       </button>
     </form>

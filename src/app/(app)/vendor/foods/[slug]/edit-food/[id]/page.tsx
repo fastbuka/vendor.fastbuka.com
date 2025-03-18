@@ -1,10 +1,27 @@
 'use client';
 import { Metadata } from 'next';
 import DefaultLayout from '@/components/Layouts/DefaultLayout';
+import AddFood from '@/components/Dashboard/Add-Food';
 import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
+import CryptoRate from '@/components/Charts/CryptoRate';
+import { useParams } from 'next/navigation';
 import FoodForm from '@/components/Dashboard/Add-Food';
 
 export default function Home() {
+  const params = useParams() as { id: string };
+  const { id } = params;
+
+  if (!id) {
+    return (
+      <>
+        <DefaultLayout>
+          <Breadcrumb pageName="Add New Item" />
+          <FoodForm />
+        </DefaultLayout>
+      </>
+    );
+  }
+
   return (
     <>
       <DefaultLayout>
@@ -18,7 +35,7 @@ export default function Home() {
           </button>
         </div>
         <Breadcrumb pageName="Add New Item" />
-        <FoodForm />
+        <FoodForm id={id} />
       </DefaultLayout>
     </>
   );

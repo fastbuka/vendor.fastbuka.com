@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import LoginImg from "/public/illustration.svg";
-import { BiHide } from "react-icons/bi";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { useLogin } from "@/queries/auth";
-import { BiShowAlt } from "react-icons/bi";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import Image from 'next/image';
+import LoginImg from '/public/illustration.svg';
+import { BiHide } from 'react-icons/bi';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { useLogin } from '@/queries/auth';
+import { BiShowAlt } from 'react-icons/bi';
+import { useRouter } from 'next/navigation';
 
 const Login: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -17,9 +17,9 @@ const Login: React.FC = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { mutate: login } = useLogin();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const { mutate: login, isLoading } = useLogin();
   const router = useRouter();
   const [loginError, setLoginError] = useState<string | null>(null);
 
@@ -29,11 +29,11 @@ const Login: React.FC = () => {
       { email, password },
       {
         onSuccess: () => {
-          router.push("/vendor/home");
+          router.push('/vendor/home');
         },
         onError: () => {
           setLoginError(
-            "Login failed. Please check your credentials and try again."
+            'Login failed. Please check your credentials and try again.'
           );
         },
       }
@@ -85,7 +85,7 @@ const Login: React.FC = () => {
               </label>
               <div className="flex bg-white border border-black text-gray-900 text-sm rounded-full block w-full p-2 placeholder-gray-500">
                 <input
-                  type={passwordVisible ? "text" : "password"}
+                  type={passwordVisible ? 'text' : 'password'}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -105,14 +105,15 @@ const Login: React.FC = () => {
 
             <button
               type="submit"
+              disabled={isLoading} // Use isLoading instead of loading
               className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
             >
-              Login
+              {isLoading ? 'Loading...' : 'Login'}
             </button>
           </form>
 
           <p className="text-center text-gray-600 mt-6">
-            Don&apos;t have an account?{" "}
+            Don&apos;t have an account?{' '}
             <a href="/register" className="text-green-600 font-semibold">
               Create an account
             </a>

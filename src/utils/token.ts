@@ -1,4 +1,4 @@
-import { backend } from "@/lib/axios";
+import { backend } from '@/lib/axios';
 // The key used to store the token in localStorage
 const TOKEN_KEY = 'fastbuka_auth_token';
 const USER_KEY = 'fastbuka_user_data';
@@ -72,33 +72,28 @@ export const clearUser = (): void => {
   }
 };
 
-
-
 export async function getVendorBySlug(slug: string) {
   try {
-    const response = await backend.get(`/v1/vendor/${slug}`)
-    console.log("Vendor response", response);
+    const response = await backend.get(`/v1/vendor/${slug}`);
     if (response.data.success) {
       // console.log("Vendor uuid", response?.data?.data?.vendor?.uuid);
-      localStorage.setItem("VendorUuid", response?.data?.data?.vendor?.uuid);
+      localStorage.setItem('VendorUuid', response?.data?.data?.vendor?.uuid);
       return {
-          success: true,
-          message: response.data.message || 'Vendor fetched successfully',
-          data: response.data.data,
+        success: true,
+        message: response.data.message || 'Vendor fetched successfully',
+        data: response.data.data,
       };
     } else {
       return {
-          success: false,
-          message: response.data.message || 'failed to fetch vendor',
+        success: false,
+        message: response.data.message || 'failed to fetch vendor',
       };
     }
-  } catch(error: any) {
-    console.log("error fetching vendor:", error);
+  } catch (error: any) {
+    console.log('error fetching vendor:', error);
     return {
-        success: false,
-        message: error?.message || 'Failed to fetch vendor',
+      success: false,
+      message: error?.message || 'Failed to fetch vendor',
     };
   }
- 
- 
 }

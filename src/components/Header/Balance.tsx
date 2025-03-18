@@ -1,13 +1,13 @@
-"use client";
-import React from "react";
-import { useEffect, useRef, useState } from "react";
-import { BiHide } from "react-icons/bi";
-import { BiShowAlt } from "react-icons/bi";
-import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
-import { QueryClient } from "react-query";
-import { getUser, getToken } from "@/utils/token";
-import { getVendorBySlug } from "@/utils/token";
+'use client';
+import React from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { BiHide } from 'react-icons/bi';
+import { BiShowAlt } from 'react-icons/bi';
+import { useRouter, useParams } from 'next/navigation';
+import { useLogout } from '@/queries/auth';
+import { QueryClient } from 'react-query';
+import { getUser, getToken } from '@/utils/token';
+import { getVendorBySlug } from '@/utils/token';
 import { Params } from '@/types/params';
 
 interface UserProfile {
@@ -56,10 +56,10 @@ const Balance = () => {
       if (response?.data?.vendor) {
         setVendor(response.data.vendor);
       } else {
-        throw new Error("Vendor not found");
+        throw new Error('Vendor not found');
       }
     } catch (err) {
-      setError("Failed to fetch vendor details");
+      setError('Failed to fetch vendor details');
     } finally {
       setLoading(false);
     }
@@ -69,7 +69,7 @@ const Balance = () => {
     const token = getToken();
     const userData = getUser();
     if (!token || !userData) {
-      router.push("/login");
+      router.push('/login');
     } else {
       setUser(userData as UserProfile);
     }
@@ -94,10 +94,10 @@ const Balance = () => {
         <div className="grid grid-cols-3 gap-10">
           <div className="flex items-center justify-center ">
             <h1 className="font-mono font-black text-sm 2xl:text-lg ms-2">
-              Total Balance:{" "}
+              Total Balance:{' '}
             </h1>
             <input
-              type={balance ? "password" : "text"}
+              type={balance ? 'password' : 'text'}
               id="password"
               name="password"
               value={vendor?.balance}

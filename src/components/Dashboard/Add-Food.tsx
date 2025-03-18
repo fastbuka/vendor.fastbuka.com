@@ -1,17 +1,21 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { useRouter, useParams } from "next/navigation";
+'use client';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { useRouter, useParams } from 'next/navigation';
 import {
   useUploadCategoryImage,
   categoryImages,
   useLogout,
-} from "@/queries/auth";
-import { useAddFood } from "@/queries/category_and_food";
-import { QueryClient } from "react-query";
-import { getUser, getToken } from "@/utils/token";
-import { getVendorBySlug } from "@/utils/token";
-import { getAllCategory } from "@/queries/category_and_food";
+} from '@/queries/auth';
+import {
+  getFoodById,
+  updateFood,
+  useAddFood,
+} from '@/queries/category_and_food';
+import { QueryClient } from 'react-query';
+import { getUser, getToken } from '@/utils/token';
+import { getVendorBySlug } from '@/utils/token';
+import { getAllCategory } from '@/queries/category_and_food';
 
 interface UserProfile {
   profile: {
@@ -34,14 +38,86 @@ interface Vendor {
 // Add near other interfaces
 type Params = {
   slug: string;
+};
+
+interface FoodFormProps {
+  id?: string; // Optional id parameter to determine if editing
 }
 
-const FoodForm: React.FC = () => {
+const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isEditing] = useState<boolean>(!!id);
+  const params = useParams() as Params;
+  const { slug } = params;
+
+  // Update formData state with proper typing
+  const [formData, setFormData] = useState({
+    category_uuid: '',
+    name: '',
+    description: '',
+    price: '',
+    discount: '',
+    preparation_time: '',
+    ready_made: '',
+    image: '',
+    available: '',
+  });
+
+  // Add useEffect to fetch food details when in edit mode
+  useEffect(() => {
+    const fetchFoodDetails = async () => {
+      if (!id || !slug) return;
+
+      setIsLoading(true);
+      try {
+        const response = await getFoodById(slug, id);
+        const foodData = response.data.food;
+
+        if (foodData) {
+          setFormData({
+            category_uuid: foodData.category_uuid || '',
+            name: foodData.name || '',
+            description: foodData.description || '',
+            price: foodData.price?.toString() || '',
+            discount: foodData.discount?.toString() || '',
+            preparation_time: foodData.processing_time || '',
+            ready_made: foodData.ready_made ? 'yes' : 'no',
+            image: foodData.image || '',
+            available: foodData.available || '',
+          });
+
+          // Handle image data
+          if (foodData.image) {
+            // If the image is stored as a comma-separated string of URLs
+            const imageUrls = foodData.image.split(',');
+            const imageUuids = imageUrls
+              .map((url: string) => {
+                // Extract UUID from the image URL - adjust this based on your URL structure
+                const matches = url.match(/\/([^\/]+)$/);
+                return matches ? matches[1] : '';
+              })
+              .filter(Boolean);
+
+            setSelectedImageUuids(imageUuids);
+          }
+        }
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : 'Failed to fetch food details'
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchFoodDetails();
+  }, [id, slug]);
 
   // Placeholder image URL
   const placeholderImage =
-    "https://via.placeholder.com/400x300?text=No+Image+Selected";
+    'https://via.placeholder.com/400x300?text=No+Image+Selected';
 
   // Handle image selection and preview
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,12 +133,9 @@ const FoodForm: React.FC = () => {
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
 
-  const params = useParams() as Params;  // Type assertion
-  const { slug } = params;
   const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
   const [categoryImageData, setCategoryImageData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Add new state for selected image UUIDs
   const [selectedImageUuids, setSelectedImageUuids] = useState<string[]>([]);
@@ -86,10 +159,10 @@ const FoodForm: React.FC = () => {
       if (response?.data?.vendor) {
         setVendor(response.data.vendor);
       } else {
-        throw new Error("Vendor not found");
+        throw new Error('Vendor not found');
       }
     } catch (err) {
-      setError("Failed to fetch vendor details");
+      setError('Failed to fetch vendor details');
     } finally {
       setLoading(false);
     }
@@ -99,7 +172,7 @@ const FoodForm: React.FC = () => {
     const token = getToken();
     const userData = getUser();
     if (!token || !userData) {
-      router.push("/login");
+      router.push('/login');
     } else {
       setUser(userData as UserProfile);
     }
@@ -112,7 +185,7 @@ const FoodForm: React.FC = () => {
       try {
         const userProfile = getUser() as UserProfile;
         if (!userProfile?.profile?.user_uuid) {
-          throw new Error("User UUID not found");
+          throw new Error('User UUID not found');
         }
 
         const data = await categoryImages();
@@ -120,7 +193,7 @@ const FoodForm: React.FC = () => {
         setLoading(false);
       } catch (err) {
         setError(
-          err instanceof Error ? err.message : "Failed to fetch category images"
+          err instanceof Error ? err.message : 'Failed to fetch category images'
         );
         setLoading(false);
       }
@@ -149,7 +222,7 @@ const FoodForm: React.FC = () => {
     event.preventDefault();
 
     if (!file) {
-      setUploadError("Please select an image.");
+      setUploadError('Please select an image.');
       return;
     }
 
@@ -157,12 +230,12 @@ const FoodForm: React.FC = () => {
       { imageUrl: file },
       {
         onSuccess: () => {
-          alert("Image uploaded successfully!");
+          alert('Image uploaded successfully!');
           setIsUploadModalOpen(false);
         },
         onError: (error) => {
-          console.error("Upload failed:", error);
-          setUploadError("Failed to upload image. Please try again.");
+          console.error('Upload failed:', error);
+          setUploadError('Failed to upload image. Please try again.');
         },
       }
     );
@@ -178,11 +251,11 @@ const FoodForm: React.FC = () => {
         if (response?.data?.categories) {
           setCategories(response.data.categories);
         } else {
-          throw new Error("Failed to fetch categories");
+          throw new Error('Failed to fetch categories');
         }
       } catch (err) {
         setCategoriesError(
-          err instanceof Error ? err.message : "Error fetching categories"
+          err instanceof Error ? err.message : 'Error fetching categories'
         );
       } finally {
         setCategoriesLoading(false);
@@ -191,18 +264,6 @@ const FoodForm: React.FC = () => {
 
     fetchCategories();
   }, []);
-
-  // Add form state
-  const [formData, setFormData] = useState({
-    category_uuid: "",
-    name: "",
-    description: "",
-    price: "",
-    discount: "",
-    preparation_time: "",
-    ready_made: "",
-    image: "",
-  });
 
   // Add form handler
   const handleInputChange = (
@@ -217,7 +278,7 @@ const FoodForm: React.FC = () => {
   };
 
   // First, add the mutation hook at the top of your component
-  const useAddFoodMutation = useAddFood(vendor?.slug || "");
+  const useAddFoodMutation = useAddFood(vendor?.slug || '');
 
   // Then modify the handleSubmit function
   const handleSubmit = async (e: React.FormEvent) => {
@@ -225,7 +286,7 @@ const FoodForm: React.FC = () => {
 
     try {
       if (!vendor?.uuid) {
-        throw new Error("Vendor UUID not found");
+        throw new Error('Vendor UUID not found');
       }
 
       // Create the food data object
@@ -234,11 +295,10 @@ const FoodForm: React.FC = () => {
         category_uuid: formData.category_uuid,
         name: formData.name,
         description: formData.description,
-        // image: "",
         price: Number(formData.price),
-        discount: Number(formData.discount || "0"),
+        discount: Number(formData.discount || '0'),
         processing_time: formData.preparation_time,
-        ready_made: formData.ready_made === "yes",
+        ready_made: formData.ready_made === 'yes',
         image: selectedImageUuids
           .map((uuid) => {
             const selectedImage = categoryImageData?.data?.storage?.data?.find(
@@ -246,25 +306,37 @@ const FoodForm: React.FC = () => {
             );
             return selectedImage
               ? `${selectedImage.base_url}/${selectedImage.path}`
-              : "";
+              : '';
           })
           .filter(Boolean)
-          .join(","),
+          .join(','),
+        available: formData.available,
       };
 
-      // Call the mutation and wait for response
-      const response = await useAddFoodMutation.mutateAsync(foodData);
+      let response;
+      if (id) {
+        // If id exists, we're editing
+        response = await updateFood(slug.toLocaleLowerCase(), id, foodData);
+        if (response) {
+          alert('Food item updated successfully!');
+        }
+      } else {
+        // If no id, we're creating new
+        response = await useAddFoodMutation.mutateAsync(foodData);
+        if (response) {
+          alert('Food item created successfully!');
+        }
+      }
 
-      // Check if response exists and has status code 200/201
+      // If successful, redirect back to foods list
       if (response) {
         router.push(`/vendor/foods/${slug}`);
       } else {
-        throw new Error("Failed to add food");
+        throw new Error(id ? 'Failed to update food' : 'Failed to add food');
       }
     } catch (error) {
-      console.error("Error adding food:", error);
-      // Show error message to user
-      alert(error instanceof Error ? error.message : "Failed to add food");
+      console.error('Error:', error);
+      alert(error instanceof Error ? error.message : 'An error occurred');
     }
   };
 
@@ -274,12 +346,24 @@ const FoodForm: React.FC = () => {
 
   if (!vendor) return null;
 
+  // Update your return statement to handle loading and error states
+  if (isLoading) {
+    return <div className="text-center p-4">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 text-center p-4">{error}</div>;
+  }
+
   return (
     <>
       <form
         onSubmit={handleSubmit}
         className="w-full mx-auto bg-white p-8 rounded-lg shadow-lg md:order-1 order-2"
       >
+        <h2 className="text-2xl font-bold mb-6">
+          {isEditing ? 'Edit Food Item' : 'Add New Food Item'}
+        </h2>
         {/* Category (Dropdown) */}
         <div className="mb-8">
           <label
@@ -303,7 +387,6 @@ const FoodForm: React.FC = () => {
             ))}
           </select>
         </div>
-
         {/* Food Name (Text) */}
         <div className="mb-8">
           <label
@@ -322,7 +405,6 @@ const FoodForm: React.FC = () => {
             required
           />
         </div>
-
         {/* Description (Textarea) */}
         <div className="mb-8">
           <label
@@ -341,7 +423,6 @@ const FoodForm: React.FC = () => {
             required
           ></textarea>
         </div>
-
         {/* Price (Number) */}
         <div className="mb-8">
           <label
@@ -362,7 +443,6 @@ const FoodForm: React.FC = () => {
             required
           />
         </div>
-
         {/* Discount (Number) */}
         <div className="mb-8">
           <label
@@ -383,7 +463,6 @@ const FoodForm: React.FC = () => {
             step="1"
           />
         </div>
-
         {/* Preparation Time (Number) */}
         <div className="mb-8">
           <label
@@ -404,7 +483,6 @@ const FoodForm: React.FC = () => {
             required
           />
         </div>
-
         {/* Ready Made Selection */}
         <div className="mb-8">
           <label
@@ -425,7 +503,25 @@ const FoodForm: React.FC = () => {
             <option value="no">No</option>
           </select>
         </div>
-
+        <div className="mb-8">
+          <label
+            htmlFor="available"
+            className="block mb-3 text-lg font-semibold text-gray-900"
+          >
+            Available
+          </label>
+          <select
+            id="available"
+            value={formData.available}
+            onChange={handleInputChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            required
+          >
+            <option value="">Select an option</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
         <div className="mb-8">
           <input
             type="hidden"
@@ -439,7 +535,6 @@ const FoodForm: React.FC = () => {
             hidden
           />
         </div>
-
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
@@ -447,7 +542,13 @@ const FoodForm: React.FC = () => {
             className="bg-[#3ab764] text-white font-semibold rounded-lg text-lg px-6 py-3 focus:ring-4 focus:outline-none focus:ring-blue-300"
             disabled={useAddFoodMutation.isLoading}
           >
-            {useAddFoodMutation.isLoading ? "Adding..." : "Submit"}
+            {useAddFoodMutation.isLoading
+              ? isEditing
+                ? 'Saving Changes...'
+                : 'Adding...'
+              : isEditing
+                ? 'Save Changes'
+                : 'Add Food'}
           </button>
         </div>
       </form>
@@ -494,9 +595,9 @@ const FoodForm: React.FC = () => {
                   );
                 return selectedImage
                   ? `${selectedImage.base_url}/${selectedImage.path}`
-                  : "";
+                  : '';
               })
-              .join(",")}
+              .join(',')}
           />
         </div>
 
@@ -511,8 +612,8 @@ const FoodForm: React.FC = () => {
                 <div
                   className={`relative aspect-square ${
                     selectedImageUuids.includes(image.uuid)
-                      ? "ring-2 ring-[#3ab764]"
-                      : ""
+                      ? 'ring-2 ring-[#3ab764]'
+                      : ''
                   }`}
                 >
                   <Image
@@ -577,7 +678,7 @@ const FoodForm: React.FC = () => {
                     className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
                     disabled={uploadCategoryImage.isLoading}
                   >
-                    {uploadCategoryImage.isLoading ? "Uploading..." : "Upload"}
+                    {uploadCategoryImage.isLoading ? 'Uploading...' : 'Upload'}
                   </button>
                 </div>
               </form>
