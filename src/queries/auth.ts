@@ -1,12 +1,13 @@
-"use client"
-import { useMutation, useQuery, QueryClient } from "react-query";
-import { useRouter } from "next/navigation";
-import { API_ENDPOINTS } from "@/constants";
-import { request } from "@/utils/request";
-import { setToken, getToken, clearToken, setUser } from "@/utils/token";
-import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
-import { foodData } from "./category_and_food";
+'use client';
+import { useMutation, useQuery, QueryClient } from 'react-query';
+import { useRouter } from 'next/navigation';
+import { API_ENDPOINTS } from '@/constants';
+import { request } from '@/utils/request';
+import { setToken, getToken, clearToken, setUser } from '@/utils/token';
+import { useAuth } from '@/context/AuthContext';
+import axios from 'axios';
+import { foodData } from './category_and_food';
+import { backend } from '@/lib/axios';
 
 interface LoginData {
   email: string;
@@ -15,7 +16,6 @@ interface LoginData {
 
 interface categoryImage {
   imageUrl: File;
-
 }
 
 interface UpdateProfileData {
@@ -54,8 +54,8 @@ export function useLogin() {
   return useMutation<AuthResponse, Error, LoginData>(
     (data) =>
       request(API_ENDPOINTS.LOGIN, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       }),
     {
@@ -67,18 +67,18 @@ export function useLogin() {
           if (res.data.user) {
             setUser(res.data.user);
             // Navigate to user dashboard after setting user data
-            router.push("/vendor/home");
+            router.push('/vendor/home');
           } else {
             console.warn(
-              "User data is null or undefined, not setting in localStorage"
+              'User data is null or undefined, not setting in localStorage'
             );
           }
         } catch (error) {
-          console.error("Error during login process: ", error);
+          console.error('Error during login process: ', error);
         }
       },
       onError: (error) => {
-        console.error("Login failed", error);
+        console.error('Login failed', error);
         // Handle login error (e.g., show error message)
       },
     }
@@ -92,17 +92,17 @@ export function useRegister() {
       const token = getTokenFromLocalStorage();
 
       return request(API_ENDPOINTS.REGISTER, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token || ""}`,
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token || ''}`,
         },
         body: JSON.stringify(data),
       });
     },
     {
       onError: (error: any) => {
-        console.error("Registration failed", error);
+        console.error('Registration failed', error);
         if (error.response) {
           console.error(error.response.data);
           console.error(error.response.status);
@@ -110,7 +110,7 @@ export function useRegister() {
         } else if (error.request) {
           console.error(error.request);
         } else {
-          console.error("Error", error.message);
+          console.error('Error', error.message);
         }
       },
     }
@@ -119,7 +119,7 @@ export function useRegister() {
 
 function getTokenFromLocalStorage() {
   if (typeof window !== 'undefined') {
-    return localStorage.getItem("fastbuka_auth_token");
+    return localStorage.getItem('fastbuka_auth_token');
   }
   return null;
 }
@@ -128,10 +128,10 @@ export function useVerifyToken() {
   const { logout } = useAuth(); // Use your existing auth context
 
   return useQuery<{ isValid: boolean }, Error>(
-    "verifyToken",
+    'verifyToken',
     () =>
       request(API_ENDPOINTS.VERIFY_TOKEN, {
-        method: "GET",
+        method: 'GET',
         headers: { Authorization: `Bearer ${getToken()}` },
       }),
     {
@@ -148,11 +148,11 @@ export function useLogout(queryClient: QueryClient) {
     async () => {
       const token = getToken();
       if (!token) {
-        throw new Error("No token found");
+        throw new Error('No token found');
       }
 
       const response = await fetch(API_ENDPOINTS.LOGOUT, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -160,7 +160,7 @@ export function useLogout(queryClient: QueryClient) {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Logout failed");
+        throw new Error(errorData.message || 'Logout failed');
       }
 
       return response.json();
@@ -169,10 +169,10 @@ export function useLogout(queryClient: QueryClient) {
       onSuccess: () => {
         clearToken();
         queryClient.clear(); // Clear all React Query caches
-        window.location.href = "/login"; // Redirect to login page
+        window.location.href = '/login'; // Redirect to login page
       },
       onError: (error) => {
-        console.error("Logout failed", error);
+        console.error('Logout failed', error);
         // You might want to show an error message to the user here
       },
     }
@@ -180,16 +180,19 @@ export function useLogout(queryClient: QueryClient) {
 }
 
 // Fetch the "fastbuka_auth_token" from localStorage
-const token = typeof window !== 'undefined' ? localStorage.getItem("fastbuka_auth_token") : null;
+const token =
+  typeof window !== 'undefined'
+    ? localStorage.getItem('fastbuka_auth_token')
+    : null;
 
 export async function allAccounts(token: string) {
   try {
     const response = await fetch(API_ENDPOINTS.ALL_ACCOUNTS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
-        token: `${token || ""}`
+        token: `${token || ''}`,
       },
     });
 
@@ -200,7 +203,7 @@ export async function allAccounts(token: string) {
     const data = await response.json();
     return data.data.vendors; // Access the vendors array from the response
   } catch (error) {
-    console.error("Error fetching vendors:", error);
+    console.error('Error fetching vendors:', error);
     throw error;
   }
 }
@@ -208,22 +211,25 @@ export async function allAccounts(token: string) {
 export async function categoryImages() {
   const token = getTokenFromLocalStorage();
   try {
-    const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
-      throw new Error("Failed to fetch category images");
+      throw new Error('Failed to fetch category images');
     }
 
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching vendors:", error);
+    console.error('Error fetching vendors:', error);
     throw error;
   }
 }
@@ -255,42 +261,55 @@ export async function categoryImages() {
 // }
 
 export function useUploadCategoryImage() {
-  return useMutation<AuthResponse, Error, categoryImage>(
-    async (data) => {
-      const token = getTokenFromLocalStorage();
+  return useMutation<AuthResponse, Error, categoryImage>(async (data) => {
+    const token = getTokenFromLocalStorage();
 
-      const formData = new FormData();
-      formData.append("file", data.imageUrl);
+    const formData = new FormData();
+    formData.append('file', data.imageUrl);
 
-      const response = await fetch(`${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`, {
-        method: "POST",
+    const response = await fetch(
+      `${API_ENDPOINTS.CATEGORY_IMAGE}/${token}?env=dev`,
+      {
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
         },
         body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to upload category image");
       }
+    );
 
-      return response.json();
+    if (!response.ok) {
+      throw new Error('Failed to upload category image');
     }
-  )
+
+    return response.json();
+  });
 }
 
 const updateVendorProfile = async (data: UpdateProfileData) => {
-  const token = localStorage.getItem("token"); // Assuming token is stored in localStorage
-  const response = await axios.patch(
-    `https://api.fastbuka.com/api/v1/vendor/${data.uuid}`,
-    data,
+  // const token = localStorage.getItem("token");
+  const token = getTokenFromLocalStorage();
+  let response = await backend.patch(
+    `/v1/vendor/${data.uuid}`,
+    { DataTransferItemList },
     {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
+        // vendorUuid: data.uuid
       },
     }
   );
+  // backend()
+  // const response = await axios.patch(
+  //   `https://dev.fastbuka.com/api/v1/vendor/${data.uuid}`,
+  //   data,
+  //   {
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   }
+  // );
   // console.log("Vendor", response.data);
   return response.data;
 };

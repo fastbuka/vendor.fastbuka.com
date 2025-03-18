@@ -1,6 +1,7 @@
 'use client';
 import { useMutation, useQuery } from 'react-query';
 import { API_ENDPOINTS } from '@/constants';
+import { backend } from '@/lib/axios';
 
 export interface foodData {
   vendor_uuid: string;
@@ -64,6 +65,7 @@ export function useAddFood(vendor_slug: string) {
       processing_time: data.processing_time,
       ready_made: data.ready_made, // Keep as boolean
       image: data.image || null, // If needed, handle image as URL or blob
+      availability: true, // Default to true
     };
 
     const response = await fetch(`${API_ENDPOINTS.ADD_FOOD}/${vendor_slug}`, {
@@ -160,6 +162,23 @@ export async function getFoodById(vendor_slug: string, food_uuid: string) {
   }
 }
 
+export async function getOrderById(order_uuid: string) {
+  try {
+    const token = getTokenFromLocalStorage();
+    const response = await backend.get(`/v1/order/${order_uuid}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token || ''}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : 'Unknown error occurred'
+    );
+  }
+}
+
 export async function updateFood(
   vendor_slug: string,
   food_uuid: string,
@@ -167,6 +186,7 @@ export async function updateFood(
 ) {
   try {
     const token = getTokenFromLocalStorage();
+    console.log('Token', token);
     const response = await fetch(
       `${API_ENDPOINTS.UPDATE_FOOD}/${vendor_slug}/${food_uuid}`,
       {

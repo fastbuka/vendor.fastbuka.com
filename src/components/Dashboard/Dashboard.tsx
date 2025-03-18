@@ -1,19 +1,18 @@
-"use client";
-import React from "react";
-import { useState, useEffect } from "react";
-import { useRouter, useParams } from "next/navigation";
-import { useLogout } from "@/queries/auth";
-import { QueryClient } from "react-query";
-import { getUser, getToken } from "@/utils/token";
-import { getDefaultFirstName } from "@/utils/defaults";
-import Link from "next/link";
-import Image from "next/image";
-import Pay from "/public/pay.png";
-import Add from "/public/plus.png";
-import Order from "/public/order.png";
-import FoodAnalysis from "@/components/Charts/ChartThree";
-import MonthlyOverview from "@/components/Charts/ChartTwo";
-import CryptoRate from "@/components/Charts/CryptoRate";
+'use client';
+import React, { useCallback, useState, useEffect } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+import { useLogout } from '@/queries/auth';
+import { QueryClient } from 'react-query';
+import { getUser, getToken } from '@/utils/token';
+import { getDefaultFirstName } from '@/utils/defaults';
+import Link from 'next/link';
+import Image from 'next/image';
+import Pay from '/public/pay.png';
+import Order from '/public/order.png';
+import FoodAnalysis from '@/components/Charts/ChartThree';
+import MonthlyOverview from '@/components/Charts/ChartTwo';
+import { getVendorBySlug } from '@/utils/token';
+import { useOrder } from '@/hooks/order';
 
 interface UserProfile {
   profile: {
@@ -23,45 +22,96 @@ interface UserProfile {
   };
 }
 
-interface Vendor {
-  id: number;
+interface Order {
+  id: string;
   uuid: string;
-  name: string;
-  slug: string;
-  description: string;
-  country: string;
-  city: string;
+  user_uuid: string;
+  vendor_uuid: string;
+  order_number: string;
+  total_amount: number;
+  discount_amount: number;
+  paid_amount: number;
+  delivery_address: string | null;
+  delivery_name: string;
+  order_status: string;
 }
-// /app/vendors/[slug]/page.tsx
 
-import { getVendorBySlug } from "@/utils/token"; // Adjust the import based on where you keep your API functions
-
-// Add near other interfaces
 type Params = {
   slug: string;
-}
+};
+
+const orderStatuses = ['', 'paid', 'ReadyForPickup', 'PickedUp', 'Delivered'];
 
 const VendorDashboard = () => {
-  const data = [
-    { id: 1, name: "Burger", category: "Food", price: 10.99 },
-    { id: 2, name: "Pizza", category: "Food", price: 8.99 },
-    { id: 3, name: "Coke", category: "Drink", price: 1.99 },
-    { id: 4, name: "Fries", category: "Food", price: 2.99 },
-    { id: 5, name: "Salad", category: "Food", price: 5.99 },
-    { id: 6, name: "Water", category: "Drink", price: 0.99 },
-    { id: 7, name: "Ice Cream", category: "Dessert", price: 4.99 },
-    { id: 8, name: "Pasta", category: "Food", price: 7.99 },
-    { id: 9, name: "Juice", category: "Drink", price: 2.99 },
-    { id: 10, name: "Sandwich", category: "Food", price: 6.99 },
-    // Add more data as needed
-  ];
+  const router = useRouter();
+  const params = useParams() as Params;
+  const { slug } = params;
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [vendor, setVendor] = useState<any | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [orderStatus, setOrderStatus] = useState(orderStatuses[0]);
+  const [error, setError] = useState<string | null>(null);
+  const [orderDetails, setOrderDetails] = useState<Order[]>([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
-  const filteredData = data.filter((item) =>
-    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const [queryClient] = useState(() => new QueryClient());
+  const logout = useLogout(queryClient);
+  const { orders } = useOrder();
+
+  const fetchVendor = async (slug: string) => {
+    try {
+      const response = await getVendorBySlug(slug);
+      if (response?.data?.vendor) {
+        setVendor(response.data.vendor);
+      } else {
+        throw new Error('Vendor not found');
+      }
+    } catch (err) {
+      setError('Failed to fetch vendor details');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchOrders = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await orders({ order_status: orderStatus });
+      if (response.success) {
+        setOrderDetails(response.data.orders);
+      } else {
+        console.log(response.message);
+      }
+    } catch (error) {
+      console.error('Failed to fetch orders:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [orders, orderStatus]);
+
+  useEffect(() => {
+    const token = getToken();
+    const userData = getUser();
+    if (!token || !userData) {
+      router.push('/login');
+    } else {
+      setUser(userData as UserProfile);
+    }
+
+    if (slug) {
+      fetchVendor(slug);
+    }
+  }, [slug, router]);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [orderStatus]);
+
+  const filteredData = orderDetails.filter((item) =>
+    item.order_number.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -74,8 +124,6 @@ const VendorDashboard = () => {
     setCurrentPage(1);
   };
 
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-
   const handleItemsPerPageChange = (
     e: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -83,91 +131,28 @@ const VendorDashboard = () => {
     setCurrentPage(1);
   };
 
-  // Check for token to authenticate
-  const router = useRouter();
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [queryClient] = useState(() => new QueryClient());
-  const logout = useLogout(queryClient);
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-  const params = useParams() as Params;  // Type assertion
-  const { slug } = params;
-  const [vendor, setVendor] = useState<any | null>(null); // State to store vendor details
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  // Fetch vendor data as a separate function
-  const fetchVendor = async (slug: string) => {
-    try {
-      const response = await getVendorBySlug(slug); // Fetch vendor data using the slug
-
-      // Assuming response.data contains your expected vendor data
-      if (response?.data?.vendor) {
-        setVendor(response.data.vendor);
-      } else {
-        throw new Error("Vendor not found");
-      }
-    } catch (err) {
-      setError("Failed to fetch vendor details");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    const token = getToken();
-    const userData = getUser();
-    if (!token || !userData) {
-      router.push("/login");
-    } else {
-      setUser(userData as UserProfile);
-    }
-
-    if (slug) {
-      fetchVendor(slug as string); // Call the fetchVendor function
-    }
-  }, [slug, router]);
-
-  if (!user) {
+  if (!user || !vendor) {
     return <div>Loading...</div>;
   }
 
-  if (!vendor) return null;
-
   return (
     <>
-      {/* <CryptoRate /> */}
       <h1 className="font-bold text-black text-xl my-3">
         Welcome, {getDefaultFirstName(vendor.name)}
       </h1>
-      {/* <div>
-        <h1>{vendor.name}</h1>
-        <p>Description: {vendor.description}</p>
-        <p>
-          Location: {vendor.city}, {vendor.state}, {vendor.country}
-        </p>
-        <p>Address: {vendor.address}</p>
-        <p>Opening Time: {vendor.opening_time}</p>
-        <p>Closing Time: {vendor.closing_time}</p>
-      </div> */}
       <div className="grid text-black grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-2 2xl:gap-7.5">
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href={"/vendor/withdrawal/" + vendor.slug }>
+          <Link href={`/vendor/withdrawal/${vendor.slug}`}>
             <div className="p-3">
               <Image src={Pay} alt="deposit" />
               <h1 className="font-medium text-xl mt-1">Withdrawal</h1>
             </div>
           </Link>
         </div>
-        {/* <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href={"/vendor/add-account/" + vendor.slug }>
-            <div className="p-3">
-              <Image src={Add} alt="deposit" />
-              <h1 className="font-medium text-xl mt-1">Add Bank Accounts</h1>
-            </div>
-          </Link>
-        </div> */}
         <div className="bg-[#f2f9ff] h-fit border border-[#ddeeff] rounded-xl">
-          <Link href={"/vendor/order/"+ vendor.slug}>
+          <Link href={`/vendor/order/${vendor.slug}`}>
             <div className="p-3">
               <Image src={Order} alt="swap" />
               <h1 className="font-medium text-xl mt-1">Pending Orders</h1>
@@ -186,11 +171,8 @@ const VendorDashboard = () => {
       </div>
 
       <div className="w-full">
-        <h1 className="text-xl text-black font-bold my-5">
-          Transaction History
-        </h1>
+        <h1 className="text-xl text-black font-bold my-5">Order History</h1>
         <div className="flex gap-5 items-center md:justify-between">
-          {/* Search Bar */}
           <div className="mb-4">
             <input
               type="text"
@@ -200,9 +182,23 @@ const VendorDashboard = () => {
               className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-
-          {/*Data Per Page */}
-          <div className="mb-4">
+          <div className="flex items-center justify-center gap-4">
+            {orderStatuses.map((status, index) => (
+              <Link
+                href={`/vendor/order/${vendor.slug}/?status=${status}`}
+                key={index}
+                onClick={() => setOrderStatus(status)}
+                className={`px-4 py-2 rounded-lg border ${
+                  orderStatus === status
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white text-gray-700 hover:bg-blue-500 hover:text-white'
+                } shadow-md`}
+              >
+                {status || 'All'}
+              </Link>
+            ))}
+          </div>
+          {/* <div className="mb-4">
             <label className="mr-2 text-gray-700">Entries per page:</label>
             <select
               value={itemsPerPage}
@@ -214,21 +210,20 @@ const VendorDashboard = () => {
               <option value={15}>15</option>
               <option value={20}>20</option>
             </select>
-          </div>
+          </div> */}
         </div>
 
-        {/* Data Table */}
         <div className="grid">
           <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
             <table className="min-w-full md:w-full bg-white rounded-lg">
               <thead className="bg-gray-50">
                 <tr className="text-left text-gray-600 text-sm font-semibold">
-                  <th className="py-4 px-6">ID</th>
-                  <th className="py-4 px-6">Customer Name</th>
+                  <th className="py-4 px-6">Delivery Name</th>
+                  <th className="py-4 px-6">Address</th>
+                  <th className="py-4 px-6">Discount</th>
                   <th className="py-4 px-6">Order Number</th>
-                  <th className="py-4 px-6">Items</th>
                   <th className="py-4 px-6">Price</th>
-                  <th className="py-4 px-6">Quantity</th>
+                  <th className="py-4 px-6">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -236,15 +231,36 @@ const VendorDashboard = () => {
                   <tr
                     key={item.id}
                     className={`border-b ${
-                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                      index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                     } hover:bg-gray-100`}
                   >
-                    <td className="py-4 px-6">{item.id}</td>
-                    <td className="py-4 px-6">{item.name}</td>
-                    <td className="py-4 px-6">{item.category}</td>
-                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                    <td className="py-4 px-6">{item.price.toFixed(2)}</td>
-                    <td className="py-4 px-6">{item.name}</td>
+                    <td className="py-4 px-6">{item.delivery_name}</td>
+                    <td className="py-4 px-6">{item.delivery_address}</td>
+                    <td className="py-4 px-6">{item.discount_amount}</td>
+                    <td className="py-4 px-6">{item.order_number}</td>
+                    <td className="py-4 px-6">{item.paid_amount}</td>
+                    <td className="py-4 px-6">
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          item.order_status.toLowerCase() === 'paid'
+                            ? 'bg-blue-100 text-blue-800'
+                            : item.order_status.toLowerCase() ===
+                                'readyforpickup'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : item.order_status.toLowerCase() === 'pickedup'
+                                ? 'bg-green-100 text-green-800'
+                                : item.order_status.toLowerCase() ===
+                                    'delivered'
+                                  ? 'bg-purple-100 text-purple-800'
+                                  : item.order_status.toLowerCase() ===
+                                      'pending'
+                                    ? 'bg-red-100 text-red-800'
+                                    : 'bg-gray-100 text-gray-800'
+                        }`}
+                      >
+                        {item.order_status.toLowerCase()}
+                      </span>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -253,16 +269,13 @@ const VendorDashboard = () => {
         </div>
 
         <div className="flex gap-5 items-center md:justify-between">
-          {/* Showing Entries Info */}
           <div className="mt-4">
             <p className="text-gray-700">
-              Showing {indexOfFirstItem + 1} to{" "}
-              {Math.min(indexOfLastItem, filteredData.length)} of{" "}
+              Showing {indexOfFirstItem + 1} to{' '}
+              {Math.min(indexOfLastItem, filteredData.length)} of{' '}
               {filteredData.length} entries
             </p>
           </div>
-
-          {/* Pagination */}
           <div className="flex justify-center mt-6">
             <nav>
               <ul className="inline-flex items-center space-x-1">
@@ -272,8 +285,8 @@ const VendorDashboard = () => {
                       onClick={() => paginate(index + 1)}
                       className={`px-4 py-2 rounded-lg border ${
                         currentPage === index + 1
-                          ? "bg-blue-500 text-white"
-                          : "bg-white text-gray-700 hover:bg-blue-500 hover:text-white"
+                          ? 'bg-blue-500 text-white'
+                          : 'bg-white text-gray-700 hover:bg-blue-500 hover:text-white'
                       } shadow-md`}
                     >
                       {index + 1}
@@ -284,10 +297,6 @@ const VendorDashboard = () => {
             </nav>
           </div>
         </div>
-      </div>
-
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <div className="col-span-12 xl:col-span-8"></div>
       </div>
     </>
   );

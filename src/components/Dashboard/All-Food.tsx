@@ -289,10 +289,10 @@ const SidebarWithFoodItems: React.FC = () => {
         {foodItems.map((food) => (
           <div
             key={food.uuid}
-            className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow"
+            className="border rounded-lg shadow-md p-4 bg-white hover:shadow-lg transition-shadow scale-90"
           >
             {typeof food.image === 'string' && (
-              <div className="flex justify-center">
+              <div className="flex justify-center w-full">
                 <Image
                   src={food.image}
                   alt={food.name}

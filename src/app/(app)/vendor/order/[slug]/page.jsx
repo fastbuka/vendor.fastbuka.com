@@ -23,7 +23,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation'; // Import useSearchParams
 import Link from 'next/link';
 
 const orderStatuses = ['paid', 'ReadyForPickup', 'PickedUp', 'Delivered'];
@@ -63,16 +63,20 @@ export default function Page() {
   const [orderFetch, setOrderFetch] = useState(false);
   const { orders } = useOrder();
   const { acceptOrder } = useAcceptOrder();
-  const [orderStatus, setOrderStatus] = useState('paid');
   const [orderDetails, setOrderDetails] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedOrderUuid, setSelectedOrderUuid] = useState(null);
   const { toast } = useToast();
 
   const params = useParams();
+  const searchParams = useSearchParams();
   const { slug } = params;
 
+  const statusFromUrl = searchParams.get('status') || 'paid';
+  const [orderStatus, setOrderStatus] = useState(statusFromUrl);
+
   console.log('Slug', slug);
+  console.log('Status from URL:', statusFromUrl);
 
   const fetchOrders = useCallback(async () => {
     setLoading(true);
@@ -98,6 +102,12 @@ export default function Page() {
       fetchOrders();
     }
   }, [fetchOrders, orderFetch]);
+
+  // Update the URL when orderStatus changes
+  useEffect(() => {
+    const newUrl = `/vendor/order/${slug}/?status=${orderStatus}`;
+    window.history.replaceState(null, '', newUrl); // Update the URL without reloading the page
+  }, [orderStatus, slug]);
 
   const handleOrderClick = async (uuid) => {
     console.log('Order uuid', uuid);

@@ -18,7 +18,6 @@ const Login: React.FC = () => {
   };
 
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState('');
   const { mutate: login, isLoading } = useLogin();
   const router = useRouter();
@@ -106,7 +105,7 @@ const Login: React.FC = () => {
 
             <button
               type="submit"
-              disabled={loading}
+              disabled={isLoading} // Use isLoading instead of loading
               className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
             >
               {isLoading ? 'Loading...' : 'Login'}

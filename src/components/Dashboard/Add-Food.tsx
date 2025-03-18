@@ -7,7 +7,11 @@ import {
   categoryImages,
   useLogout,
 } from '@/queries/auth';
-import { getFoodById, updateFood, useAddFood } from '@/queries/category_and_food';
+import {
+  getFoodById,
+  updateFood,
+  useAddFood,
+} from '@/queries/category_and_food';
 import { QueryClient } from 'react-query';
 import { getUser, getToken } from '@/utils/token';
 import { getVendorBySlug } from '@/utils/token';
@@ -58,6 +62,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
     preparation_time: '',
     ready_made: '',
     image: '',
+    available: '',
   });
 
   // Add useEffect to fetch food details when in edit mode
@@ -80,6 +85,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             preparation_time: foodData.processing_time || '',
             ready_made: foodData.ready_made ? 'yes' : 'no',
             image: foodData.image || '',
+            available: foodData.available || '',
           });
 
           // Handle image data
@@ -277,12 +283,12 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
   // Then modify the handleSubmit function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
       if (!vendor?.uuid) {
         throw new Error('Vendor UUID not found');
       }
-  
+
       // Create the food data object
       const foodData = {
         vendor_uuid: vendor.uuid,
@@ -304,12 +310,13 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
           })
           .filter(Boolean)
           .join(','),
+        available: formData.available,
       };
-  
+
       let response;
       if (id) {
         // If id exists, we're editing
-        response = await updateFood(slug, id, foodData);
+        response = await updateFood(slug.toLocaleLowerCase(), id, foodData);
         if (response) {
           alert('Food item updated successfully!');
         }
@@ -320,7 +327,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
           alert('Food item created successfully!');
         }
       }
-  
+
       // If successful, redirect back to foods list
       if (response) {
         router.push(`/vendor/foods/${slug}`);
@@ -380,7 +387,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             ))}
           </select>
         </div>
-
         {/* Food Name (Text) */}
         <div className="mb-8">
           <label
@@ -399,7 +405,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             required
           />
         </div>
-
         {/* Description (Textarea) */}
         <div className="mb-8">
           <label
@@ -418,7 +423,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             required
           ></textarea>
         </div>
-
         {/* Price (Number) */}
         <div className="mb-8">
           <label
@@ -439,7 +443,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             required
           />
         </div>
-
         {/* Discount (Number) */}
         <div className="mb-8">
           <label
@@ -460,7 +463,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             step="1"
           />
         </div>
-
         {/* Preparation Time (Number) */}
         <div className="mb-8">
           <label
@@ -481,7 +483,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             required
           />
         </div>
-
         {/* Ready Made Selection */}
         <div className="mb-8">
           <label
@@ -502,7 +503,25 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             <option value="no">No</option>
           </select>
         </div>
-
+        <div className="mb-8">
+          <label
+            htmlFor="available"
+            className="block mb-3 text-lg font-semibold text-gray-900"
+          >
+            Available
+          </label>
+          <select
+            id="available"
+            value={formData.available}
+            onChange={handleInputChange}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-4"
+            required
+          >
+            <option value="">Select an option</option>
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+          </select>
+        </div>
         <div className="mb-8">
           <input
             type="hidden"
@@ -516,7 +535,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             hidden
           />
         </div>
-
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
