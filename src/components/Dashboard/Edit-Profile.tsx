@@ -90,6 +90,19 @@ const Profile = () => {
 
   const submitForm = (event: FormEvent) => {
     event.preventDefault();
+
+    console.log({
+      uuid,
+      name,
+      description,
+      country,
+      state,
+      city,
+      address,
+      opening_time,
+      closing_time,
+    });
+
     updateProfile(
       {
         uuid, // Ensure UUID is included

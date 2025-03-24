@@ -291,7 +291,7 @@ const updateVendorProfile = async (data: UpdateProfileData) => {
   const token = getTokenFromLocalStorage();
   let response = await backend.patch(
     `/v1/vendor/${data.uuid}`,
-    { DataTransferItemList },
+    { data },
     {
       headers: {
         Authorization: `Bearer ${token}`,
