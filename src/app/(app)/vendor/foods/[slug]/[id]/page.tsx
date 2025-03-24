@@ -1,9 +1,9 @@
-"use client";
-import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import EditFood from "@/components/Dashboard/Edit-Food";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import CryptoRate from "@/components/Charts/CryptoRate";
+'use client';
+import { Metadata } from 'next';
+import DefaultLayout from '@/components/Layouts/DefaultLayout';
+import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
+import CryptoRate from '@/components/Charts/CryptoRate';
+import FoodForm from '@/components/Dashboard/Add-Food';
 
 interface Props {
   params: {
@@ -28,7 +28,7 @@ export default function DashboardPage({ params }: Props) {
           </button>
         </div>
         <Breadcrumb pageName="Edit Food" />
-        <EditFood />
+        <FoodForm />
       </DefaultLayout>
     </>
   );
