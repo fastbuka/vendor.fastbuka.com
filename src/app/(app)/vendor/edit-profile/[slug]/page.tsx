@@ -1,9 +1,9 @@
-"use client";
-import { Metadata } from "next";
-import DefaultLayout from "@/components/Layouts/DefaultLayout";
-import EditProfile from "@/components/Dashboard/Edit-Profile";
-import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import CryptoRate from "@/components/Charts/CryptoRate";
+'use client';
+import { Metadata } from 'next';
+import DefaultLayout from '@/components/Layouts/DefaultLayout';
+import EditProfile from '@/components/Dashboard/Edit-Profile';
+import Breadcrumb from '@/components/Breadcrumbs/Breadcrumb';
+import CryptoRate from '@/components/Charts/CryptoRate';
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
           </button>
         </div>
         <Breadcrumb pageName="EditProfile" />
-        <EditProfile></EditProfile>
+        <EditProfile />
       </DefaultLayout>
     </>
   );
