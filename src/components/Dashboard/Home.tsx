@@ -1,13 +1,15 @@
-"use client";
-import React from "react";
-import Link from "next/link";
-import VendorCard from "@/components/VendorCard";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { allAccounts } from "@/queries/auth";
-import { QueryClient } from "react-query";
-import { getUser, getToken } from "@/utils/token";
-import { getDefaultFirstName } from "@/utils/defaults";
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import VendorCard from '@/components/VendorCard';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { allAccounts } from '@/queries/auth';
+import { QueryClient } from 'react-query';
+import { getUser, getToken } from '@/utils/token';
+import { getDefaultFirstName } from '@/utils/defaults';
+import Image from 'next/image';
+import { GoPlus } from 'react-icons/go';
 
 interface UserProfile {
   profile: {
@@ -35,14 +37,14 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null); // Store user data
   const router = useRouter();
-  
+
   const handleLogout = () => {
     // Clear authentication-related data from localStorage
-    localStorage.removeItem("fastbuka_auth_token");
-    localStorage.removeItem("user_data");
+    localStorage.removeItem('fastbuka_auth_token');
+    localStorage.removeItem('user_data');
 
     // Redirect the user to the login page
-    router.push("/login");
+    router.push('/login');
   };
 
   useEffect(() => {
@@ -50,7 +52,7 @@ const Home: React.FC = () => {
     const userData = getUser();
 
     if (!token || !userData) {
-      router.push("/login");
+      router.push('/login');
     } else {
       setUser(userData as UserProfile);
 
@@ -60,7 +62,7 @@ const Home: React.FC = () => {
           const vendorsData = await allAccounts(token);
           setVendors(vendorsData);
         } catch (err) {
-          setError("Failed to fetch vendors data");
+          setError('Failed to fetch vendors data');
         } finally {
           setLoading(false);
         }
@@ -75,70 +77,68 @@ const Home: React.FC = () => {
   }
 
   return (
-    <>
-      <h1 className="font-bold text-black text-xl my-3 text-center">
-        Welcome, {getDefaultFirstName(user.profile?.first_name)}
-      </h1>
-      <h1 className="text-center">All Accounts</h1>
-      <div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-2 lg:max-w-3xl mx-auto">
-          {vendors.length > 0 ? (
-            vendors.map((vendor) => (
-              <Link href={"dashboard/" + vendor.slug} key={vendor.id}>
-                {" "}
-                {/* Apply the key here */}
-                <VendorCard
-                  name={vendor.name}
-                  description={vendor.description}
-                  country={vendor.country}
-                  city={vendor.city}
-                />
-              </Link>
-            ))
-          ) : (
-            <p>No vendors available</p>
-          )}
+    <div className="w-full flex flex-col gap-10">
+      <div className="w-full md:px-[160px] px-10 h-[100px] flex items-center justify-center">
+        <div className="w-full flex items-center justify-between">
+          <Image
+            src="/logo-dark.png"
+            alt="Fastbuka Logo"
+            width={131}
+            height={43}
+          />
+          <button className="w-[113px] h-[52px] rounded-lg bg-[#0A9A66] text-white text-base">
+            Get Started
+          </button>
         </div>
       </div>
+      <div className="w-full md:px-[160px] px-10 flex flex-col gap-8 relative mt-8">
+        <Image
+          width={121}
+          height={161}
+          src="/rightIllustration.png"
+          alt=""
+          className="absolute right-15 top-5"
+        />
+        <Image
+          width={121}
+          height={161}
+          src="/leftIllustration.png"
+          alt=""
+          className="absolute left-15 top-5"
+        />
+        <Image
+          width={121}
+          height={161}
+          src="/topIllustration.png"
+          alt=""
+          className="absolute left-1/2 transform -translate-x-1/2 -top-7"
+        />
 
-      <div className="text-center">
-        Want to add a new vendor account? Click{" "}
-        <Link
-          className="text-black"
-          target="_blank"
-          href="https://vendor.fastbuka.com/register"
-        >
-          {" "}
-          Here{" "}
-        </Link>{" "}
+        <h1 className="text-5xl text-center font-bold">
+          Select a <span className="text-[#0A9A66]">Store</span> to Manage
+        </h1>
+        {vendors.length === 0 ? (
+          <p className="text-center text-gray-500">No vendors available.</p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {vendors.map((vendor) => (
+              <VendorCard
+                ratings={4.5}
+                is_online={false}
+                key={vendor.slug}
+                {...vendor}
+              />
+            ))}
+          </div>
+        )}
+        <Link target="_blank" href="https://vendor.fastbuka.com/register">
+          <div className="mt-4 w-full h-[112px] border border-dotted rounded-lg flex items-center justify-center text-2xl font-bold gap-4">
+            <p>Add Store</p>
+            <GoPlus size={25} className="font-bold" />
+          </div>
+        </Link>
       </div>
-      <div className="text-center">
-        Want to place an order? Click{" "}
-        <Link
-          className="text-black"
-          target="_blank"
-          href="https://www.fastbuka.com/"
-        >
-          {" "}
-          Here{" "}
-        </Link>{" "}
-      </div>
-      <div className="text-center">
-        <Link
-          className="text-[#f61855]"
-          target="_blank"
-          href="https://www.fastbuka.com/"
-          onClick={handleLogout}
-        >
-          {" "}
-          Logout{" "}
-        </Link>{" "}
-      </div>
-
-      <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <div className="col-span-12 xl:col-span-8"></div>
-      </div>
-    </>
+    </div>
   );
 };
 
