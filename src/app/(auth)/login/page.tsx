@@ -9,6 +9,7 @@ import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { useLogin } from '@/queries/auth';
 import { BiShowAlt } from 'react-icons/bi';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 const Login: React.FC = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -108,7 +109,11 @@ const Login: React.FC = () => {
               disabled={isLoading} // Use isLoading instead of loading
               className="text-white bg-[#3ab764] border border-[#3ab764] font-semibold rounded-full text-sm px-10 py-3 text-center drop-shadow-xl transition ease-in-out delay-150 hover:-translate-y-1 hover:bg-white hover:text-[#3ab764] duration-300 hover:drop-shadow-2xl"
             >
-              {isLoading ? 'Loading...' : 'Login'}
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                'Login'
+              )}
             </button>
           </form>
 

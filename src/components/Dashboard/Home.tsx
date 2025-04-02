@@ -97,24 +97,24 @@ const Home: React.FC = () => {
           height={161}
           src="/rightIllustration.png"
           alt=""
-          className="absolute right-15 top-5"
+          className="absolute right-15 top-5 md:flex hidden"
         />
         <Image
           width={121}
           height={161}
           src="/leftIllustration.png"
           alt=""
-          className="absolute left-15 top-5"
+          className="absolute left-15 top-5 md:flex hidden"
         />
         <Image
           width={121}
           height={161}
           src="/topIllustration.png"
           alt=""
-          className="absolute left-1/2 transform -translate-x-1/2 -top-7"
+          className="absolute left-1/2 transform -translate-x-1/2 -top-7 md:flex hidden"
         />
 
-        <h1 className="text-5xl text-center font-bold">
+        <h1 className="md:text-5xl text-3xl text-center font-bold">
           Select a <span className="text-[#0A9A66]">Store</span> to Manage
         </h1>
         {vendors.length === 0 ? (
@@ -132,7 +132,7 @@ const Home: React.FC = () => {
           </div>
         )}
         <Link target="_blank" href="https://vendor.fastbuka.com/register">
-          <div className="mt-4 w-full h-[112px] border border-dotted rounded-lg flex items-center justify-center text-2xl font-bold gap-4">
+          <div className="mt-4 w-full h-[70px] border border-dotted rounded-lg flex items-center justify-center md:text-2xl text-xl font-bold gap-4">
             <p>Add Store</p>
             <GoPlus size={25} className="font-bold" />
           </div>

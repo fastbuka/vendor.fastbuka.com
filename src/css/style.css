@@ -1,73 +1,73 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    body {
-        @apply relative z-1 bg-whiten font-satoshi text-base font-normal text-body;
-    }
+  body {
+    @apply relative z-1 bg-whiten font-satoshi text-base font-normal text-body;
+  }
 }
 
 @layer components {
 }
 
 @layer utilities {
-    /* Chrome, Safari and Opera */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
+  /* Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
-    .no-scrollbar {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
-    }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 
-    .chat-height {
-        @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
-    }
+  .chat-height {
+    @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
+  }
 
-    .inbox-height {
-        @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
-    }
+  .inbox-height {
+    @apply h-[calc(100vh_-_8.125rem)] lg:h-[calc(100vh_-_5.625rem)];
+  }
 }
 
 /* third-party libraries CSS */
 
 .tableCheckbox:checked ~ div span {
-    @apply opacity-100;
+  @apply opacity-100;
 }
 
 .tableCheckbox:checked ~ div {
-    @apply border-primary bg-primary;
+  @apply border-primary bg-primary;
 }
 
 .apexcharts-legend-series {
-    @apply !inline-flex gap-1.5;
+  @apply !inline-flex gap-1.5;
 }
 
 .apexcharts-tooltip-series-group {
-    @apply !pl-1.5;
+  @apply !pl-1.5;
 }
 
 .flatpickr-wrapper {
-    @apply w-full;
+  @apply w-full;
 }
 
 .flatpickr-months .flatpickr-prev-month:hover svg,
 .flatpickr-months .flatpickr-next-month:hover svg {
-    @apply !fill-primary;
+  @apply !fill-primary;
 }
 
 .flatpickr-months .flatpickr-prev-month.flatpickr-prev-month,
 .flatpickr-months .flatpickr-next-month.flatpickr-prev-month {
-    @apply !left-7;
+  @apply !left-7;
 }
 
 .flatpickr-months .flatpickr-prev-month.flatpickr-next-month,
 .flatpickr-months .flatpickr-next-month.flatpickr-next-month {
-    @apply !right-7;
+  @apply !right-7;
 }
 
 .flatpickr-day.selected,
@@ -88,41 +88,66 @@
 .flatpickr-day.selected.nextMonthDay,
 .flatpickr-day.startRange.nextMonthDay,
 .flatpickr-day.endRange.nextMonthDay {
-    background: #3c50e0;
-    @apply !border-primary !bg-primary hover:!border-primary hover:!bg-primary;
+  background: #3c50e0;
+  @apply !border-primary !bg-primary hover:!border-primary hover:!bg-primary;
 }
 
 .flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n + 1)),
 .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n + 1)),
 .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n + 1)) {
-    box-shadow: -10px 0 0 #3c50e0;
+  box-shadow: -10px 0 0 #3c50e0;
 }
 .mapOne .jvm-zoom-btn.jvm-zoomout {
-    @apply !right-0;
+  @apply !right-0;
 }
 
 .taskCheckbox:checked ~ .box span {
-    @apply opacity-100;
+  @apply opacity-100;
 }
 
 .taskCheckbox:checked ~ p {
-    @apply line-through;
+  @apply line-through;
 }
 
 .custom-input-date::-webkit-calendar-picker-indicator {
-    background: transparent;
+  background: transparent;
 }
 
-input[type="search"]::-webkit-search-cancel-button {
-    @apply appearance-none;
+input[type='search']::-webkit-search-cancel-button {
+  @apply appearance-none;
 }
 
 .custom-input-date::-webkit-calendar-picker-indicator {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 20px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 20px;
 }
 
 [x-cloak] {
-    display: none !important;
+  display: none !important;
+}
+
+/* Custom scrollbar for the table container */
+.g_table .overflow-x-auto::-webkit-scrollbar {
+  height: 8px; /* Height of the scrollbar */
+}
+
+.g_table .overflow-x-auto::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+  border-radius: 8px; /* Rounded corners for the track */
+}
+
+.g_table .overflow-x-auto::-webkit-scrollbar-thumb {
+  background: #3ab764; /* Color of the scrollbar thumb */
+  border-radius: 8px; /* Rounded corners for the thumb */
+}
+
+.g_table .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+  background: #2e9b54; /* Darker color when hovering over the thumb */
+}
+
+/* For Firefox */
+.g_table .overflow-x-auto {
+  scrollbar-width: thin; /* Thin scrollbar */
+  scrollbar-color: #3ab764 #f1f1f1; /* Thumb color and track color */
 }

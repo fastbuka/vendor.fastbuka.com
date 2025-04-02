@@ -172,7 +172,7 @@ const VendorDashboard = () => {
 
       <div className="w-full">
         <h1 className="text-xl text-black font-bold my-5">Order History</h1>
-        <div className="flex gap-5 items-center md:justify-between">
+        <div className="flex gap-5 items-center md:justify-between flex-wrap">
           <div className="mb-4">
             <input
               type="text"
@@ -182,7 +182,7 @@ const VendorDashboard = () => {
               className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex md:items-center md:justify-center md:gap-4 gap-2 flex-wrap md:mb-0 mb-3">
             {orderStatuses.map((status, index) => (
               <Link
                 href={`/vendor/order/${vendor.slug}/?status=${status}`}
@@ -213,9 +213,9 @@ const VendorDashboard = () => {
           </div> */}
         </div>
 
-        <div className="grid">
-          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764]">
-            <table className="min-w-full md:w-full bg-white rounded-lg">
+        <div className="grid g_table w-full overflow-x-auto">
+          <div className="overflow-x-auto shadow-lg rounded-lg border border-[#3ab764] w-full">
+            <table className="w-full bg-white rounded-lg">
               <thead className="bg-gray-50">
                 <tr className="text-left text-gray-600 text-sm font-semibold">
                   <th className="py-4 px-6">Delivery Name</th>
