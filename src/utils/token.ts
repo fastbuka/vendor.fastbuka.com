@@ -97,3 +97,23 @@ export async function getVendorBySlug(slug: string) {
     };
   }
 }
+
+export async function getVendorBalance() {
+  const token = getToken();
+  try {
+    const response = await backend.get(`/v1/users/wallet`, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token || ''}`,
+      },
+    });
+    console.log(response.data.data.wallet.balances[0].balance);
+    return response.data.data.wallet.balances[0].balance;
+  } catch (error: any) {
+    console.log('error fetching vendor:', error);
+    return {
+      success: false,
+      message: error?.message || 'Failed to fetch vendor',
+    };
+  }
+}

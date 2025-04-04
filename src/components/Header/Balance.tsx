@@ -6,7 +6,7 @@ import { BiShowAlt } from 'react-icons/bi';
 import { useRouter, useParams } from 'next/navigation';
 import { useLogout } from '@/queries/auth';
 import { QueryClient } from 'react-query';
-import { getUser, getToken } from '@/utils/token';
+import { getUser, getToken, getVendorBalance } from '@/utils/token';
 import { getVendorBySlug } from '@/utils/token';
 import { Params } from '@/types/params';
 
@@ -40,6 +40,7 @@ const Balance = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [queryClient] = useState(() => new QueryClient());
   const logout = useLogout(queryClient);
+  const [userBalance, setUserBalance] = useState<string | number>();
 
   const params = useParams() as Params;
   const { slug } = params;
@@ -74,9 +75,29 @@ const Balance = () => {
       setUser(userData as UserProfile);
     }
 
-    if (slug) {
-      fetchVendor(slug as string); // Call the fetchVendor function
+    async function fetchBalance() {
+      if (slug) {
+        fetchVendor(slug as string);
+        try {
+          const balance = await getVendorBalance();
+          console.log('balance value inside fetchBalance: ', balance);
+          if (
+            typeof balance === 'number' ||
+            (typeof balance === 'string' && !isNaN(parseFloat(balance)))
+          ) {
+            setUserBalance(parseFloat(balance.toString()));
+          } else {
+            console.error('Invalid balance:', balance);
+            setUserBalance(0);
+          }
+        } catch (error) {
+          console.error('Error fetching balance:', error);
+          setUserBalance(0);
+        }
+      }
     }
+
+    fetchBalance();
   }, [slug, router]);
 
   if (!user) {
@@ -100,7 +121,7 @@ const Balance = () => {
               type={balance ? 'password' : 'text'}
               id="password"
               name="password"
-              value={vendor?.balance}
+              value={userBalance}
               className="font-mono font-black text-sm 2xl:text-xl ms-2 block w-1/2 bg-white"
               disabled
             />

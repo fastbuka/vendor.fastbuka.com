@@ -16,6 +16,7 @@ import { QueryClient } from 'react-query';
 import { getUser, getToken } from '@/utils/token';
 import { getVendorBySlug } from '@/utils/token';
 import { getAllCategory } from '@/queries/category_and_food';
+import { useToast } from '@/hooks/use-toast';
 
 interface UserProfile {
   profile: {
@@ -211,6 +212,7 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
   const [file, setFile] = useState<File | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const uploadCategoryImage = useUploadCategoryImage();
+  const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -284,6 +286,15 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (selectedImageUuids.length < 1) {
+      alert('Image Must be selceted');
+      // toast({
+      //   // variant: response.variant,
+      //   title: 'Image Must be selceted',
+      //   variant: 'destructive'
+      // });
+      return;
+    }
     try {
       if (!vendor?.uuid) {
         throw new Error('Vendor UUID not found');
@@ -535,6 +546,149 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
             hidden
           />
         </div>
+        <div className="w-full max-w-[70vw] mx-auto px-4 md:px-6 lg:px-8 mt-5">
+          <div className="mb-4">
+            <label className="block text-lg font-medium text-gray-700 mb-2">
+              Selected Image(s):
+            </label>
+            <div className="flex flex-wrap gap-6 mt-5">
+              {selectedImageUuids.map((uuid) => {
+                const selectedImage =
+                  categoryImageData?.data?.storage?.data?.find(
+                    (img: any) => img.uuid === uuid
+                  );
+                return selectedImage ? (
+                  <div key={uuid} className="relative ">
+                    <Image
+                      src={`${selectedImage.base_url}/${selectedImage.path}`}
+                      alt={selectedImage.slug}
+                      width={100}
+                      height={100}
+                      className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
+                    />
+                    <button
+                      onClick={() => handleImageClick(uuid)}
+                      className="absolute -top-5 -right-5 bg-red-500 text-lg text-red rounded-full w-6 h-6 flex items-center justify-center"
+                    >
+                      x
+                    </button>
+                  </div>
+                ) : null;
+              })}
+            </div>
+            {/* Hidden input field for form submission */}
+            <input
+              type="hidden"
+              name="selectedImages"
+              value={selectedImageUuids
+                .map((uuid) => {
+                  const selectedImage =
+                    categoryImageData?.data?.storage?.data?.find(
+                      (img: any) => img.uuid === uuid
+                    );
+                  return selectedImage
+                    ? `${selectedImage.base_url}/${selectedImage.path}`
+                    : '';
+                })
+                .join(',')}
+            />
+          </div>
+
+          <div className="relative overflow-x-auto bg-white rounded-lg">
+            <div className="flex space-x-6 p-4 min-w-full">
+              {categoryImageData?.data?.storage?.data?.map((image: any) => (
+                <div
+                  key={image.uuid}
+                  className="flex-shrink-0 w-[100px] cursor-pointer"
+                  onClick={() => handleImageClick(image.uuid)}
+                >
+                  <div
+                    className={`relative aspect-square ${
+                      selectedImageUuids.includes(image.uuid)
+                        ? 'ring-2 ring-[#3ab764]'
+                        : ''
+                    }`}
+                  >
+                    <Image
+                      src={`${image.base_url}/${image.path}`}
+                      alt={image.slug}
+                      width={100}
+                      height={100}
+                      className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="flex justify-end p-4">
+            <button
+              onClick={() => setIsUploadModalOpen(true)}
+              className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
+            >
+              Add Image
+            </button>
+          </div>
+
+          {/* Upload Modal */}
+          {isUploadModalOpen && (
+            <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
+              <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
+                <h2 className="text-2xl font-semibold mb-4">
+                  Upload New Image
+                </h2>
+
+                <form
+                  onSubmit={handleUploadSubmit}
+                  className="p-4 bg-white rounded-lg shadow-md"
+                >
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Select Image
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileChange}
+                      required
+                      className="w-full border border-gray-300 rounded-lg p-2"
+                    />
+                  </div>
+
+                  {uploadError && (
+                    <p className="text-red-500 text-sm mb-4">{uploadError}</p>
+                  )}
+
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsUploadModalOpen(false)}
+                      className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
+                      disabled={uploadCategoryImage.isLoading}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
+                      disabled={uploadCategoryImage.isLoading}
+                    >
+                      {uploadCategoryImage.isLoading
+                        ? 'Uploading...'
+                        : 'Upload'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+
+          {error && (
+            <p className="text-red-600 mt-2">
+              Error loading category images: {error}
+            </p>
+          )}
+        </div>
         {/* Submit Button */}
         <div className="flex justify-end">
           <button
@@ -552,146 +706,6 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
           </button>
         </div>
       </form>
-
-      <div className="w-full max-w-[70vw] mx-auto px-4 md:px-6 lg:px-8 mt-5">
-        <div className="mb-4">
-          <label className="block text-lg font-medium text-gray-700 mb-2">
-            Selected Image(s):
-          </label>
-          <div className="flex flex-wrap gap-6 mt-5">
-            {selectedImageUuids.map((uuid) => {
-              const selectedImage =
-                categoryImageData?.data?.storage?.data?.find(
-                  (img: any) => img.uuid === uuid
-                );
-              return selectedImage ? (
-                <div key={uuid} className="relative ">
-                  <Image
-                    src={`${selectedImage.base_url}/${selectedImage.path}`}
-                    alt={selectedImage.slug}
-                    width={100}
-                    height={100}
-                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
-                  />
-                  <button
-                    onClick={() => handleImageClick(uuid)}
-                    className="absolute -top-5 -right-5 bg-red-500 text-lg text-red rounded-full w-6 h-6 flex items-center justify-center"
-                  >
-                    x
-                  </button>
-                </div>
-              ) : null;
-            })}
-          </div>
-          {/* Hidden input field for form submission */}
-          <input
-            type="hidden"
-            name="selectedImages"
-            value={selectedImageUuids
-              .map((uuid) => {
-                const selectedImage =
-                  categoryImageData?.data?.storage?.data?.find(
-                    (img: any) => img.uuid === uuid
-                  );
-                return selectedImage
-                  ? `${selectedImage.base_url}/${selectedImage.path}`
-                  : '';
-              })
-              .join(',')}
-          />
-        </div>
-
-        <div className="relative overflow-x-auto bg-white rounded-lg">
-          <div className="flex space-x-6 p-4 min-w-full">
-            {categoryImageData?.data?.storage?.data?.map((image: any) => (
-              <div
-                key={image.uuid}
-                className="flex-shrink-0 w-[100px] cursor-pointer"
-                onClick={() => handleImageClick(image.uuid)}
-              >
-                <div
-                  className={`relative aspect-square ${
-                    selectedImageUuids.includes(image.uuid)
-                      ? 'ring-2 ring-[#3ab764]'
-                      : ''
-                  }`}
-                >
-                  <Image
-                    src={`${image.base_url}/${image.path}`}
-                    alt={image.slug}
-                    width={100}
-                    height={100}
-                    className="rounded-lg object-cover hover:scale-105 transition-transform duration-300 w-[100px] h-[100px]"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex justify-end p-4">
-          <button
-            onClick={() => setIsUploadModalOpen(true)}
-            className="bg-[#3ab764] text-white px-4 py-2 rounded-lg"
-          >
-            Add Image
-          </button>
-        </div>
-
-        {/* Upload Modal */}
-        {isUploadModalOpen && (
-          <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full mx-4">
-              <h2 className="text-2xl font-semibold mb-4">Upload New Image</h2>
-
-              <form
-                onSubmit={handleUploadSubmit}
-                className="p-4 bg-white rounded-lg shadow-md"
-              >
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Select Image
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    required
-                    className="w-full border border-gray-300 rounded-lg p-2"
-                  />
-                </div>
-
-                {uploadError && (
-                  <p className="text-red-500 text-sm mb-4">{uploadError}</p>
-                )}
-
-                <div className="flex justify-end gap-2">
-                  <button
-                    type="button"
-                    onClick={() => setIsUploadModalOpen(false)}
-                    className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600"
-                    disabled={uploadCategoryImage.isLoading}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-[#3ab764] text-white px-4 py-2 rounded-lg disabled:bg-gray-400"
-                    disabled={uploadCategoryImage.isLoading}
-                  >
-                    {uploadCategoryImage.isLoading ? 'Uploading...' : 'Upload'}
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        )}
-
-        {error && (
-          <p className="text-red-600 mt-2">
-            Error loading category images: {error}
-          </p>
-        )}
-      </div>
     </>
   );
 };
