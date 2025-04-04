@@ -86,9 +86,11 @@ const Home: React.FC = () => {
             width={131}
             height={43}
           />
-          <button className="w-[113px] h-[52px] rounded-lg bg-[#0A9A66] text-white text-base">
-            Get Started
-          </button>
+          <Link target="_blank" href="https://vendor.fastbuka.com/register">
+            <button className="w-[113px] h-[52px] rounded-lg bg-[#0A9A66] text-white text-base">
+              Get Started
+            </button>
+          </Link>
         </div>
       </div>
       <div className="w-full md:px-[160px] px-10 flex flex-col gap-8 relative mt-8">
