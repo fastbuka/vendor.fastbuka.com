@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import { useState, FormEvent, useEffect } from "react";
-import Section from "/public/Section.png";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useLogout } from "@/queries/auth";
-import { QueryClient } from "react-query";
-import { getUser, getToken } from "@/utils/token";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { NIGERIA_STATE_WITH_CITY } from "@/constants";
-import { useRegister } from "@/queries/auth";
+import { useState, FormEvent, useEffect } from 'react';
+import Section from '/public/Section.png';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useLogout } from '@/queries/auth';
+import { QueryClient } from 'react-query';
+import { getUser, getToken } from '@/utils/token';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { NIGERIA_STATE_WITH_CITY } from '@/constants';
+import { useRegister } from '@/queries/auth';
+import { IoArrowBackOutline } from 'react-icons/io5';
 
 interface UserProfile {
   profile: {
@@ -19,22 +20,22 @@ interface UserProfile {
 }
 
 const Register: React.FC = () => {
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [country, setCountry] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
-  const [opening_time, setOpeningTime] = useState<string>("");
-  const [closing_time, setClosingTime] = useState<string>("");
+  const [name, setName] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [country, setCountry] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+  const [opening_time, setOpeningTime] = useState<string>('');
+  const [closing_time, setClosingTime] = useState<string>('');
   const { mutate: register } = useRegister();
   const router = useRouter();
   const [registerError, setRegisterError] = useState<string | null>(null);
-  const [state, setState] = useState<string>("");
-  const [city, setCity] = useState<string>("");
+  const [state, setState] = useState<string>('');
+  const [city, setCity] = useState<string>('');
 
   const handleStateChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const state = event.target.value;
     setState(state);
-    setCity(""); // Reset city when the state changes
+    setCity(''); // Reset city when the state changes
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -50,7 +51,7 @@ const Register: React.FC = () => {
     const token = getToken();
     const userData = getUser();
     if (!token || !userData) {
-      router.push("/login");
+      router.push('/login');
     } else {
       setUser(userData as UserProfile);
     }
@@ -82,11 +83,11 @@ const Register: React.FC = () => {
       },
       {
         onSuccess: () => {
-          router.push("/vendor/home");
+          router.push('/vendor/home');
         },
         onError: () => {
           setRegisterError(
-            "Registration failed. Please check your credentials and try again."
+            'Registration failed. Please check your credentials and try again.'
           );
         },
       }
@@ -97,9 +98,14 @@ const Register: React.FC = () => {
     <div>
       <div>
         <Image alt="" src={Section} className="img-fluid md:block" />
-        <h1 className="text-3xl font-bold text-green-600 my-6 container mx-auto md:w-3/4 px-5">
-          We&apos;ll help you set up an account in less than a minute
-        </h1>
+        <div className="flex items-center gap-4 my-6 container mx-auto md:w-3/4 px-5">
+          <button onClick={() => window.history.back()}>
+            <IoArrowBackOutline size={35} />
+          </button>
+          <h1 className="text-3xl font-bold text-green-600 ">
+            We&apos;ll help you set up an account in less than a minute
+          </h1>
+        </div>
 
         {registerError && (
           <Alert
@@ -283,7 +289,7 @@ const Register: React.FC = () => {
         </form>
 
         <p className="text-center text-gray-600 mt-6">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <a href="/login" className="text-green-600 font-semibold">
             Login
           </a>

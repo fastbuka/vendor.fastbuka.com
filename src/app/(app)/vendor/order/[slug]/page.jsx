@@ -230,27 +230,6 @@ export default function Page() {
                             Order: {order.order_status}
                           </span>
                         </div>
-
-                        {order.order_status !== 'ReadyForPickup' &&
-                          order.order_status !== 'PickedUp' &&
-                          order.order_status !== 'Delivered' && (
-                            <DropdownMenu>
-                              <DropdownMenuTrigger>
-                                <MoreVertical className="cursor-pointer" />
-                              </DropdownMenuTrigger>
-                              <DropdownMenuContent className="bg-white">
-                                <DropdownMenuItem>
-                                  <Button
-                                    onClick={() => openModal(order.uuid)}
-                                    size="sm"
-                                    className="bg-gray-200 hover:bg-gray-300 transition-colors"
-                                  >
-                                    Order Ready
-                                  </Button>
-                                </DropdownMenuItem>
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                          )}
                       </div>
                     </Link>
                   </motion.div>

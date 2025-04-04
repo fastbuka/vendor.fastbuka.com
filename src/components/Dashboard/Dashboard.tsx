@@ -182,7 +182,7 @@ const VendorDashboard = () => {
               className="p-2 md:p-3 text-gray-700 bg-gray-100 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-          <div className="flex md:items-center md:justify-center md:gap-4 gap-2 flex-wrap md:mb-0 mb-3">
+          <div className="md:flex hidden gap-4">
             {orderStatuses.map((status, index) => (
               <Link
                 href={`/vendor/order/${vendor.slug}/?status=${status}`}

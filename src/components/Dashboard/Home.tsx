@@ -138,6 +138,11 @@ const Home: React.FC = () => {
           </div>
         </Link>
       </div>
+      <footer>
+        <p className="text-center text-xl font-mono font-bold my-10">
+          FastBuka &copy; 2025 All Right Reserved
+        </p>
+      </footer>
     </div>
   );
 };
