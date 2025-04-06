@@ -287,12 +287,12 @@ const FoodForm: React.FC<FoodFormProps> = ({ id }) => {
     e.preventDefault();
 
     if (selectedImageUuids.length < 1) {
-      alert('Image Must be selceted');
-      // toast({
-      //   // variant: response.variant,
-      //   title: 'Image Must be selceted',
-      //   variant: 'destructive'
-      // });
+      // alert('Image Must be selceted');
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: 'Please select at least one image.',
+      });
       return;
     }
     try {

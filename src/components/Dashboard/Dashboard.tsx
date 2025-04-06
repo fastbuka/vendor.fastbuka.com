@@ -184,8 +184,8 @@ const VendorDashboard = () => {
           </div>
           <div className="md:flex hidden gap-4">
             {orderStatuses.map((status, index) => (
-              <Link
-                href={`/vendor/order/${vendor.slug}/?status=${status}`}
+              <button
+                // href={`/vendor/order/${vendor.slug}/?status=${status}`}
                 key={index}
                 onClick={() => setOrderStatus(status)}
                 className={`px-4 py-2 rounded-lg border ${
@@ -195,7 +195,7 @@ const VendorDashboard = () => {
                 } shadow-md`}
               >
                 {status || 'All'}
-              </Link>
+              </button>
             ))}
           </div>
           {/* <div className="mb-4">
